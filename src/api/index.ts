@@ -6,7 +6,19 @@ export const studentsApi = axios.create({
 
 class ApiService {
   static getStudentsByRole(role: string) {
-    return studentsApi.get(`?role=${role}`);
+    return studentsApi.get('/', {
+      data: {
+        role,
+      },
+    });
+  }
+
+  static addStudent(student: TStudent) {
+    return studentsApi.post('/', student, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   }
 }
 

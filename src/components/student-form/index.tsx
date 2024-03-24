@@ -22,10 +22,11 @@ type TProps = {
   onChange: (e: React.ChangeEvent<TInputs>) => any;
   onExtraChange: (id: string, value: string) => any;
   onAvatarChange: (e: React.ChangeEvent<HTMLInputElement>) => any;
+  onSubmit: (e: React.FormEvent) => any;
   avatar: File | null | undefined;
 };
 
-function NewForm(props: TProps) {
+function StudentForm(props: TProps) {
   const options = {
     isDisabled: Object.keys(props.studentData).some((key) => {
       const value = props.studentData[key as keyof typeof props.studentData];
@@ -42,7 +43,12 @@ function NewForm(props: TProps) {
       </Typography>
 
       <Box sx={{ mt: 2 }}>
-        <Box component="form" autoComplete="off" sx={{ width: '100%' }}>
+        <Box
+          onSubmit={props.onSubmit}
+          component="form"
+          autoComplete="off"
+          sx={{ width: '100%' }}
+        >
           <Stack direction="column" spacing={2}>
             <Box>
               <InputLabel shrink htmlFor="student-name">
@@ -114,7 +120,11 @@ function NewForm(props: TProps) {
             </Box>
 
             <Box>
-              <Button disabled={options.isDisabled} variant="contained">
+              <Button
+                type="submit"
+                disabled={options.isDisabled}
+                variant="contained"
+              >
                 Добавить
               </Button>
             </Box>
@@ -125,4 +135,4 @@ function NewForm(props: TProps) {
   );
 }
 
-export default memo(NewForm);
+export default memo(StudentForm);

@@ -18,6 +18,7 @@ function AdaptiveGrid(props: TProps) {
           xs={12}
           md={6}
           lg={4}
+          sx={{ display: 'flex', justifyContent: 'center' }}
         >
           {props.renderItem(item)}
         </Grid>

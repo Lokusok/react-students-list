@@ -2,7 +2,7 @@ import { memo, useState } from 'react';
 
 import { TInputs } from '@src/shared/types';
 
-import NewForm from '@src/components/new-form';
+import StudentForm from '@src/components/student-form';
 
 function StudentCreate() {
   const [data, setData] = useState({
@@ -31,10 +31,17 @@ function StudentCreate() {
     onAvatarChange: (e: React.ChangeEvent<HTMLInputElement>) => {
       setAvatar(e.target.files?.item(0));
     },
+
+    onSubmit: (e: React.FormEvent) => {
+      e.preventDefault();
+
+      console.log('Student:', data);
+    },
   };
 
   return (
-    <NewForm
+    <StudentForm
+      onSubmit={handlers.onSubmit}
       studentData={data}
       onChange={handlers.onChange}
       onExtraChange={handlers.onExtraChange}
