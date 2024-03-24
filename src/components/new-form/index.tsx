@@ -1,53 +1,39 @@
-import { memo, useEffect, useState } from 'react';
+import { memo } from 'react';
+
+import {
+  Box,
+  InputLabel,
+  Paper,
+  Typography,
+  Button,
+  Stack,
+} from '@mui/material';
 
 import Input from '../input';
-
-import { Box, InputLabel, Paper, Typography, Button, Stack } from '@mui/material';
 import Select from '../select';
 import Textarea from '../textarea';
 
-type TInputs = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+import { studentsRoles } from '@src/shared/data/students-roles';
+import { TInputs, TStudentData } from '@src/shared/types';
+import NumberInput from '../number-input';
 
-function NewForm() {
-  const [data, setData] = useState({
-    'child-name': '',
-    'child-role': 'default',
-    'child-notes': '',
-  });
-  const [avatar, setAvatar] = useState<File | null | undefined>(null);
+type TProps = {
+  studentData: TStudentData;
+  onChange: (e: React.ChangeEvent<TInputs>) => any;
+  onExtraChange: (id: string, value: string) => any;
+  onAvatarChange: (e: React.ChangeEvent<HTMLInputElement>) => any;
+  avatar: File | null | undefined;
+};
 
-  const handlers = {
-    onChange: (e: React.ChangeEvent<TInputs>) => {
-      setData((prevData) => ({
-        ...prevData,
-        [e.target.id]: e.target.value,
-      }));
-    },
-
-    onSelectChange: (id: string, value: string) => {
-      setData((prevData) => ({
-        ...prevData,
-        [id]: value,
-      }));
-    },
-
-    onChangeAvatar: (e: React.ChangeEvent<HTMLInputElement>) => {
-      setAvatar(e.target.files?.item(0));
-    },
-  };
-
+function NewForm(props: TProps) {
   const options = {
-    isDisabled: Object.keys(data).some((key) => {
-      const value = data[key as keyof typeof data];
+    isDisabled: Object.keys(props.studentData).some((key) => {
+      const value = props.studentData[key as keyof typeof props.studentData];
 
       if (key === 'child-role' && value === 'default') return true;
       return value === '';
     }),
   };
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <Paper elevation={2} sx={{ p: 2 }}>
@@ -59,50 +45,70 @@ function NewForm() {
         <Box component="form" autoComplete="off" sx={{ width: '100%' }}>
           <Stack direction="column" spacing={2}>
             <Box>
-              <InputLabel shrink htmlFor="child-name">
+              <InputLabel shrink htmlFor="student-name">
                 Имя ученика:
               </InputLabel>
               <Input
-                onChange={handlers.onChange}
-                id="child-name"
+                value={props.studentData['student-name']}
+                onChange={props.onChange}
+                id="student-name"
                 placeholder="Как зовут ученика?"
               />
             </Box>
 
             <Box sx={{ width: 300 }}>
-              <InputLabel shrink htmlFor="child-role">
-                Роли ученика:
+              <InputLabel shrink htmlFor="student-role">
+                Роль ученика:
               </InputLabel>
 
               <Select
-                id="child-role"
-                value={data['child-role']}
-                onChange={handlers.onSelectChange}
+                options={studentsRoles}
+                id="student-role"
+                value={props.studentData['student-role']}
+                onChange={props.onExtraChange}
+              />
+            </Box>
+
+            <Box sx={{ width: 300 }}>
+              <InputLabel shrink htmlFor="student-age">
+                Возраст ученика:
+              </InputLabel>
+
+              <NumberInput
+                id="student-age"
+                value={props.studentData['student-age']}
+                onChange={props.onExtraChange}
+                min={0}
+                max={100}
               />
             </Box>
 
             <Box>
-              <InputLabel shrink htmlFor="child-notes">
+              <InputLabel shrink htmlFor="student-notes">
                 Иные примечания:
               </InputLabel>
 
               <Textarea
-                onChange={handlers.onChange}
-                id="child-notes"
+                onChange={props.onChange}
+                id="student-notes"
+                value={props.studentData['student-notes']}
                 placeholder="Трудолюбив, ..."
               />
             </Box>
 
             <Box>
-              <InputLabel shrink htmlFor="child-notes">
+              <InputLabel shrink htmlFor="student-avatar">
                 Фото (необязательно):
               </InputLabel>
 
-              <Input onChange={handlers.onChangeAvatar} type="file" />
-
-              {avatar && (
+              <Input
+                id="student-avatar"
+                onChange={props.onAvatarChange}
+                type="file"
+              />
+              {props.avatar && (
                 <Paper sx={{ mt: 1.5, maxWidth: 300 }} elevation={3}>
-                  <img width={300} src={URL.createObjectURL(avatar)} />
+                  <img width={300} src={URL.createObjectURL(props.avatar)} />
                 </Paper>
               )}
             </Box>

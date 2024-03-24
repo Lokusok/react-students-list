@@ -14,6 +14,7 @@ type TProps = {
   placeholder?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => any;
   type?: React.ComponentProps<'input'>['type'];
+  value?: string;
 };
 
 function UnstyledInputBasic(props: TProps) {

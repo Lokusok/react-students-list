@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 import { Grid } from '@mui/material';
 
 import Total from '@src/components/total';
-import NewForm from '@src/components/new-form';
+import StudentCreate from '@src/containers/student-create';
 
 function Panel() {
   return (
@@ -20,7 +20,7 @@ function Panel() {
         </Grid>
 
         <Grid item xs={12} md={7}>
-          <NewForm />
+          <StudentCreate />
         </Grid>
       </Grid>
     </>

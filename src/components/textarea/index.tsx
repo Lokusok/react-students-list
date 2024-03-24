@@ -6,6 +6,7 @@ type TProps = {
   id?: string;
   placeholder?: string;
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => any;
+  value?: string;
 };
 
 function UnstyledTextareaIntroduction(props: TProps) {
@@ -13,6 +14,7 @@ function UnstyledTextareaIntroduction(props: TProps) {
     <TextareaAutosize
       sx={{ resize: 'none' }}
       id={props.id}
+      value={props.value}
       placeholder={props.placeholder}
       onChange={props.onChange}
     />

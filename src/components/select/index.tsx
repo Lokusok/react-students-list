@@ -74,10 +74,12 @@ const CustomButton = React.forwardRef(function CustomButton(
   props: SelectRootSlotProps<number, false>,
   ref: React.ForwardedRef<HTMLButtonElement>
 ) {
+  const { ownerState, ...other } = props;
+
   return (
     <button
       type="button"
-      {...props}
+      {...other}
       ref={ref}
       style={{
         display: 'flex',

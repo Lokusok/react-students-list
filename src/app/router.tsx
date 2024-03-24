@@ -2,9 +2,11 @@ import React, { Suspense } from 'react';
 
 import { createBrowserRouter } from 'react-router-dom';
 import App from '.';
+import MainSkeleton from '@src/components/main-skeleton';
 
 const LazyMain = React.lazy(() => import('./main'));
 const LazyPanel = React.lazy(() => import('./panel'));
+const LazyStudent = React.lazy(() => import('./student'));
 
 const routes = [
   {
@@ -14,7 +16,7 @@ const routes = [
       {
         path: '/',
         element: (
-          <Suspense fallback={<h3>Loading...</h3>}>
+          <Suspense fallback={<MainSkeleton />}>
             <LazyMain />
           </Suspense>
         ),
@@ -24,6 +26,14 @@ const routes = [
         element: (
           <Suspense fallback={<h3>Loading...</h3>}>
             <LazyPanel />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/students/:id',
+        element: (
+          <Suspense fallback={<h3>Loading...</h3>}>
+            <LazyStudent />
           </Suspense>
         ),
       },

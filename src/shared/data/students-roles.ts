@@ -1,14 +1,14 @@
 export const studentsRoles = [
   {
-    value: 'excellent',
+    value: 'Отличник',
     renderValue: 'Отличник',
   },
   {
-    value: 'good',
+    value: 'Хорошист',
     renderValue: 'Хорошист',
   },
   {
-    value: 'bad',
+    value: 'Троечник',
     renderValue: 'Троечник',
   },
 ];

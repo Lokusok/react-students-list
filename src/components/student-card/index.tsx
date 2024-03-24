@@ -51,7 +51,7 @@ function StudentCard(props: TProps) {
           aria-label="Explore Bahamas Islands"
           sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}
           component={Link}
-          to={`/student/${student.id}`}
+          to={`/students/${student.id}`}
         >
           Перейти
         </Button>
