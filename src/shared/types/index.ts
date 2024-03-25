@@ -1,7 +1,10 @@
-export type TInputs = HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+export type TInputs =
+  | HTMLInputElement
+  | HTMLTextAreaElement
+  | HTMLSelectElement;
 export type TStudentData = {
-  'student-name': string;
-  'student-age': string | number;
-  'student-role': string;
-  'student-notes': string;
+  name: string;
+  age: string | number;
+  role: string;
+  notes: string;
 };

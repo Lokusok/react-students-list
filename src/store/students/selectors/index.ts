@@ -2,7 +2,7 @@ import { selector } from 'recoil';
 import { studentsQuery } from '../queries';
 import { studentsRoles } from '@src/shared/data/students-roles';
 
-export const rolesCountSelector = selector<string[]>({
+export const rolesCountSelector = selector<Record<string, number>>({
   key: 'rolesCountSelector',
   get: ({ get }) => {
     const students = get(studentsQuery);
@@ -15,6 +15,6 @@ export const rolesCountSelector = selector<string[]>({
       res[student.role as keyof typeof res]++;
     });
 
-    return res as string[];
+    return res as Record<string, number>;
   },
 });

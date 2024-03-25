@@ -48,10 +48,11 @@ function StudentCard(props: TProps) {
           variant="solid"
           size="md"
           color="primary"
-          aria-label="Explore Bahamas Islands"
+          aria-label={`Перейти к информации о студенте с именем ${student.name}`}
           sx={{ ml: 'auto', alignSelf: 'center', fontWeight: 600 }}
           component={Link}
           to={`/students/${student.id}`}
+          state={{ from: window.location.pathname }}
         >
           Перейти
         </Button>

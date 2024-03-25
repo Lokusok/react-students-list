@@ -7,7 +7,7 @@ export const studentsApi = axios.create({
 class ApiService {
   static getStudentsByRole(role: string) {
     return studentsApi.get('/', {
-      data: {
+      params: {
         role,
       },
     });
@@ -19,6 +19,10 @@ class ApiService {
         'Content-Type': 'application/json',
       },
     });
+  }
+
+  static deleteStudent(id: string | number) {
+    return studentsApi.delete(`/${id}`);
   }
 }
 

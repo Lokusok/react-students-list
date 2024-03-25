@@ -21,6 +21,7 @@ function UnstyledSelectControlled(props: TProps) {
     <div>
       <Select
         id={props.id}
+        name={props.id}
         value={props.value}
         onChange={(_, newValue) => props.onChange?.(props.id || '', newValue)}
       >
@@ -106,7 +107,9 @@ const StyledButton = styled(CustomButton, { shouldForwardProp: () => true })(
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-  box-shadow: 0px 2px 2px ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
+  box-shadow: 0px 2px 2px ${
+    theme.palette.mode === 'dark' ? grey[900] : grey[50]
+  };
 
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -120,7 +123,9 @@ const StyledButton = styled(CustomButton, { shouldForwardProp: () => true })(
   &.${selectClasses.focusVisible} {
     outline: 0;
     border-color: ${blue[400]};
-    box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[600] : blue[200]};
+    box-shadow: 0 0 0 3px ${
+      theme.palette.mode === 'dark' ? blue[600] : blue[200]
+    };
   }
 
   & > svg {

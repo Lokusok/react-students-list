@@ -3,14 +3,17 @@ import { memo, useState } from 'react';
 import { TInputs } from '@src/shared/types';
 
 import StudentForm from '@src/components/student-form';
+import ApiService from '@src/api';
+
+const initialData = {
+  name: '',
+  role: 'default',
+  age: '',
+  notes: '',
+};
 
 function StudentCreate() {
-  const [data, setData] = useState({
-    'student-name': '',
-    'student-role': 'default',
-    'student-age': '',
-    'student-notes': '',
-  });
+  const [data, setData] = useState(() => ({ ...initialData }));
   const [avatar, setAvatar] = useState<File | null | undefined>(null);
 
   const handlers = {
@@ -32,15 +35,21 @@ function StudentCreate() {
       setAvatar(e.target.files?.item(0));
     },
 
-    onSubmit: (e: React.FormEvent) => {
+    onSubmit: (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      console.log('Student:', data);
+      const student = {
+        ...data,
+        id: window.crypto.randomUUID(),
+      };
+      ApiService.addStudent(student);
+      setData({ ...initialData });
     },
   };
 
   return (
     <StudentForm
+      title={'Добавить нового'}
       onSubmit={handlers.onSubmit}
       studentData={data}
       onChange={handlers.onChange}

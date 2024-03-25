@@ -1,6 +1,8 @@
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+
+import StudentWrapper from '@src/containers/student-wrapper';
 
 function StudentPage() {
   const { id } = useParams();
@@ -11,7 +13,7 @@ function StudentPage() {
         <title>Страница студента</title>
       </Helmet>
 
-      <h3>Студент {id}</h3>
+      {id && <StudentWrapper id={id} />}
     </>
   );
 }

@@ -1,9 +1,6 @@
 import { memo } from 'react';
 
-import { useRecoilValue } from 'recoil';
-
 import ListItem from './list-item';
-import { rolesCountSelector } from '@src/store/students/selectors';
 
 import { List, Paper } from '@mui/material';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
@@ -25,15 +22,17 @@ const items = [
   },
 ];
 
-function Total() {
-  const totals = useRecoilValue(rolesCountSelector);
+type TProps = {
+  totals: Record<string, number>;
+};
 
+function Total(props: TProps) {
   return (
     <Paper elevation={2} sx={{ p: 1 }}>
       <List>
         {items.map((item, index) => (
           <ListItem key={item.text + index} icon={item.icon}>{`${item.text} ${
-            totals[item.text as keyof typeof totals]
+            props.totals[item.text as keyof typeof props.totals]
           }`}</ListItem>
         ))}
       </List>

@@ -2,7 +2,7 @@ export {};
 
 declare global {
   type TStudent = {
-    id: number;
+    id: string | number;
     name: string;
     role: string;
     age: number | string;

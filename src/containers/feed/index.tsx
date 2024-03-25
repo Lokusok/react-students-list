@@ -1,5 +1,5 @@
-import { memo } from 'react';
-import { useRecoilValueLoadable } from 'recoil';
+import { memo, useEffect } from 'react';
+import { useRecoilRefresher_UNSTABLE, useRecoilValueLoadable } from 'recoil';
 
 import { Typography } from '@mui/material';
 
@@ -11,18 +11,32 @@ import { studentsQuery } from '@src/store/students/queries';
 
 function Feed() {
   const students = useRecoilValueLoadable(studentsQuery);
+  const studentsRefresher = useRecoilRefresher_UNSTABLE(studentsQuery);
 
   const renders = {
     studentItem: (student: TStudent) => <StudentCard student={student} />,
   };
 
+  // Перезапрашиваем пользователей при монтировании
+  useEffect(() => {
+    studentsRefresher();
+  }, [studentsRefresher]);
+
   if (students.state === 'hasValue') {
     return (
-      <AdaptiveGrid
-        renderItem={renders.studentItem}
-        items={students.contents}
-        keyProp={'id'}
-      />
+      <>
+        {students.contents.length > 0 && (
+          <AdaptiveGrid
+            renderItem={renders.studentItem}
+            items={students.contents}
+            keyProp={'id'}
+          />
+        )}
+
+        {!students.contents.length && (
+          <Typography component="h4">Студенты не были найдены...</Typography>
+        )}
+      </>
     );
   }
 

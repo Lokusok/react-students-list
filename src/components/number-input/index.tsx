@@ -7,7 +7,7 @@ import {
 import { styled } from '@mui/system';
 
 const NumberInput = React.forwardRef(function CustomNumberInput(
-  props: NumberInputProps & { sx: object },
+  props: NumberInputProps & { sx: object; name?: string },
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
   return (
@@ -45,12 +45,13 @@ function NumberInputBasic(props: TProps) {
   return (
     <NumberInput
       id={props.id}
+      name={props.id}
       placeholder={props.placeholder}
       value={Number(props.value)}
       onChange={(_, val) => props.onChange?.(props.id || '', val)}
       sx={{ p: 0 }}
       min={props.min || 0}
-      max={props.max || 100}
+      max={props.max || 150}
     />
   );
 }
@@ -84,7 +85,9 @@ const StyledInputRoot = styled('div')(
   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  box-shadow: 0px 2px 2px ${theme.palette.mode === 'dark' ? grey[900] : grey[50]};
+  box-shadow: 0px 2px 2px ${
+    theme.palette.mode === 'dark' ? grey[900] : grey[50]
+  };
   display: grid;
   grid-template-columns: 1fr 19px;
   grid-template-rows: 1fr 1fr;
@@ -94,7 +97,9 @@ const StyledInputRoot = styled('div')(
 
   &.${numberInputClasses.focused} {
     border-color: ${blue[400]};
-    box-shadow: 0 0 0 3px ${theme.palette.mode === 'dark' ? blue[600] : blue[200]};
+    box-shadow: 0 0 0 3px ${
+      theme.palette.mode === 'dark' ? blue[600] : blue[200]
+    };
   }
 
   &:hover {

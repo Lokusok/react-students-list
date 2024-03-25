@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 
 import { Grid } from '@mui/material';
 
-import Total from '@src/components/total';
+import TotalObserver from '@src/containers/total-observer';
 import StudentCreate from '@src/containers/student-create';
 
 function Panel() {
@@ -16,7 +16,7 @@ function Panel() {
 
       <Grid justifyContent={'space-between'} container spacing={4}>
         <Grid item xs={12} md={5}>
-          <Total />
+          <TotalObserver />
         </Grid>
 
         <Grid item xs={12} md={7}>
