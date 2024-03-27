@@ -32,7 +32,8 @@ function Header() {
     </Box>
   );
 
-  const container = window !== undefined ? () => window.document.body : undefined;
+  const container =
+    window !== undefined ? () => window.document.body : undefined;
 
   return (
     <Box component="header" sx={{ display: 'flex' }}>
@@ -82,7 +83,10 @@ function Header() {
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}

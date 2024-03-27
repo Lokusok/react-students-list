@@ -3,6 +3,7 @@ import { memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { Box, Button } from '@mui/material';
+import ThemeToggler from '@src/components/theme-toggler';
 
 const navItems = [
   {
@@ -34,6 +35,7 @@ function NavigationDesktop() {
           {item.name}
         </Button>
       ))}
+      <ThemeToggler />
     </Box>
   );
 }

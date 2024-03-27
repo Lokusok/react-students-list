@@ -19,14 +19,6 @@ type TProps = {
 function AlertDialogModal(props: TProps) {
   return (
     <React.Fragment>
-      <Button
-        variant="outlined"
-        color="danger"
-        endDecorator={<DeleteForever />}
-        onClick={() => props.onReject?.()}
-      >
-        Discard
-      </Button>
       <Modal open={true} onClose={() => props.onReject?.()}>
         <ModalDialog variant="outlined" role="alertdialog">
           <DialogTitle>

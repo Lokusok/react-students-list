@@ -7,6 +7,8 @@ import { Grid } from '@mui/material';
 import TotalObserver from '@src/containers/total-observer';
 import StudentCreate from '@src/containers/student-create';
 
+import { default as PanelView } from '@src/components/panel';
+
 function Panel() {
   return (
     <>

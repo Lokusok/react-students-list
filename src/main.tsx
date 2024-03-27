@@ -8,13 +8,27 @@ import { RouterProvider } from 'react-router-dom';
 
 import './index.scss';
 
-import CssBaseline from '@mui/material/CssBaseline';
 import { RecoilRoot } from 'recoil';
 import router from './app/router';
 
+import {
+  experimental_extendTheme as materialExtendTheme,
+  Experimental_CssVarsProvider as MaterialCssVarsProvider,
+  THEME_ID as MATERIAL_THEME_ID,
+} from '@mui/material/styles';
+import { CssVarsProvider as JoyCssVarsProvider } from '@mui/joy/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+const materialTheme = materialExtendTheme();
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <RecoilRoot>
-    <RouterProvider router={router} />
-    <CssBaseline />
-  </RecoilRoot>
+  <MaterialCssVarsProvider theme={{ [MATERIAL_THEME_ID]: materialTheme }}>
+    <JoyCssVarsProvider>
+      <CssBaseline enableColorScheme />
+      <RecoilRoot>
+        <RouterProvider router={router} />
+        <CssBaseline />
+      </RecoilRoot>
+    </JoyCssVarsProvider>
+  </MaterialCssVarsProvider>
 );

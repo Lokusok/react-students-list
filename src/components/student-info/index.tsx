@@ -5,6 +5,7 @@ import AgreeModal from '../agree-modal';
 import { Box, Divider, Modal, Stack, Typography } from '@mui/material';
 import Button from '@mui/joy/Button';
 import { ButtonGroup } from '@mui/joy';
+import ChangeModal from '../change-modal';
 
 type TProps = {
   student: TStudent;
@@ -28,9 +29,11 @@ const style = {
 function StudentInfo(props: TProps) {
   const { student } = props;
   const [isDeletionAgree, setIsDeletionAgree] = useState<null | boolean>(null);
+  const [isChangingAgree, setIsChangingAgree] = useState<null | boolean>(null);
 
   const handlers = {
     handleDeleteClick: () => setIsDeletionAgree(false),
+    handleChangeClick: () => setIsChangingAgree(false),
   };
 
   useEffect(() => {
@@ -65,7 +68,11 @@ function StudentInfo(props: TProps) {
         >
           Удалить студента
         </Button>
-        <Button variant="solid" color="primary">
+        <Button
+          variant="solid"
+          color="primary"
+          onClick={handlers.handleChangeClick}
+        >
           Изменить
         </Button>
       </ButtonGroup>
@@ -83,6 +90,15 @@ function StudentInfo(props: TProps) {
           }
           onReject={() => setIsDeletionAgree(null)}
           onAgree={() => setIsDeletionAgree(true)}
+        />
+      )}
+
+      {isChangingAgree === false && (
+        <ChangeModal
+          title={'Изменить студента'}
+          descr={'Обновите имеющиеся данные'}
+          onReject={() => setIsChangingAgree(null)}
+          onAgree={() => setIsChangingAgree(true)}
         />
       )}
     </>
