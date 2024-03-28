@@ -1,10 +1,16 @@
+import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+
 import Header from '@src/components/header';
 import PageLayout from '@src/components/page-layout';
-import { memo } from 'react';
-
-import { Outlet } from 'react-router-dom';
+import studentsStore from '@src/store/students-mobx';
 
 function App() {
+  useEffect(() => {
+    studentsStore.fetchStudents();
+  }, [studentsStore.activeRole, studentsStore.currentPage]);
+
   return (
     <PageLayout head={<Header />}>
       <Outlet />
@@ -12,4 +18,4 @@ function App() {
   );
 }
 
-export default memo(App);
+export default observer(App);

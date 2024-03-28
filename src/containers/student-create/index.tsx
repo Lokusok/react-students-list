@@ -1,9 +1,10 @@
-import { memo, useState } from 'react';
+import { useState } from 'react';
+import { observer } from 'mobx-react-lite';
 
 import { TInputs } from '@src/shared/types';
 
 import StudentForm from '@src/components/student-form';
-import ApiService from '@src/api';
+import studentsStore from '@src/store/students-mobx';
 
 const initialData = {
   name: '',
@@ -42,7 +43,7 @@ function StudentCreate() {
         ...data,
         id: window.crypto.randomUUID(),
       };
-      ApiService.addStudent(student);
+      studentsStore.createStudent(student);
       setData({ ...initialData });
     },
   };
@@ -60,4 +61,4 @@ function StudentCreate() {
   );
 }
 
-export default memo(StudentCreate);
+export default observer(StudentCreate);

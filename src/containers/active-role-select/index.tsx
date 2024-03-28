@@ -1,10 +1,9 @@
-import { memo, useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
 
-import { useRecoilState } from 'recoil';
+import studentsStore from '@src/store/students-mobx';
 
 import Select from '@src/components/select';
 import { studentsRoles } from '@src/shared/data/students-roles';
-import { activeRoleState } from '@src/store/students/states';
 
 const rolesOptions = [
   {
@@ -15,19 +14,18 @@ const rolesOptions = [
 ];
 
 function ActiveRoleSelect() {
-  const [activeRole, setActiveRole] = useRecoilState(activeRoleState);
-
   const handlers = {
-    onSelectChange: (_: any, value: string) => setActiveRole(value),
+    onSelectChange: (_: any, value: string) =>
+      studentsStore.setActiveRole(value),
   };
 
   return (
     <Select
-      value={activeRole}
+      value={studentsStore.activeRole}
       options={rolesOptions}
       onChange={handlers.onSelectChange}
     />
   );
 }
 
-export default memo(ActiveRoleSelect);
+export default observer(ActiveRoleSelect);

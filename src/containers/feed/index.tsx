@@ -1,52 +1,52 @@
-import { memo, useEffect } from 'react';
-import { useRecoilRefresher_UNSTABLE, useRecoilValueLoadable } from 'recoil';
+import { observer } from 'mobx-react-lite';
 
-import { Typography } from '@mui/material';
+import { Box, Pagination, Typography } from '@mui/material';
 
 import AdaptiveGrid from '@src/components/adaptive-grid';
 import StudentCard from '@src/components/student-card';
-import StudentsSkeleton from '@src/components/main-skeleton/students-skeleton';
+import StudentsSkeleton from '@src/components/feed-skeleton/students-skeleton';
 
-import { studentsQuery } from '@src/store/students/queries';
+import studentsStore from '@src/store/students-mobx';
+import PaginationWrapper from '../pagination-wrapper';
 
 function Feed() {
-  const students = useRecoilValueLoadable(studentsQuery);
-  const studentsRefresher = useRecoilRefresher_UNSTABLE(studentsQuery);
+  const students = studentsStore.students;
 
   const renders = {
     studentItem: (student: TStudent) => <StudentCard student={student} />,
   };
 
-  // Перезапрашиваем пользователей при монтировании
-  useEffect(() => {
-    studentsRefresher();
-  }, [studentsRefresher]);
-
-  if (students.state === 'hasValue') {
+  if (!studentsStore.isLoading) {
     return (
       <>
-        {students.contents.length > 0 && (
-          <AdaptiveGrid
-            renderItem={renders.studentItem}
-            items={students.contents}
-            keyProp={'id'}
-          />
+        {students.length > 0 && (
+          <>
+            <AdaptiveGrid
+              renderItem={renders.studentItem}
+              items={students}
+              keyProp={'id'}
+            />
+
+            <Box sx={{ display: 'flex', mt: 5 }} justifyContent={'flex-end'}>
+              <PaginationWrapper />
+            </Box>
+          </>
         )}
 
-        {!students.contents.length && (
+        {!students.length && (
           <Typography component="h4">Студенты не были найдены...</Typography>
         )}
       </>
     );
   }
 
-  if (students.state === 'loading') {
+  if (studentsStore.isLoading) {
     return <StudentsSkeleton />;
   }
 
-  if (students.state === 'hasError') {
+  if (studentsStore.isError) {
     return <Typography>Произошла ошибка. Повторите попытку позже.</Typography>;
   }
 }
 
-export default memo(Feed);
+export default observer(Feed);

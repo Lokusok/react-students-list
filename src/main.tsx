@@ -11,6 +11,8 @@ import './index.scss';
 import { RecoilRoot } from 'recoil';
 import router from './app/router';
 
+import '@src/store/students-mobx';
+
 import {
   experimental_extendTheme as materialExtendTheme,
   Experimental_CssVarsProvider as MaterialCssVarsProvider,

@@ -7,7 +7,7 @@ import { Skeleton } from '@mui/material';
 function StudentsSkeleton() {
   const renders = {
     skeletonItem: () => (
-      <Skeleton variant="rounded" width={'80%'} height={230} />
+      <Skeleton animation="wave" variant="rounded" width={'80%'} height={230} />
     ),
   };
 

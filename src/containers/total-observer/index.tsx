@@ -1,14 +1,10 @@
-import { memo } from 'react';
+import { observer } from 'mobx-react-lite';
 
-import { useRecoilValue } from 'recoil';
-
-import { rolesCountSelector } from '@src/store/students/selectors';
 import Total from '@src/components/total';
+import studentsStore from '@src/store/students-mobx';
 
 function TotalObserver() {
-  const totals = useRecoilValue(rolesCountSelector);
-
-  return <Total totals={totals} />;
+  return <Total totals={studentsStore.rolesCount} />;
 }
 
-export default memo(TotalObserver);
+export default observer(TotalObserver);

@@ -1,18 +1,11 @@
 import { memo } from 'react';
-import HeaderSkeleton from './header-skeleton';
-import StudentsSkeleton from './students-skeleton';
-import { Divider } from '@mui/material';
+
+import ChoiceBlocks from '../choice-blocks';
 
 function MainSkeleton() {
-  return (
-    <>
-      <HeaderSkeleton />
+  const choices = Array(2).fill(null);
 
-      <Divider sx={{ mt: 2, mb: 2 }} />
-
-      <StudentsSkeleton />
-    </>
-  );
+  return <ChoiceBlocks items={choices} />;
 }
 
 export default memo(MainSkeleton);

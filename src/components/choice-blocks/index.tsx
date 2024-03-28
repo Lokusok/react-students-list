@@ -2,49 +2,50 @@ import { memo } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Skeleton } from '@mui/material';
 import Choice from './choice';
 
-import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
-import Groups2Icon from '@mui/icons-material/Groups2';
+type TItem = {
+  title: string;
+  imgSrc: string;
+  renderIcon: (width: number, height: number) => React.ReactNode;
+  href?: string;
+};
 
-import feedImg from '@src/assets/feed.jpg';
-import panelImg from '@src/assets/panel.jpg';
+type TProps = {
+  items: Array<TItem>;
+};
 
-function ChoiceBlocks() {
+function ChoiceBlocks(props: TProps) {
   return (
     <Box sx={{ mt: 15 }}>
       <Grid justifyContent={'center'} container spacing={3}>
-        <Grid item>
-          <Box
-            component={Link}
-            to="/feed"
-            state={{ from: window.location.pathname }}
-          >
-            <Choice
-              title={'Лента студентов'}
-              imgSrc={feedImg}
-              renderIcon={(width, height) => (
-                <DynamicFeedIcon sx={{ width, height }} />
-              )}
-            />
-          </Box>
-        </Grid>
-        <Grid item>
-          <Box
-            component={Link}
-            to="/panel"
-            state={{ from: window.location.pathname }}
-          >
-            <Choice
-              title={'Управление'}
-              imgSrc={panelImg}
-              renderIcon={(width, height) => (
-                <Groups2Icon sx={{ width, height }} />
-              )}
-            />
-          </Box>
-        </Grid>
+        {props.items.map((item) => (
+          <>
+            {Boolean(item) ? (
+              <Grid key={item.title} item>
+                <Box
+                  component={Link}
+                  to={item.href || ''}
+                  state={{ from: window.location.pathname }}
+                >
+                  <Choice
+                    title={item.title}
+                    imgSrc={item.imgSrc}
+                    renderIcon={item.renderIcon}
+                  />
+                </Box>
+              </Grid>
+            ) : (
+              <Skeleton
+                animation="wave"
+                width={300}
+                height={300}
+                variant="rounded"
+              />
+            )}
+          </>
+        ))}
       </Grid>
     </Box>
   );

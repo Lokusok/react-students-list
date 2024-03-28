@@ -2,8 +2,9 @@ import React, { Suspense } from 'react';
 
 import { createBrowserRouter } from 'react-router-dom';
 import App from '.';
-import MainSkeleton from '@src/components/main-skeleton';
+import FeedSkeleton from '@src/components/feed-skeleton';
 import PanelSkeleton from '@src/components/panel-skeleton';
+import MainSkeleton from '@src/components/main-skeleton';
 
 import NotFoundPage from './not-found';
 
@@ -20,7 +21,7 @@ const routes = [
       {
         path: '/',
         element: (
-          <Suspense fallback={<h3>Загрузка...</h3>}>
+          <Suspense fallback={<MainSkeleton />}>
             <LazyMain />
           </Suspense>
         ),
@@ -28,7 +29,7 @@ const routes = [
       {
         path: '/feed',
         element: (
-          <Suspense fallback={<MainSkeleton />}>
+          <Suspense fallback={<FeedSkeleton />}>
             <LazyFeed />
           </Suspense>
         ),
