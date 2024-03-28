@@ -17,6 +17,7 @@ function ThemeToggler() {
     // because `mode` is undefined on the server.
     return null;
   }
+
   return (
     <IconButton
       onClick={() => {
@@ -24,8 +25,11 @@ function ThemeToggler() {
         setJoyMode(mode === 'dark' ? 'light' : 'dark');
       }}
     >
-      {/** You can use `mode` from Joy UI or Material UI since they are synced **/}
-      {mode === 'dark' ? <DarkMode /> : <LightMode />}
+      {mode === 'dark' ? (
+        <DarkMode style={{ color: 'white' }} />
+      ) : (
+        <LightMode style={{ color: 'white' }} />
+      )}
     </IconButton>
   );
 }

@@ -5,7 +5,10 @@ import App from '.';
 import MainSkeleton from '@src/components/main-skeleton';
 import PanelSkeleton from '@src/components/panel-skeleton';
 
+import NotFoundPage from './not-found';
+
 const LazyMain = React.lazy(() => import('./main'));
+const LazyFeed = React.lazy(() => import('./feed'));
 const LazyPanel = React.lazy(() => import('./panel'));
 const LazyStudent = React.lazy(() => import('./student'));
 
@@ -17,8 +20,16 @@ const routes = [
       {
         path: '/',
         element: (
-          <Suspense fallback={<MainSkeleton />}>
+          <Suspense fallback={<h3>Загрузка...</h3>}>
             <LazyMain />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/feed',
+        element: (
+          <Suspense fallback={<MainSkeleton />}>
+            <LazyFeed />
           </Suspense>
         ),
       },
@@ -37,6 +48,10 @@ const routes = [
             <LazyStudent />
           </Suspense>
         ),
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />,
       },
     ],
   },

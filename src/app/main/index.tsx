@@ -1,35 +1,17 @@
 import { memo } from 'react';
 import { Helmet } from 'react-helmet';
 
-import { Typography, Divider, Stack } from '@mui/material';
+import ChoiceBlocks from '@src/components/choice-blocks';
 
-import Feed from '@src/containers/feed';
-import ActiveRoleSelect from '@src/containers/active-role-select';
-
-function Main() {
+function MainPage() {
   return (
     <>
       <Helmet>
-        <title>Список учеников</title>
+        <title>Главная страница</title>
       </Helmet>
-
-      <Stack
-        flexWrap={'wrap'}
-        justifyContent={['space-between']}
-        direction="row"
-      >
-        <Typography component="h2" fontSize={26} fontWeight={700}>
-          Список всех учеников
-        </Typography>
-
-        <ActiveRoleSelect />
-      </Stack>
-
-      <Divider sx={{ mt: 2, mb: 2 }} />
-
-      <Feed />
+      <ChoiceBlocks />
     </>
   );
 }
 
-export default memo(Main);
+export default memo(MainPage);

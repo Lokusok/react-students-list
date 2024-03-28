@@ -3,26 +3,16 @@ import { memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { Box, Button } from '@mui/material';
+
 import ThemeToggler from '@src/components/theme-toggler';
-
-const navItems = [
-  {
-    name: 'Просмотр',
-    path: '/',
-  },
-
-  {
-    name: 'Управление',
-    path: '/panel',
-  },
-];
+import { navigation } from '@src/shared/data/navigation';
 
 function NavigationDesktop() {
   const location = useLocation();
 
   return (
     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-      {navItems.map((item) => (
+      {navigation.map((item) => (
         <Button
           component={Link}
           to={item.path}
