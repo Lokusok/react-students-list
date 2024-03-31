@@ -197,7 +197,7 @@ const Option = styled(BaseOption)(
 );
 
 const Popup = styled('div')`
-  z-index: 1;
+  z-index: 9999;
 `;
 
 export default React.memo(UnstyledSelectControlled);

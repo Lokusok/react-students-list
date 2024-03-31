@@ -1,52 +1,51 @@
-import React, { memo } from 'react';
+import * as React from 'react';
 
-import Button from '@mui/joy/Button';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import Input from '@mui/joy/Input';
 import Modal from '@mui/joy/Modal';
+import ModalClose from '@mui/joy/ModalClose';
 import ModalDialog from '@mui/joy/ModalDialog';
-import DialogTitle from '@mui/joy/DialogTitle';
-import DialogContent from '@mui/joy/DialogContent';
-import Stack from '@mui/joy/Stack';
-import Add from '@mui/icons-material/Add';
+import ModalOverflow from '@mui/joy/ModalOverflow';
+
+import StudentForm from '../student-form';
+import { TInputs, TStudentData } from '@src/shared/types';
+import { Box } from '@mui/material';
 
 type TProps = {
-  title: string;
-  descr?: string;
   onReject?: () => void;
   onAgree?: () => void;
+  studentData: TStudentData;
+  onChange: (e: React.ChangeEvent<TInputs>) => void;
+  onExtraChange: (id: string, value: string) => void;
+  onAvatarChange: (val: File) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
 function ChangeModal(props: TProps) {
+  const handlers = {
+    onSubmit: (e: React.FormEvent<HTMLFormElement>) => {
+      props.onSubmit(e);
+    },
+  };
+
   return (
-    <React.Fragment>
-      <Modal open={true} onClose={() => props.onReject?.()}>
-        <ModalDialog>
-          <DialogTitle>{props.title}</DialogTitle>
-          {props.descr && <DialogContent>{props.descr}</DialogContent>}
-          <form
-            onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-              event.preventDefault();
-              props.onReject?.();
-            }}
-          >
-            <Stack spacing={2}>
-              <FormControl>
-                <FormLabel>Имя</FormLabel>
-                <Input autoFocus required />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Примечания</FormLabel>
-                <Input required />
-              </FormControl>
-              <Button type="submit">Изменить</Button>
-            </Stack>
-          </form>
+    <Modal open={true} onClose={() => props.onReject?.()}>
+      <ModalOverflow>
+        <ModalDialog layout={'center'}>
+          <ModalClose onClick={() => props.onReject?.()} />
+          <Box sx={{ mt: '30px' }}>
+            <StudentForm
+              title={'Изменить студента'}
+              studentData={props.studentData}
+              submitText={'Изменить'}
+              onChange={props.onChange}
+              onSubmit={handlers.onSubmit}
+              onExtraChange={props.onExtraChange}
+              onAvatarChange={props.onAvatarChange}
+            />
+          </Box>
         </ModalDialog>
-      </Modal>
-    </React.Fragment>
+      </ModalOverflow>
+    </Modal>
   );
 }
 
-export default memo(ChangeModal);
+export default React.memo(ChangeModal);

@@ -23,9 +23,9 @@
     },
     {
       "id": "6f82845b-40f5-43e6-8b4c-a036bc97e8d9",
-      "name": "fasdfsadfasdf",
-      "role": "Троечник",
-      "age": 2,
+      "name": "Иван",
+      "role": "Хорошист",
+      "age": 10,
       "notes": "fdsafsadf"
     },
     {
@@ -37,10 +37,24 @@
     },
     {
       "id": "535fbee5-ecfd-449a-94e4-966553691389",
-      "name": "xfdgfdg",
-      "role": "Отличник",
+      "name": "Лёша Hello",
+      "role": "Троечник",
       "age": 2,
       "notes": "sdfsdf"
+    },
+    {
+      "id": "4e6e5c0b-7690-4742-bd0f-dd935dcad7d1",
+      "name": "Дмитрий",
+      "role": "Хорошист",
+      "age": 17,
+      "notes": "Создатель"
+    },
+    {
+      "name": "Ivan122222",
+      "role": "Троечник",
+      "age": 22,
+      "notes": "Хулиган",
+      "id": "80be0698-be73-41a8-a59c-636c0615504b"
     }
   ]
 }

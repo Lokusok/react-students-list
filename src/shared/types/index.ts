@@ -7,4 +7,5 @@ export type TStudentData = {
   age: string | number;
   role: string;
   notes: string;
+  avatar: File | string | null | undefined;
 };

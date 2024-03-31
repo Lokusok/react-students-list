@@ -1,6 +1,7 @@
 import ApiService from '@src/api';
 import { studentsRoles } from '@src/shared/data/students-roles';
-import { makeAutoObservable, spy } from 'mobx';
+import { TStudentData } from '@src/shared/types';
+import { makeAutoObservable, runInAction, spy } from 'mobx';
 
 class StudentsStore {
   isLoading: boolean = false;
@@ -78,15 +79,34 @@ class StudentsStore {
   /**
    * Удалить студента
    */
-  async deleteStudent(id: string | number) {
+  async deleteStudent(id: string) {
     try {
       const response = await ApiService.deleteStudent(id);
-      // this.students = this.students.filter(
-      //   (student) => student.id !== response.data.id
-      // );
       this.fetchStudents();
     } catch (e) {
       console.log('deletion error');
+    }
+  }
+
+  /**
+   * Обновить студента
+   */
+  async updateStudent(id: string, newStudentData: TStudentData) {
+    try {
+      await ApiService.updateStudent(id, newStudentData);
+      runInAction(() => {
+        this.students = this.students.map((student) => {
+          if (student.id === id) {
+            return { id, ...newStudentData };
+          }
+
+          return student;
+        });
+
+        console.log(this.students);
+      });
+    } catch (e) {
+      console.log('update error');
     }
   }
 

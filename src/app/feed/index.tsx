@@ -12,10 +12,6 @@ function FeedPage() {
     studentsStore.fetchStudents();
   }, []);
 
-  useEffect(() => {
-    console.log(studentsStore.currentPage);
-  }, [studentsStore.currentPage]);
-
   return (
     <>
       <Helmet>

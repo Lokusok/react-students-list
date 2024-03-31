@@ -1,3 +1,4 @@
+import { TStudentData } from '@src/shared/types';
 import axios from 'axios';
 
 export const studentsApi = axios.create({
@@ -9,7 +10,15 @@ type TParams = {
   limit: number;
 };
 
+/**
+ * Сервис взаимодействия с апи
+ */
 class ApiService {
+  /**
+   * Получение студента по его роли
+   * @param role {String} Роль студента
+   * @param params {Object} Параметры запроса
+   */
   static getStudentsByRole(role: string, params: TParams) {
     return studentsApi.get('/', {
       params: {
@@ -20,6 +29,10 @@ class ApiService {
     });
   }
 
+  /**
+   * Добавление студента
+   * @param student {Object}
+   */
   static addStudent(student: TStudent) {
     return studentsApi.post('/', student, {
       headers: {
@@ -28,8 +41,21 @@ class ApiService {
     });
   }
 
-  static deleteStudent(id: string | number) {
+  /**
+   * Удаление студента по id
+   * @param id {string}
+   */
+  static deleteStudent(id: string) {
     return studentsApi.delete(`/${id}`);
+  }
+
+  /**
+   * Обновление студента
+   * @param id {String}
+   * @param newStudentData {Object}
+   */
+  static updateStudent(id: string, newStudentData: TStudentData) {
+    return studentsApi.put(`/${id}`, newStudentData);
   }
 }
 

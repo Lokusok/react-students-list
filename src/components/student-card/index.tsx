@@ -34,7 +34,23 @@ function StudentCard(props: TProps) {
           <BookmarkAdd />
         </IconButton>
       </div>
-      <AspectRatio minHeight="120px" maxHeight="200px">
+
+      <AspectRatio
+        component={Link}
+        to={`/students/${student.id}`}
+        state={{ from: window.location.pathname }}
+        sx={{
+          transition: 'opacity ease 0.2s',
+          '&:hover': {
+            opacity: 0.8,
+          },
+          '&:active': {
+            opacity: 0.5,
+          },
+        }}
+        minHeight="120px"
+        maxHeight="200px"
+      >
         <img src={studentImage} loading="lazy" alt="" />
       </AspectRatio>
       <CardContent orientation="horizontal">

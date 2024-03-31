@@ -2,28 +2,23 @@ import { memo, useEffect, useState } from 'react';
 
 import AgreeModal from '../agree-modal';
 
-import { Box, Divider, Modal, Stack, Typography } from '@mui/material';
+import { Divider, Typography } from '@mui/material';
 import Button from '@mui/joy/Button';
 import { ButtonGroup } from '@mui/joy';
 import ChangeModal from '../change-modal';
 
+import { TInputs, TStudentData } from '@src/shared/types';
+
 type TProps = {
   student: TStudent;
+  editableData: TStudentData;
   deleteStudent: () => void;
-};
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  boxShadow: 24,
-  borderRadius: '6px',
-  pt: 2,
-  px: 4,
-  pb: 3,
+  updateStudent: () => void;
+  onChange: (e: React.ChangeEvent<TInputs>) => void;
+  onExtraChange: (id: string, value: string) => void;
+  onAvatarChange: (val: File) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  renderSuccessSnackbar: () => React.ReactNode;
 };
 
 function StudentInfo(props: TProps) {
@@ -38,10 +33,13 @@ function StudentInfo(props: TProps) {
 
   useEffect(() => {
     if (isDeletionAgree === true) {
-      console.log('Удаляю студента!');
       props.deleteStudent();
     }
   }, [props.deleteStudent, isDeletionAgree]);
+
+  useEffect(() => {
+    setIsChangingAgree(null);
+  }, [props.student]);
 
   return (
     <>
@@ -77,6 +75,8 @@ function StudentInfo(props: TProps) {
         </Button>
       </ButtonGroup>
 
+      {props.renderSuccessSnackbar()}
+
       {isDeletionAgree === false && (
         <AgreeModal
           title={'Подтвердите удаление'}
@@ -95,10 +95,13 @@ function StudentInfo(props: TProps) {
 
       {isChangingAgree === false && (
         <ChangeModal
-          title={'Изменить студента'}
-          descr={'Обновите имеющиеся данные'}
+          studentData={props.editableData}
           onReject={() => setIsChangingAgree(null)}
           onAgree={() => setIsChangingAgree(true)}
+          onChange={props.onChange}
+          onSubmit={props.onSubmit}
+          onExtraChange={props.onExtraChange}
+          onAvatarChange={props.onAvatarChange}
         />
       )}
     </>

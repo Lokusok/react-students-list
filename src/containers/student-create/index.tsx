@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { TInputs } from '@src/shared/types';
+import { TInputs, TStudentData } from '@src/shared/types';
 
 import StudentForm from '@src/components/student-form';
 import studentsStore from '@src/store/students-mobx';
@@ -11,11 +11,11 @@ const initialData = {
   role: 'default',
   age: '',
   notes: '',
+  avatar: null,
 };
 
 function StudentCreate() {
-  const [data, setData] = useState(() => ({ ...initialData }));
-  const [avatar, setAvatar] = useState<File | null | undefined>(null);
+  const [data, setData] = useState<TStudentData>(() => ({ ...initialData }));
 
   const handlers = {
     onChange: (e: React.ChangeEvent<TInputs>) => {
@@ -32,8 +32,11 @@ function StudentCreate() {
       }));
     },
 
-    onAvatarChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-      setAvatar(e.target.files?.item(0));
+    onAvatarChange: (val: File) => {
+      setData((prevData) => ({
+        ...prevData,
+        avatar: val,
+      }));
     },
 
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => {
@@ -56,7 +59,7 @@ function StudentCreate() {
       onChange={handlers.onChange}
       onExtraChange={handlers.onExtraChange}
       onAvatarChange={handlers.onAvatarChange}
-      avatar={avatar}
+      submitText={'Добавить'}
     />
   );
 }
