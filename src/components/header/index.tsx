@@ -63,6 +63,7 @@ function Header() {
                   '&:active': { opacity: 0.3 },
                 }}
                 to="/"
+                data-testid="logo"
               >
                 STUDE-LIST
               </Typography>

@@ -27,10 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <MaterialCssVarsProvider theme={{ [MATERIAL_THEME_ID]: materialTheme }}>
     <JoyCssVarsProvider>
       <CssBaseline enableColorScheme />
-      <RecoilRoot>
-        <RouterProvider router={router} />
-        <CssBaseline />
-      </RecoilRoot>
+      <RouterProvider router={router} />
     </JoyCssVarsProvider>
   </MaterialCssVarsProvider>
 );

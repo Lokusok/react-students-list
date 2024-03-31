@@ -20,15 +20,16 @@ function ThemeToggler() {
 
   return (
     <IconButton
+      data-testid="theme-toggler"
       onClick={() => {
         setMaterialMode(mode === 'dark' ? 'light' : 'dark');
         setJoyMode(mode === 'dark' ? 'light' : 'dark');
       }}
     >
       {mode === 'dark' ? (
-        <DarkMode style={{ color: 'white' }} />
+        <DarkMode data-testid="theme-light" style={{ color: 'white' }} />
       ) : (
-        <LightMode style={{ color: 'white' }} />
+        <LightMode data-testid="theme-dark" style={{ color: 'white' }} />
       )}
     </IconButton>
   );
