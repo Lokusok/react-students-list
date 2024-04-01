@@ -7,11 +7,13 @@ import PanelSkeleton from '@src/components/panel-skeleton';
 import MainSkeleton from '@src/components/main-skeleton';
 
 import NotFoundPage from './not-found';
+import Protected from '@src/containers/protected';
 
 const LazyMain = React.lazy(() => import('./main'));
 const LazyFeed = React.lazy(() => import('./feed'));
 const LazyPanel = React.lazy(() => import('./panel'));
 const LazyStudent = React.lazy(() => import('./student'));
+const LazyLogin = React.lazy(() => import('./login'));
 
 const routes = [
   {
@@ -30,7 +32,9 @@ const routes = [
         path: '/feed',
         element: (
           <Suspense fallback={<FeedSkeleton />}>
-            <LazyFeed />
+            <Protected redirectTo="/">
+              <LazyFeed />
+            </Protected>
           </Suspense>
         ),
       },
@@ -38,7 +42,9 @@ const routes = [
         path: '/panel',
         element: (
           <Suspense fallback={<PanelSkeleton />}>
-            <LazyPanel />
+            <Protected redirectTo="/">
+              <LazyPanel />
+            </Protected>
           </Suspense>
         ),
       },
@@ -46,7 +52,17 @@ const routes = [
         path: '/students/:id',
         element: (
           <Suspense fallback={<h3>Загрузка...</h3>}>
-            <LazyStudent />
+            <Protected redirectTo="/">
+              <LazyStudent />
+            </Protected>
+          </Suspense>
+        ),
+      },
+      {
+        path: '/login',
+        element: (
+          <Suspense fallback={<h3>Загрузка...</h3>}>
+            <LazyLogin />
           </Suspense>
         ),
       },

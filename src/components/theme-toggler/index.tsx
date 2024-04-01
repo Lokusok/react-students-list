@@ -5,7 +5,12 @@ import { useColorScheme as useMaterialColorScheme } from '@mui/material/styles';
 import { IconButton } from '@mui/material';
 import { DarkMode, LightMode } from '@mui/icons-material';
 
-function ThemeToggler() {
+type TProps = {
+  lightColor?: string;
+  darkColor?: string;
+};
+
+function ThemeToggler(props: TProps) {
   const { mode, setMode: setMaterialMode } = useMaterialColorScheme();
   const { setMode: setJoyMode } = useJoyColorScheme();
   const [mounted, setMounted] = React.useState(false);
@@ -27,9 +32,15 @@ function ThemeToggler() {
       }}
     >
       {mode === 'dark' ? (
-        <DarkMode data-testid="theme-light" style={{ color: 'white' }} />
+        <DarkMode
+          data-testid="theme-light"
+          style={{ color: props.darkColor || 'white' }}
+        />
       ) : (
-        <LightMode data-testid="theme-dark" style={{ color: 'white' }} />
+        <LightMode
+          data-testid="theme-dark"
+          style={{ color: props.lightColor || 'white' }}
+        />
       )}
     </IconButton>
   );

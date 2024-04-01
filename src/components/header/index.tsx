@@ -12,11 +12,13 @@ import Typography from '@mui/material/Typography';
 import { Container } from '@mui/material';
 import NavigationDesktop from '@src/containers/navigation-desktop';
 import NavigationMobile from '@src/containers/navigation-mobile';
+import { Button, useTheme } from '@mui/joy';
 
 const drawerWidth = 240;
 
 function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const theme = useTheme();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -24,7 +26,19 @@ function Header() {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
+      <Typography
+        component={Link}
+        sx={{
+          color: theme.vars.palette.primary[500],
+          mt: 2,
+          mb: 2,
+          textDecoration: 'none',
+          background: 'none',
+          display: 'inline-block',
+        }}
+        variant="h6"
+        to={'/'}
+      >
         STUDE-LIST
       </Typography>
       <Divider />

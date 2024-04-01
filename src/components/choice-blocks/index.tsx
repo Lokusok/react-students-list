@@ -5,18 +5,25 @@ import { Link } from 'react-router-dom';
 import { Box, Grid, Skeleton } from '@mui/material';
 import Choice from './choice';
 
-type TItem = {
-  title: string;
-  imgSrc: string;
-  renderIcon: (width: number, height: number) => React.ReactNode;
-  href?: string;
-};
+import {
+  TChoiceProps,
+  TChoiceItem,
+} from '@src/containers/choice-blocks-wrapper/types';
 
 type TProps = {
-  items: Array<TItem>;
+  isDisabled?: boolean;
 };
 
-function ChoiceBlocks(props: TProps) {
+function ChoiceBlocks(props: TChoiceProps & TProps) {
+  console.log({ isDisabled: props.isDisabled });
+
+  const helpers = {
+    getHref: (item: TChoiceItem) => {
+      if (props.isDisabled) return '';
+      else return item.href || '';
+    },
+  };
+
   return (
     <Box sx={{ mt: 15 }}>
       <Grid justifyContent={'center'} container spacing={3}>
@@ -25,8 +32,12 @@ function ChoiceBlocks(props: TProps) {
             {Boolean(item) ? (
               <Grid key={item.title} item>
                 <Box
+                  sx={{
+                    opacity: props.isDisabled ? 0.5 : 1,
+                    pointerEvents: props.isDisabled ? 'none' : 'all',
+                  }}
                   component={Link}
-                  to={item.href || ''}
+                  to={helpers.getHref(item)}
                   state={{ from: window.location.pathname }}
                 >
                   <Choice
@@ -37,12 +48,14 @@ function ChoiceBlocks(props: TProps) {
                 </Box>
               </Grid>
             ) : (
-              <Skeleton
-                animation="wave"
-                width={300}
-                height={300}
-                variant="rounded"
-              />
+              <Grid item>
+                <Skeleton
+                  animation="wave"
+                  width={300}
+                  height={300}
+                  variant="rounded"
+                />
+              </Grid>
             )}
           </>
         ))}
