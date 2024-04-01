@@ -1,6 +1,9 @@
 import { Helmet } from 'react-helmet';
 import { observer } from 'mobx-react-lite';
 
+import modalsStore from '@src/store/modals';
+import sessionStore from '@src/store/session';
+
 import ChoiceBlocksWrapper from '@src/containers/choice-blocks-wrapper';
 import LoginActions from '@src/components/login-actions';
 
@@ -10,7 +13,6 @@ import panelImg from '@src/assets/panel.jpg';
 import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
 import Groups2Icon from '@mui/icons-material/Groups2';
 import { Box } from '@mui/material';
-import modalsStore from '@src/store/modals';
 
 const choices = [
   {
@@ -48,6 +50,7 @@ function MainPage() {
         <LoginActions
           onLoginClick={callbacks.showLoginModal}
           onRegisterClick={callbacks.showRegisterModal}
+          isLogined={Boolean(sessionStore.profile)}
         />
       </Box>
     </>
