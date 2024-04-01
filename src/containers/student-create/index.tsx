@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { TInputs, TStudentData } from '@src/shared/types';
 
 import StudentForm from '@src/components/student-form';
-import studentsStore from '@src/store/students-mobx';
+import studentsStore from '@src/store/students';
 
 const initialData = {
   name: '',

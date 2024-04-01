@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 
 import { Pagination } from '@mui/material';
-import studentsStore from '@src/store/students-mobx';
+import studentsStore from '@src/store/students';
 
 function PaginationWrapper() {
   const handlers = {

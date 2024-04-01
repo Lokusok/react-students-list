@@ -6,7 +6,7 @@ import AdaptiveGrid from '@src/components/adaptive-grid';
 import StudentCard from '@src/components/student-card';
 import StudentsSkeleton from '@src/components/feed-skeleton/students-skeleton';
 
-import studentsStore from '@src/store/students-mobx';
+import studentsStore from '@src/store/students';
 import PaginationWrapper from '../pagination-wrapper';
 
 function Feed() {

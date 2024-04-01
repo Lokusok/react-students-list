@@ -5,7 +5,7 @@ import { Typography, Divider, Stack } from '@mui/material';
 
 import Feed from '@src/containers/feed';
 import ActiveRoleSelect from '@src/containers/active-role-select';
-import studentsStore from '@src/store/students-mobx';
+import studentsStore from '@src/store/students';
 
 function FeedPage() {
   useEffect(() => {

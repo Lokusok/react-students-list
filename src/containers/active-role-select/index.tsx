@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 
-import studentsStore from '@src/store/students-mobx';
+import studentsStore from '@src/store/students';
 
 import Select from '@src/components/select';
 import { studentsRoles } from '@src/shared/data/students-roles';

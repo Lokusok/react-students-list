@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import StudentInfo from '@src/components/student-info';
 
 import { Typography } from '@mui/material';
-import studentsStore from '@src/store/students-mobx';
+import studentsStore from '@src/store/students';
 import { TInputs, TStudentData } from '@src/shared/types';
 import SuccessSnackbar from '@src/components/success-snackbar';
 

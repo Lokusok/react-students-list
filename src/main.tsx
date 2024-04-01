@@ -8,10 +8,9 @@ import { RouterProvider } from 'react-router-dom';
 
 import './index.scss';
 
-import { RecoilRoot } from 'recoil';
 import router from './app/router';
 
-import '@src/store/students-mobx';
+import '@src/store/students';
 
 import {
   experimental_extendTheme as materialExtendTheme,

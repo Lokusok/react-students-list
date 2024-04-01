@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 import Header from '@src/components/header';
 import PageLayout from '@src/components/page-layout';
-import studentsStore from '@src/store/students-mobx';
+import studentsStore from '@src/store/students';
 
 function App() {
   useEffect(() => {
