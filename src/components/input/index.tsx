@@ -15,7 +15,7 @@ type TProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => any;
   type?: React.ComponentProps<'input'>['type'];
   value?: string;
-};
+} & InputProps;
 
 function UnstyledInputBasic(props: TProps) {
   return <Input {...props} name={props.id} />;

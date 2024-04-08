@@ -1,12 +1,16 @@
 import React from 'react';
 
 import { observer } from 'mobx-react-lite';
-import modalsStore from '@src/store/modals';
+
 import LoginModal from '@src/components/login-modal';
+
+import { useStores } from '@src/store';
 
 type TModalsProps = { onClose: () => void };
 
 function AllModals() {
+  const { modalsStore } = useStores();
+
   const modalsReducer = (
     modalId: string,
     { props }: { props: TModalsProps }

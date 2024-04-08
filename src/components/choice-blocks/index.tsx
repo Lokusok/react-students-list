@@ -15,8 +15,6 @@ type TProps = {
 };
 
 function ChoiceBlocks(props: TChoiceProps & TProps) {
-  console.log({ isDisabled: props.isDisabled });
-
   const helpers = {
     getHref: (item: TChoiceItem) => {
       if (props.isDisabled) return '';

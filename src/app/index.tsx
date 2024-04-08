@@ -5,14 +5,17 @@ import { observer } from 'mobx-react-lite';
 
 import Header from '@src/components/header';
 import PageLayout from '@src/components/page-layout';
-import studentsStore from '@src/store/students';
 
 import AllModals from '@src/containers/all-modals';
 
+import { useStores } from '@src/store';
+
 function App() {
+  const { studentsStore } = useStores();
+
   useEffect(() => {
     studentsStore.fetchStudents();
-  }, [studentsStore.activeRole, studentsStore.currentPage]);
+  }, [studentsStore, studentsStore.activeRole, studentsStore.currentPage]);
 
   return (
     <PageLayout head={<Header />}>

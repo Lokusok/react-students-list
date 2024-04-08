@@ -7,9 +7,11 @@ import { Box, Button } from '@mui/material';
 import ThemeToggler from '@src/components/theme-toggler';
 import { navigation } from '@src/shared/data/navigation';
 
-import sessionStore from '@src/store/session';
+import { useStores } from '@src/store';
 
 function NavigationDesktop() {
+  const { sessionStore } = useStores();
+
   const location = useLocation();
 
   const options = {

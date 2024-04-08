@@ -1,9 +1,12 @@
 import { observer } from 'mobx-react-lite';
 import { TChoiceProps } from './types';
 import ChoiceBlocks from '@src/components/choice-blocks';
-import sessionStore from '@src/store/session';
+
+import { useStores } from '@src/store';
 
 function ChoiceBlocksWrapper(props: TChoiceProps) {
+  const { sessionStore } = useStores();
+
   const options = {
     isDisabled: !sessionStore.profile,
   };

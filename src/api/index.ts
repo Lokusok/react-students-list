@@ -1,5 +1,5 @@
 import { TStudentData } from '@src/shared/types';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 // export const studentsApi = axios.create({
 //   baseURL: 'http://localhost:3000/students',
@@ -26,36 +26,59 @@ class ApiService {
   static async getStudentsByRole(
     role: string,
     params: TParams
-  ): Promise<TStudent[]> {
-    // return studentsApi.get('/', {
-    //   params: {
-    //     role,
-    //     _page: params.page,
-    //     _per_page: params.limit,
-    //   },
-    // });
-    const response = await studentsApi.get<{ result: TStudent[] }>('/');
-    return response.data.result;
+  ): Promise<{ students: TStudent[]; totalPages: number }> {
+    const correctSystemPage = params.page - 1;
+    const response = await studentsApi.get<{
+      result: TStudent[];
+      totalPages: number;
+    }>('/', {
+      params: {
+        role,
+        offset: correctSystemPage * params.limit,
+        limit: params.limit,
+      },
+    });
+
+    return {
+      students: response.data.result,
+      totalPages: response.data.totalPages,
+    };
   }
 
   /**
    * Добавление студента
    * @param student {Object}
    */
-  static addStudent(student: TStudent) {
-    return studentsApi.post('/', student, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+  static async addStudent(student: TStudent) {
+    try {
+      return await studentsApi.post('/', student, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        throw new Error(err.response?.data);
+      }
+
+      throw new Error('Ошибка при добавлении.');
+    }
   }
 
   /**
    * Удаление студента по id
    * @param id {string}
    */
-  static deleteStudent(id: string) {
-    return studentsApi.delete(`/${id}`);
+  static async deleteStudent(id: string) {
+    try {
+      return await studentsApi.delete(`/${id}`);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        throw new Error(err.response?.data);
+      }
+
+      throw new Error('Ошибка при удалении.');
+    }
   }
 
   /**
@@ -63,8 +86,17 @@ class ApiService {
    * @param id {String}
    * @param newStudentData {Object}
    */
-  static updateStudent(id: string, newStudentData: TStudentData) {
-    return studentsApi.put(`/${id}`, newStudentData);
+  static async updateStudent(id: string, newStudentData: TStudentData) {
+    // return studentsApi.put(`/${id}`, newStudentData);
+    try {
+      return await studentsApi.put(`/${id}`, newStudentData);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        throw new Error(err.response?.data);
+      }
+
+      throw new Error('Ошибка при изменении');
+    }
   }
 }
 

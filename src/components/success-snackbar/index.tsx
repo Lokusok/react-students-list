@@ -8,6 +8,7 @@ type TProps = {
   setIsOpen: (val: boolean) => void;
   buttonText?: string;
   bodyText?: string;
+  onUnmount?: () => void;
 };
 
 function SuccessSnackbar(props: TProps) {
@@ -20,6 +21,7 @@ function SuccessSnackbar(props: TProps) {
         onClose={() => props.setIsOpen(false)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         startDecorator={<PlaylistAddCheckCircleRoundedIcon />}
+        onUnmount={props.onUnmount}
         endDecorator={
           <Button
             onClick={() => props.setIsOpen(false)}

@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react-lite';
 
-import studentsStore from '@src/store/students';
-
 import Select from '@src/components/select';
 import { studentsRoles } from '@src/shared/data/students-roles';
+
+import { useStores } from '@src/store';
 
 const rolesOptions = [
   {
@@ -14,9 +14,13 @@ const rolesOptions = [
 ];
 
 function ActiveRoleSelect() {
+  const { studentsStore } = useStores();
+
   const handlers = {
-    onSelectChange: (_: any, value: string) =>
-      studentsStore.setActiveRole(value),
+    onSelectChange: (_: any, value: string) => {
+      studentsStore.setActiveRole(value);
+      studentsStore.setCurrentPage(1);
+    },
   };
 
   return (

@@ -25,19 +25,21 @@ type TProps = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   title: string;
   submitText: string;
+  disabled?: boolean;
 };
 
 function StudentForm(props: TProps) {
   const options = {
-    isDisabled: Object.keys(props.studentData).some((key) => {
-      const value = props.studentData[key as keyof typeof props.studentData];
+    isDisabled:
+      Object.keys(props.studentData).some((key) => {
+        const value = props.studentData[key as keyof typeof props.studentData];
 
-      if (key === 'role' && value === 'default') return true;
-      // Примечания - не обязательны
-      if (key === 'notes' && value === '') return false;
+        if (key === 'role' && value === 'default') return true;
+        // Примечания - не обязательны
+        if (key === 'notes' && value === '') return false;
 
-      return value === '';
-    }),
+        return value === '';
+      }) || props.disabled,
   };
 
   const handlers = {
@@ -47,8 +49,12 @@ function StudentForm(props: TProps) {
       const avatarFile = e.target?.files?.item(0);
 
       if (avatarFile) {
-        const blobStr = URL.createObjectURL(avatarFile);
-        props.onAvatarChange(blobStr);
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(avatarFile);
+
+        fileReader.onloadend = () => {
+          props.onAvatarChange(fileReader.result?.toString() || '');
+        };
       }
     },
   };
@@ -76,6 +82,7 @@ function StudentForm(props: TProps) {
                 onChange={props.onChange}
                 id="name"
                 placeholder="Как зовут студента?"
+                disabled={props.disabled}
               />
             </Box>
 
@@ -89,6 +96,7 @@ function StudentForm(props: TProps) {
                 id="role"
                 value={props.studentData['role']}
                 onChange={props.onExtraChange}
+                disabled={props.disabled}
               />
             </Box>
 
@@ -103,6 +111,7 @@ function StudentForm(props: TProps) {
                 onChange={props.onExtraChange}
                 min={0}
                 max={150}
+                disabled={props.disabled}
               />
             </Box>
 
@@ -116,6 +125,7 @@ function StudentForm(props: TProps) {
                 id="notes"
                 value={props.studentData['notes']}
                 placeholder="Трудолюбив, ..."
+                disabled={props.disabled}
               />
             </Box>
 
@@ -128,6 +138,7 @@ function StudentForm(props: TProps) {
                 id="avatar"
                 onChange={handlers.onAvatarChange}
                 type="file"
+                disabled={props.disabled}
               />
               {props.studentData.avatar && (
                 <Paper sx={{ mt: 1.5, maxWidth: 300 }} elevation={3}>

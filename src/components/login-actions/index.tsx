@@ -13,10 +13,8 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 type TProps = {
   onLoginClick: () => void;
   onRegisterClick: () => void;
+  onLogoutClick?: () => void;
   isLogined?: boolean;
-} & {
-  isLogined: true;
-  onLogoutClick: () => void;
 };
 
 function LoginActions(props: TProps) {

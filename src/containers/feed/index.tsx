@@ -1,15 +1,18 @@
 import { observer } from 'mobx-react-lite';
 
-import { Box, Pagination, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import AdaptiveGrid from '@src/components/adaptive-grid';
 import StudentCard from '@src/components/student-card';
 import StudentsSkeleton from '@src/components/feed-skeleton/students-skeleton';
 
-import studentsStore from '@src/store/students';
 import PaginationWrapper from '../pagination-wrapper';
 
+import { useStores } from '@src/store';
+
 function Feed() {
+  const { studentsStore, sessionStore } = useStores();
+
   const students = studentsStore.students;
 
   const renders = {
@@ -34,7 +37,15 @@ function Feed() {
         )}
 
         {!students.length && (
-          <Typography component="h4">Студенты не были найдены...</Typography>
+          <>
+            <Typography component="h4">Студенты не были найдены...</Typography>
+
+            {studentsStore.totalPages > 0 && (
+              <Box sx={{ display: 'flex', mt: 5 }} justifyContent={'flex-end'}>
+                <PaginationWrapper />
+              </Box>
+            )}
+          </>
         )}
       </>
     );
@@ -44,7 +55,7 @@ function Feed() {
     return <StudentsSkeleton />;
   }
 
-  if (studentsStore.isError) {
+  if (studentsStore.error) {
     return <Typography>Произошла ошибка. Повторите попытку позже.</Typography>;
   }
 }

@@ -1,19 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
 import StudentInfo from '@src/components/student-info';
 
 import { Typography } from '@mui/material';
-import studentsStore from '@src/store/students';
 import { TInputs, TStudentData } from '@src/shared/types';
 import SuccessSnackbar from '@src/components/success-snackbar';
+
+import { useStores } from '@src/store';
 
 type TProps = {
   id: string | number;
 };
 
 function StudentWrapper(props: TProps) {
+  const { studentsStore } = useStores();
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -70,10 +73,6 @@ function StudentWrapper(props: TProps) {
       setData({ ...newStudentData });
     },
   };
-
-  useEffect(() => {
-    console.log(isSnackbarVisible);
-  }, [isSnackbarVisible]);
 
   return (
     <>

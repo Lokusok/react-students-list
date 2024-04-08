@@ -3,9 +3,10 @@ import { studentsRoles } from '@src/shared/data/students-roles';
 import { TStudentData } from '@src/shared/types';
 import { makeAutoObservable, runInAction, spy } from 'mobx';
 
-class StudentsStore {
+export class StudentsStore {
   isLoading: boolean = false;
-  isError: boolean = false;
+  // isError: boolean = false;
+  error: string = '';
 
   students: TStudent[] = [];
   activeRole: string = '';
@@ -45,24 +46,26 @@ class StudentsStore {
         page: this.currentPage,
         limit: 6,
       };
-      const students = await ApiService.getStudentsByRole(
+      const { students, totalPages } = await ApiService.getStudentsByRole(
         this.activeRole,
         params
       );
-      this.totalPages = 10;
-      this.currentPage = 1;
-      // this.totalPages = response.data.pages;
 
-      // if (response.data.next) this.currentPage = response.data.next - 1;
-      // else if (!response.data.prev) this.currentPage = 1;
-
-      // this.students = response.data.data;
-      this.students = students;
-      this.isError = false;
-    } catch (e) {
-      this.isError = true;
+      runInAction(() => {
+        this.totalPages = totalPages;
+        this.students = students;
+        this.error = '';
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        runInAction(() => {
+          this.error = err.message;
+        });
+      }
     } finally {
-      this.isLoading = false;
+      runInAction(() => {
+        this.isLoading = false;
+      });
     }
   }
 
@@ -70,13 +73,26 @@ class StudentsStore {
    * Создание студента и добавление в стейт
    */
   async createStudent(student: TStudent) {
+    this.isLoading = true;
+
     try {
       console.log('Я отправлю это:', student);
       const response = await ApiService.addStudent(student);
       const newStudent = response.data;
       this.addStudent(newStudent);
-    } catch (e) {
-      console.log('err');
+      runInAction(() => {
+        this.error = '';
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        runInAction(() => {
+          this.error = err.message;
+        });
+      }
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
     }
   }
 
@@ -87,8 +103,15 @@ class StudentsStore {
     try {
       const response = await ApiService.deleteStudent(id);
       this.fetchStudents();
-    } catch (e) {
-      console.log('deletion error');
+      runInAction(() => {
+        this.error = '';
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        runInAction(() => {
+          this.error = err.message;
+        });
+      }
     }
   }
 
@@ -107,10 +130,14 @@ class StudentsStore {
           return student;
         });
 
-        console.log(this.students);
+        this.error = '';
       });
-    } catch (e) {
-      console.log('update error');
+    } catch (err) {
+      if (err instanceof Error) {
+        runInAction(() => {
+          this.error = err.message;
+        });
+      }
     }
   }
 

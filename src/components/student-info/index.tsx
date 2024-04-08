@@ -2,12 +2,15 @@ import { memo, useEffect, useState } from 'react';
 
 import AgreeModal from '../agree-modal';
 
-import { Divider, Typography } from '@mui/material';
+import { Box, Divider, Grid, Paper, Typography } from '@mui/material';
+
 import Button from '@mui/joy/Button';
-import { ButtonGroup } from '@mui/joy';
+import { ButtonGroup, AspectRatio } from '@mui/joy';
 import ChangeModal from '../change-modal';
 
 import { TInputs, TStudentData } from '@src/shared/types';
+
+import studentImage from '@src/assets/student.jpg';
 
 type TProps = {
   student: TStudent;
@@ -35,7 +38,7 @@ function StudentInfo(props: TProps) {
     if (isDeletionAgree === true) {
       props.deleteStudent();
     }
-  }, [props.deleteStudent, isDeletionAgree]);
+  }, [props, props.deleteStudent, isDeletionAgree]);
 
   useEffect(() => {
     setIsChangingAgree(null);
@@ -43,7 +46,11 @@ function StudentInfo(props: TProps) {
 
   return (
     <>
-      <Typography component="h2" fontSize={24}>
+      <Typography
+        component="h2"
+        fontSize={24}
+        sx={{ textAlign: { xs: 'center', md: 'start' } }}
+      >
         Информация о студенте:{' '}
         <Typography component="span" fontSize={24} fontWeight={800}>
           {student.name}
@@ -52,13 +59,52 @@ function StudentInfo(props: TProps) {
 
       <Divider sx={{ mt: 2, mb: 2 }} />
 
-      <Typography>Имя студента: {student.name}</Typography>
-      <Typography>Роль: {student.role}</Typography>
-      <Typography>Примечания: {student.notes}</Typography>
+      <Grid
+        container
+        rowGap={'20px'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
+      >
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ display: { xs: 'flex', md: 'block' } }}
+          justifyContent={'center'}
+        >
+          <Box>
+            <Typography>Имя студента: {student.name}</Typography>
+            <Typography>Возраст: {student.age}</Typography>
+            <Typography>Роль: {student.role}</Typography>
+            <Typography>
+              Примечания: {student.notes || 'Отсутствуют'}
+            </Typography>
+          </Box>
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          md={3}
+          sx={{ display: { xs: 'flex', md: 'block' } }}
+          justifyContent={'center'}
+        >
+          <Box
+            component={'img'}
+            sx={{ borderRadius: '4px' }}
+            width={300}
+            src={studentImage}
+            alt=""
+          ></Box>
+        </Grid>
+      </Grid>
 
       <Divider sx={{ mt: 2, mb: 2 }} />
 
-      <ButtonGroup spacing={2}>
+      <ButtonGroup
+        sx={{ display: 'flex', justifyContent: { xs: 'center', md: 'start' } }}
+        spacing={2}
+      >
         <Button
           variant="solid"
           color="danger"

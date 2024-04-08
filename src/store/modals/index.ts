@@ -3,7 +3,7 @@ import { makeAutoObservable } from 'mobx';
 /**
  * Стор для модалок, с возможностью каскада
  */
-class ModalsStore {
+export class ModalsStore {
   activeModals: string[] = [];
 
   constructor() {

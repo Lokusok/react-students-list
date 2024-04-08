@@ -1,8 +1,9 @@
+import { useLayoutEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { observer } from 'mobx-react-lite';
-import sessionStore from '@src/store/session';
-import { useLayoutEffect } from 'react';
+
+import { useStores } from '@src/store';
 
 type TProps = {
   children: React.ReactNode;
@@ -10,6 +11,8 @@ type TProps = {
 };
 
 function Protected(props: TProps) {
+  const { sessionStore } = useStores();
+
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -19,7 +22,13 @@ function Protected(props: TProps) {
         state: { from: location.pathname },
       });
     }
-  }, [sessionStore.profile, sessionStore.loading, location]);
+  }, [
+    props.redirectTo,
+    navigate,
+    sessionStore.profile,
+    sessionStore.loading,
+    location,
+  ]);
 
   return <>{props.children}</>;
 }

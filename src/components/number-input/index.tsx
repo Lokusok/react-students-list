@@ -39,11 +39,13 @@ type TProps = {
   placeholder?: string;
   min?: number;
   max?: number;
+  disabled?: boolean;
 };
 
 function NumberInputBasic(props: TProps) {
   return (
     <NumberInput
+      {...props}
       id={props.id}
       name={props.id}
       placeholder={props.placeholder}

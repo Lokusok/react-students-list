@@ -4,7 +4,9 @@ import { observer } from 'mobx-react-lite';
 import { TInputs, TStudentData } from '@src/shared/types';
 
 import StudentForm from '@src/components/student-form';
-import studentsStore from '@src/store/students';
+import SuccessSnackbar from '@src/components/success-snackbar';
+
+import { useStores } from '@src/store';
 
 const initialData = {
   name: '',
@@ -14,8 +16,17 @@ const initialData = {
   avatar: null,
 };
 
+type TSnackbar = {
+  buttonText: string;
+  bodyText: string;
+};
+
 function StudentCreate() {
+  const { studentsStore } = useStores();
+
   const [data, setData] = useState<TStudentData>(() => ({ ...initialData }));
+  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
+  const [snackbar, setSnackbar] = useState<TSnackbar | null>(null);
 
   const handlers = {
     onChange: (e: React.ChangeEvent<TInputs>) => {
@@ -39,28 +50,45 @@ function StudentCreate() {
       }));
     },
 
-    onSubmit: (e: React.FormEvent<HTMLFormElement>) => {
+    onSubmit: async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
       const student = {
         ...data,
         id: window.crypto.randomUUID(),
       };
-      studentsStore.createStudent(student);
+      await studentsStore.createStudent(student);
       setData({ ...initialData });
+
+      setIsSnackbarVisible(true);
+      setSnackbar({
+        buttonText: 'Понятно',
+        bodyText: 'Студент успешно добавлен!',
+      });
     },
   };
 
   return (
-    <StudentForm
-      title={'Добавить нового'}
-      onSubmit={handlers.onSubmit}
-      studentData={data}
-      onChange={handlers.onChange}
-      onExtraChange={handlers.onExtraChange}
-      onAvatarChange={handlers.onAvatarChange}
-      submitText={'Добавить'}
-    />
+    <>
+      <StudentForm
+        title={'Добавить нового'}
+        onSubmit={handlers.onSubmit}
+        studentData={data}
+        onChange={handlers.onChange}
+        onExtraChange={handlers.onExtraChange}
+        onAvatarChange={handlers.onAvatarChange}
+        submitText={'Добавить'}
+        disabled={studentsStore.isLoading}
+      />
+
+      <SuccessSnackbar
+        isOpen={isSnackbarVisible}
+        onUnmount={() => setSnackbar(null)}
+        setIsOpen={setIsSnackbarVisible}
+        buttonText={snackbar?.buttonText}
+        bodyText={snackbar?.bodyText}
+      />
+    </>
   );
 }
 

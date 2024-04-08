@@ -14,12 +14,14 @@ type TProps = {
   onChange?: (id: string, value: any) => any;
   value?: any;
   options: Array<{ renderValue: string; value: string }>;
+  disabled?: boolean;
 };
 
 function UnstyledSelectControlled(props: TProps) {
   return (
     <div>
       <Select
+        {...props}
         id={props.id}
         name={props.id}
         value={props.value}
