@@ -11,7 +11,7 @@ import PaginationWrapper from '../pagination-wrapper';
 import { useStores } from '@src/store';
 
 function Feed() {
-  const { studentsStore, sessionStore } = useStores();
+  const { studentsStore } = useStores();
 
   const students = studentsStore.students;
 
