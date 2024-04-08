@@ -32,7 +32,7 @@ function StudentCreate() {
       }));
     },
 
-    onAvatarChange: (val: File) => {
+    onAvatarChange: (val: string) => {
       setData((prevData) => ({
         ...prevData,
         avatar: val,

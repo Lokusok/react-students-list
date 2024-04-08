@@ -51,7 +51,11 @@ function StudentCard(props: TProps) {
         minHeight="120px"
         maxHeight="200px"
       >
-        <img src={studentImage} loading="lazy" alt="" />
+        <img
+          src={(student.avatar as string) || studentImage}
+          loading="lazy"
+          alt=""
+        />
       </AspectRatio>
       <CardContent orientation="horizontal">
         <div>

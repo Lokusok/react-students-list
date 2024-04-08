@@ -45,16 +45,19 @@ class StudentsStore {
         page: this.currentPage,
         limit: 6,
       };
-      const response = await ApiService.getStudentsByRole(
+      const students = await ApiService.getStudentsByRole(
         this.activeRole,
         params
       );
-      this.totalPages = response.data.pages;
+      this.totalPages = 10;
+      this.currentPage = 1;
+      // this.totalPages = response.data.pages;
 
-      if (response.data.next) this.currentPage = response.data.next - 1;
-      else if (!response.data.prev) this.currentPage = 1;
+      // if (response.data.next) this.currentPage = response.data.next - 1;
+      // else if (!response.data.prev) this.currentPage = 1;
 
-      this.students = response.data.data;
+      // this.students = response.data.data;
+      this.students = students;
       this.isError = false;
     } catch (e) {
       this.isError = true;
@@ -68,6 +71,7 @@ class StudentsStore {
    */
   async createStudent(student: TStudent) {
     try {
+      console.log('Я отправлю это:', student);
       const response = await ApiService.addStudent(student);
       const newStudent = response.data;
       this.addStudent(newStudent);

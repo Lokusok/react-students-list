@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import React, { memo } from 'react';
 
 import { Link } from 'react-router-dom';
 
@@ -27,10 +27,10 @@ function ChoiceBlocks(props: TChoiceProps & TProps) {
   return (
     <Box sx={{ mt: 15 }}>
       <Grid justifyContent={'center'} container spacing={3}>
-        {props.items.map((item) => (
-          <>
+        {props.items.map((item, index) => (
+          <React.Fragment key={item?.title || index}>
             {Boolean(item) ? (
-              <Grid key={item.title} item>
+              <Grid item>
                 <Box
                   sx={{
                     opacity: props.isDisabled ? 0.5 : 1,
@@ -57,7 +57,7 @@ function ChoiceBlocks(props: TChoiceProps & TProps) {
                 />
               </Grid>
             )}
-          </>
+          </React.Fragment>
         ))}
       </Grid>
     </Box>

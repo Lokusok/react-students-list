@@ -21,7 +21,7 @@ type TProps = {
   studentData: TStudentData;
   onChange: (e: React.ChangeEvent<TInputs>) => void;
   onExtraChange: (id: string, value: string) => void;
-  onAvatarChange: (val: File) => void;
+  onAvatarChange: (val: string) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   title: string;
   submitText: string;
@@ -45,8 +45,10 @@ function StudentForm(props: TProps) {
       e.preventDefault();
 
       const avatarFile = e.target?.files?.item(0);
+
       if (avatarFile) {
-        props.onAvatarChange(avatarFile);
+        const blobStr = URL.createObjectURL(avatarFile);
+        props.onAvatarChange(blobStr);
       }
     },
   };
@@ -67,7 +69,7 @@ function StudentForm(props: TProps) {
           <Stack direction="column" spacing={2}>
             <Box>
               <InputLabel shrink htmlFor="name">
-                Имя ученика:
+                Имя студента:
               </InputLabel>
               <Input
                 value={props.studentData['name']}

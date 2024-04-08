@@ -1,11 +1,24 @@
-describe('My First Test', () => {
-  it('Visits the Kitchen Sink', () => {
-    cy.visit('https://example.cypress.io');
-    cy.contains('type').click();
+describe('Тестирование главной страницы', () => {
+  it('Должны быть кнопки входа и регистрации', () => {
+    cy.visit('/');
 
-    cy.url().should('include', '/commands/actions');
+    cy.contains(/вход/i).should('exist');
+    cy.contains(/регистрация/i).should('exist');
+  });
 
-    cy.get('.action-email').type('fake@email.com');
-    cy.get('.action-email').should('have.value', 'fake@email.com');
+  it('При нажатии на кнопку входа должна открываться модалка', () => {
+    cy.visit('/');
+
+    cy.contains(/вход/i).click();
+    cy.get('[data-testid="login-modal"]').should('exist');
+    cy.contains(/войти/i).should('be.disabled');
+  });
+
+  it('При нажатии на крестик модалка должна закрываться', () => {
+    cy.visit('/');
+
+    cy.contains(/вход/i).click();
+    cy.get('[data-testid="close-modal"]').click();
+    cy.get('[data-testid="login-modal"]').should('not.exist');
   });
 });

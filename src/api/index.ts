@@ -1,8 +1,12 @@
 import { TStudentData } from '@src/shared/types';
 import axios from 'axios';
 
+// export const studentsApi = axios.create({
+//   baseURL: 'http://localhost:3000/students',
+// });
+
 export const studentsApi = axios.create({
-  baseURL: 'http://localhost:3000/students',
+  baseURL: '/api/students',
 });
 
 type TParams = {
@@ -19,14 +23,19 @@ class ApiService {
    * @param role {String} Роль студента
    * @param params {Object} Параметры запроса
    */
-  static getStudentsByRole(role: string, params: TParams) {
-    return studentsApi.get('/', {
-      params: {
-        role,
-        _page: params.page,
-        _per_page: params.limit,
-      },
-    });
+  static async getStudentsByRole(
+    role: string,
+    params: TParams
+  ): Promise<TStudent[]> {
+    // return studentsApi.get('/', {
+    //   params: {
+    //     role,
+    //     _page: params.page,
+    //     _per_page: params.limit,
+    //   },
+    // });
+    const response = await studentsApi.get<{ result: TStudent[] }>('/');
+    return response.data.result;
   }
 
   /**

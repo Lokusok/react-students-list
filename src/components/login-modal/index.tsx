@@ -40,9 +40,16 @@ function LoginModal(props: TProps) {
 
   return (
     <>
-      <Modal open={true} onClose={() => props.onClose?.()}>
+      <Modal
+        data-testid="login-modal"
+        open={true}
+        onClose={() => props.onClose?.()}
+      >
         <ModalDialog sx={{ maxWidth: 320 }}>
-          <ModalClose onClick={() => props.onClose?.()} />
+          <ModalClose
+            data-testid="close-modal"
+            onClick={() => props.onClose?.()}
+          />
           <DialogTitle>Вход в аккаунт</DialogTitle>
           <DialogContent>
             Войдите в аккаунт, чтобы пользоваться приложением
