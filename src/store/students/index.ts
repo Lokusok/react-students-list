@@ -72,11 +72,10 @@ export class StudentsStore {
   /**
    * Создание студента и добавление в стейт
    */
-  async createStudent(student: TStudent) {
+  async createStudent(student: FormData) {
     this.isLoading = true;
 
     try {
-      console.log('Я отправлю это:', student);
       const response = await ApiService.addStudent(student);
       const newStudent = response.data;
       this.addStudent(newStudent);
@@ -124,7 +123,7 @@ export class StudentsStore {
       runInAction(() => {
         this.students = this.students.map((student) => {
           if (student.id === id) {
-            return { id, ...newStudentData };
+            return { id, ...newStudentData } as TStudent;
           }
 
           return student;

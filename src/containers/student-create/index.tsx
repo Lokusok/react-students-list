@@ -53,11 +53,11 @@ function StudentCreate() {
     onSubmit: async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      const student = {
-        ...data,
-        id: window.crypto.randomUUID(),
-      };
-      await studentsStore.createStudent(student);
+      const form = e.target as HTMLFormElement;
+      const formData = new FormData(form);
+      formData.append('id', crypto.randomUUID());
+
+      await studentsStore.createStudent(formData);
       setData({ ...initialData });
 
       setIsSnackbarVisible(true);

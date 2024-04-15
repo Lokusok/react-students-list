@@ -49,13 +49,9 @@ class ApiService {
    * Добавление студента
    * @param student {Object}
    */
-  static async addStudent(student: TStudent) {
+  static async addStudent(student: FormData) {
     try {
-      return await studentsApi.post('/', student, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      return await studentsApi.post('/', student);
     } catch (err) {
       if (err instanceof AxiosError) {
         throw new Error(err.response?.data);

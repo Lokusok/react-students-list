@@ -34,6 +34,10 @@ function StudentInfo(props: TProps) {
     handleChangeClick: () => setIsChangingAgree(false),
   };
 
+  const options = {
+    avatar: props.student.avatar ?? studentImage,
+  };
+
   useEffect(() => {
     if (isDeletionAgree === true) {
       props.deleteStudent();
@@ -93,8 +97,8 @@ function StudentInfo(props: TProps) {
             component={'img'}
             sx={{ borderRadius: '4px' }}
             width={300}
-            src={studentImage}
-            alt=""
+            src={options.avatar}
+            alt={props.student.name}
           ></Box>
         </Grid>
       </Grid>

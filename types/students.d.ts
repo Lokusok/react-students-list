@@ -7,6 +7,6 @@ declare global {
     role: string;
     age: number | string;
     notes: string;
-    avatar: File | string | null | undefined;
+    avatar: string | null | undefined;
   };
 }

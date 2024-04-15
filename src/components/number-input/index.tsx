@@ -10,6 +10,15 @@ const NumberInput = React.forwardRef(function CustomNumberInput(
   props: NumberInputProps & { sx: object; name?: string },
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
+  React.useEffect(() => {
+    // @ts-ignore
+    if (ref?.current) {
+      // @ts-ignore
+      const inputBlock = ref.current;
+      inputBlock.querySelector('input').name = props.name;
+    }
+  }, []);
+
   return (
     <BaseNumberInput
       slots={{
@@ -43,11 +52,14 @@ type TProps = {
 };
 
 function NumberInputBasic(props: TProps) {
+  const inputRef = React.useRef(null);
+
   return (
     <NumberInput
       {...props}
       id={props.id}
       name={props.id}
+      ref={inputRef}
       placeholder={props.placeholder}
       value={Number(props.value)}
       onChange={(_, val) => props.onChange?.(props.id || '', val)}

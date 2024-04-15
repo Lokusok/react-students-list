@@ -29,7 +29,6 @@ function LoginModal(props: TProps) {
 
   const handlers = {
     onSubmit: (data: TInputs) => {
-      console.log(data);
       props.onClose?.();
     },
   };

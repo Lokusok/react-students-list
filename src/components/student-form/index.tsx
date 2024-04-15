@@ -71,6 +71,7 @@ function StudentForm(props: TProps) {
           component="form"
           autoComplete="off"
           sx={{ width: '100%' }}
+          encType="multipart/form-data"
         >
           <Stack direction="column" spacing={2}>
             <Box>
@@ -81,6 +82,7 @@ function StudentForm(props: TProps) {
                 value={props.studentData['name']}
                 onChange={props.onChange}
                 id="name"
+                name="name"
                 placeholder="Как зовут студента?"
                 disabled={props.disabled}
               />
@@ -136,6 +138,7 @@ function StudentForm(props: TProps) {
 
               <Input
                 id="avatar"
+                name="avatar"
                 onChange={handlers.onAvatarChange}
                 type="file"
                 disabled={props.disabled}
