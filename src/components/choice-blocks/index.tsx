@@ -23,7 +23,7 @@ function ChoiceBlocks(props: TChoiceProps & TProps) {
   };
 
   return (
-    <Box sx={{ mt: 15 }}>
+    <Box sx={{ mt: { xs: 0, md: 15 } }}>
       <Grid justifyContent={'center'} container spacing={3}>
         {props.items.map((item, index) => (
           <React.Fragment key={item?.title || index}>

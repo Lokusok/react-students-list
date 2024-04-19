@@ -13,7 +13,6 @@ const LazyMain = React.lazy(() => import('./main'));
 const LazyFeed = React.lazy(() => import('./feed'));
 const LazyPanel = React.lazy(() => import('./panel'));
 const LazyStudent = React.lazy(() => import('./student'));
-const LazyLogin = React.lazy(() => import('./login'));
 
 const routes = [
   {
@@ -55,14 +54,6 @@ const routes = [
             <Protected redirectTo="/">
               <LazyStudent />
             </Protected>
-          </Suspense>
-        ),
-      },
-      {
-        path: '/login',
-        element: (
-          <Suspense fallback={<h3>Загрузка...</h3>}>
-            <LazyLogin />
           </Suspense>
         ),
       },

@@ -64,7 +64,7 @@ function LoginModal(props: TProps) {
                 />
               </FormControl>
               <FormControl>
-                <FormLabel>Пароль</FormLabel>
+                <FormLabel>Пароль:</FormLabel>
                 <Input
                   {...register('password', { required: true })}
                   type="password"

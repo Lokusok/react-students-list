@@ -1,4 +1,4 @@
-import { TStudentData } from '@src/shared/types';
+import { TStudentData, TUserRegister } from '@src/shared/types';
 import axios, { AxiosError } from 'axios';
 
 // export const studentsApi = axios.create({
@@ -7,6 +7,10 @@ import axios, { AxiosError } from 'axios';
 
 export const studentsApi = axios.create({
   baseURL: '/api/students',
+});
+
+export const sessionApi = axios.create({
+  baseURL: '/api/session',
 });
 
 type TParams = {
@@ -92,6 +96,19 @@ class ApiService {
       }
 
       throw new Error('Ошибка при изменении');
+    }
+  }
+
+  /**
+   * Регистрация пользователя
+   * @param userData {TUserRegister}
+   */
+  static async registerUser(userData: TUserRegister) {
+    try {
+      const response = await sessionApi.post('/register', userData);
+      console.log('Success: ', response.data);
+    } catch (err) {
+      throw err;
     }
   }
 }

@@ -3,6 +3,7 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 
 import LoginModal from '@src/components/login-modal';
+import RegisterModalWrapper from '../register-modal-wrapper';
 
 import { useStores } from '@src/store';
 
@@ -18,6 +19,8 @@ function AllModals() {
     switch (modalId) {
       case 'login':
         return <LoginModal {...props} />;
+      case 'register':
+        return <RegisterModalWrapper {...props} />;
     }
   };
 
