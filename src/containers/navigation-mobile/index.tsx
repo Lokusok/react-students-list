@@ -3,16 +3,17 @@ import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { ListItemButton, ListItem, ListItemText, List } from '@mui/material';
-import { navigation } from '@src/shared/data/navigation';
 import ThemeToggler from '@src/components/theme-toggler';
 import { useTheme } from '@mui/joy/styles';
+
+import { navigationMobile } from '@src/shared/data/navigation';
 
 function NavigationMobile() {
   const theme = useTheme();
 
   return (
     <List>
-      {navigation.map((item) => (
+      {navigationMobile.map((item) => (
         <ListItem key={item.name} disablePadding>
           <ListItemButton
             component={Link}

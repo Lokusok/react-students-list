@@ -19,8 +19,15 @@ function App() {
   });
 
   useEffect(() => {
-    studentsStore.fetchStudents();
-  }, [studentsStore, studentsStore.activeRole, studentsStore.currentPage]);
+    if (sessionStore.profile) {
+      studentsStore.fetchStudents();
+    }
+  }, [
+    studentsStore,
+    studentsStore.activeRole,
+    studentsStore.currentPage,
+    sessionStore.profile,
+  ]);
 
   return (
     <PageLayout head={<Header />}>

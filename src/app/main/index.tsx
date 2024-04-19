@@ -2,16 +2,14 @@ import { Helmet } from 'react-helmet';
 import { observer } from 'mobx-react-lite';
 
 import ChoiceBlocksWrapper from '@src/containers/choice-blocks-wrapper';
-import LoginActions from '@src/components/login-actions';
+import LoginActionsWrapper from '@src/containers/login-actions-wrapper';
 
 import feedImg from '@src/assets/feed.jpg';
 import panelImg from '@src/assets/panel.jpg';
 
+import { Box } from '@mui/material';
 import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
 import Groups2Icon from '@mui/icons-material/Groups2';
-import { Box } from '@mui/material';
-
-import { useStores } from '@src/store';
 
 const choices = [
   {
@@ -34,14 +32,6 @@ const choices = [
 ];
 
 function MainPage() {
-  const { modalsStore, sessionStore } = useStores();
-
-  const callbacks = {
-    showLoginModal: () => modalsStore.addActiveModal('login'),
-    showRegisterModal: () => modalsStore.addActiveModal('register'),
-    logoutSession: () => sessionStore.logout(),
-  };
-
   return (
     <>
       <Helmet>
@@ -49,13 +39,7 @@ function MainPage() {
       </Helmet>
       <ChoiceBlocksWrapper items={choices} />
       <Box sx={{ mt: 2 }}>
-        <LoginActions
-          isDisabled={sessionStore.waiting}
-          onLogoutClick={callbacks.logoutSession}
-          onLoginClick={callbacks.showLoginModal}
-          onRegisterClick={callbacks.showRegisterModal}
-          isLogined={Boolean(sessionStore.profile)}
-        />
+        <LoginActionsWrapper />
       </Box>
     </>
   );

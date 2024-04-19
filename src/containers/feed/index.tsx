@@ -38,7 +38,12 @@ function Feed() {
 
         {!students.length && (
           <>
-            <Typography component="h4">Студенты не были найдены...</Typography>
+            <Typography
+              textAlign={{ xs: 'center', md: 'start' }}
+              component="h4"
+            >
+              Студенты не были найдены...
+            </Typography>
 
             {studentsStore.totalPages > 0 && (
               <Box sx={{ display: 'flex', mt: 5 }} justifyContent={'flex-end'}>

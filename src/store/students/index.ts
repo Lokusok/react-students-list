@@ -1,6 +1,7 @@
 import ApiService from '@src/api';
 import { studentsRoles } from '@src/shared/data/students-roles';
 import { TStudentData } from '@src/shared/types';
+import { AxiosError } from 'axios';
 import { makeAutoObservable, runInAction, spy } from 'mobx';
 
 export class StudentsStore {
@@ -16,6 +17,13 @@ export class StudentsStore {
 
   constructor() {
     makeAutoObservable(this);
+  }
+
+  /**
+   * Сбросить ошибки
+   */
+  resetErrors() {
+    this.error = '';
   }
 
   /**
@@ -79,13 +87,11 @@ export class StudentsStore {
       const response = await ApiService.addStudent(student);
       const newStudent = response.data;
       this.addStudent(newStudent);
-      runInAction(() => {
-        this.error = '';
-      });
+      this.resetErrors();
     } catch (err) {
-      if (err instanceof Error) {
+      if (err instanceof AxiosError) {
         runInAction(() => {
-          this.error = err.message;
+          this.error = err.response?.data.error;
         });
       }
     } finally {

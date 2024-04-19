@@ -8,7 +8,7 @@ type TInitFunc = () => void;
  * Используется на главных страницах (src/app)
  */
 function useInit(initFunc: TInitFunc) {
-  useEffect(initFunc, [initFunc]);
+  useEffect(initFunc, []);
 }
 
 export default useInit;

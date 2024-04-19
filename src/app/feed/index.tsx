@@ -22,8 +22,9 @@ function FeedPage() {
       </Helmet>
 
       <Stack
+        rowGap={'10px'}
         flexWrap={'wrap'}
-        justifyContent={['space-between']}
+        justifyContent={{ xs: 'center', md: 'space-between' }}
         direction="row"
       >
         <Typography component="h2" fontSize={26} fontWeight={700}>
