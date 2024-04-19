@@ -15,6 +15,7 @@ import { InfoOutlined } from '@mui/icons-material';
 import { TUserRegister } from '@src/shared/types';
 
 type TProps = {
+  isSubmitDisabled?: boolean;
   onFormSubmit: (data: TUserRegister) => void;
   onClose: () => void;
   errorMessage: string;
@@ -43,7 +44,11 @@ function RegisterModal(props: TProps) {
   };
 
   const options = {
-    isSubmitDisabled: !isDirty || !isValid || !system.isPasswordsEquals,
+    isSubmitDisabled:
+      !isDirty ||
+      !isValid ||
+      !system.isPasswordsEquals ||
+      props.isSubmitDisabled,
     isShowedFormError: Boolean(props.errorMessage),
   };
 

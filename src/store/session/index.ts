@@ -8,8 +8,8 @@ import { AxiosError } from 'axios';
 type TProfile = any; // @todo Описать нормальный тип
 
 export class SessionStore {
-  // loading: boolean = true; @todo Это должно быть по умолчанию
-  loading: boolean = false;
+  // waiting: boolean = true; @todo Это должно быть по умолчанию
+  waiting: boolean = false;
   profile: TProfile | null = null;
   error: string = '';
   // profile: TProfile | null = {};
@@ -19,10 +19,13 @@ export class SessionStore {
   }
 
   async registerUser(userData: TUserRegister) {
+    this.waiting = true;
+
     try {
       const user = await ApiService.registerUser(userData);
       console.log('@', { user });
       this.error = '';
+      this.profile = user;
     } catch (err) {
       console.log('Error here:', err);
 
@@ -32,6 +35,8 @@ export class SessionStore {
         });
         console.log({ errorInState: this.error });
       }
+    } finally {
+      this.waiting = false;
     }
   }
 }

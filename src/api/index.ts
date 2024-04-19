@@ -107,6 +107,7 @@ class ApiService {
     try {
       const response = await sessionApi.post('/register', userData);
       console.log('Success: ', response.data);
+      return response.data;
     } catch (err) {
       throw err;
     }

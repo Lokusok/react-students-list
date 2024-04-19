@@ -9,12 +9,13 @@ type TProps = {
 };
 
 function RegisterModalWrapper(props: TProps) {
-  const { sessionStore } = useStores();
+  const { sessionStore, modalsStore } = useStores();
 
   const handlers = {
     onFormSubmit: (data: TUserRegister) => {
       console.log('Submitting: ', data);
       sessionStore.registerUser(data);
+      modalsStore.removeActiveModal('register');
     },
   };
 
@@ -22,9 +23,10 @@ function RegisterModalWrapper(props: TProps) {
 
   return (
     <RegisterModal
+      {...props}
       onFormSubmit={handlers.onFormSubmit}
       errorMessage={sessionStore.error}
-      {...props}
+      isSubmitDisabled={sessionStore.waiting}
     />
   );
 }
