@@ -9,9 +9,14 @@ import PageLayout from '@src/components/page-layout';
 import AllModals from '@src/containers/all-modals';
 
 import { useStores } from '@src/store';
+import useInit from '@src/hooks/use-init';
 
 function App() {
-  const { studentsStore } = useStores();
+  const { studentsStore, sessionStore } = useStores();
+
+  useInit(() => {
+    sessionStore.remind();
+  });
 
   useEffect(() => {
     studentsStore.fetchStudents();

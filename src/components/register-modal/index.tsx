@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { memo, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '@mui/joy/Button';
@@ -52,7 +52,7 @@ function RegisterModal(props: TProps) {
     isShowedFormError: Boolean(props.errorMessage),
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!system.isPasswordsEquals) {
       setError('passwordAgain', { message: 'Пароли не совпадают' });
     } else {
@@ -132,4 +132,4 @@ function RegisterModal(props: TProps) {
   );
 }
 
-export default React.memo(RegisterModal);
+export default memo(RegisterModal);

@@ -1,6 +1,6 @@
-import { makeAutoObservable, runInAction } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 
-import { TUserRegister } from '@src/shared/types';
+import { TUserLogin, TUserRegister } from '@src/shared/types';
 
 import ApiService from '@src/api';
 import { AxiosError } from 'axios';
@@ -18,22 +18,92 @@ export class SessionStore {
     makeAutoObservable(this);
   }
 
+  /**
+   * Сбросить ошибки
+   */
+  resetErrors() {
+    this.error = '';
+  }
+
+  /**
+   * Регистрация пользователя
+   */
   async registerUser(userData: TUserRegister) {
     this.waiting = true;
 
     try {
       const user = await ApiService.registerUser(userData);
       console.log('@', { user });
-      this.error = '';
+      this.resetErrors();
       this.profile = user;
     } catch (err) {
       console.log('Error here:', err);
 
       if (err instanceof AxiosError) {
-        runInAction(() => {
-          this.error = err.response?.data.error;
-        });
+        this.error = err.response?.data.error;
         console.log({ errorInState: this.error });
+      }
+    } finally {
+      this.waiting = false;
+    }
+  }
+
+  /**
+   * Логинизация пользователя
+   */
+  async loginUser(userData: TUserLogin) {
+    this.waiting = true;
+
+    try {
+      const user = await ApiService.loginUser(userData);
+      console.log('@', { user });
+      this.resetErrors();
+      this.profile = user;
+    } catch (err) {
+      console.log('Error here:', err);
+
+      if (err instanceof AxiosError) {
+        this.error = err.response?.data.error;
+        console.log({ errorInState: this.error });
+      }
+    } finally {
+      this.waiting = false;
+    }
+  }
+
+  /**
+   * Аутентификация пользователя
+   */
+  async remind() {
+    this.waiting = true;
+
+    try {
+      const user = await ApiService.remind();
+      console.log('Remind user:', user);
+      this.resetErrors();
+      this.profile = user;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        this.error = err.response?.data.error;
+        console.log({ errorInState: this.error });
+      }
+    } finally {
+      this.waiting = false;
+    }
+  }
+
+  /**
+   * Выход из аккаунта
+   */
+  async logout() {
+    this.waiting = true;
+
+    try {
+      await ApiService.logout();
+      this.profile = null;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        this.error = err.response?.data.error;
       }
     } finally {
       this.waiting = false;

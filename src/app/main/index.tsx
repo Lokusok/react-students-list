@@ -39,6 +39,7 @@ function MainPage() {
   const callbacks = {
     showLoginModal: () => modalsStore.addActiveModal('login'),
     showRegisterModal: () => modalsStore.addActiveModal('register'),
+    logoutSession: () => sessionStore.logout(),
   };
 
   return (
@@ -49,6 +50,8 @@ function MainPage() {
       <ChoiceBlocksWrapper items={choices} />
       <Box sx={{ mt: 2 }}>
         <LoginActions
+          isDisabled={sessionStore.waiting}
+          onLogoutClick={callbacks.logoutSession}
           onLoginClick={callbacks.showLoginModal}
           onRegisterClick={callbacks.showRegisterModal}
           isLogined={Boolean(sessionStore.profile)}

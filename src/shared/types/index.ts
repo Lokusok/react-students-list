@@ -16,3 +16,8 @@ export type TUserRegister = {
   password: string;
   passwordAgain: string;
 };
+
+export type TUserLogin = {
+  login: string;
+  password: string;
+};

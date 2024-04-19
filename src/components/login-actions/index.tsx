@@ -15,6 +15,7 @@ type TProps = {
   onRegisterClick: () => void;
   onLogoutClick?: () => void;
   isLogined?: boolean;
+  isDisabled?: boolean;
 };
 
 function LoginActions(props: TProps) {
@@ -35,6 +36,7 @@ function LoginActions(props: TProps) {
       <ButtonGroup sx={{ justifyContent: 'center' }} variant="soft">
         <Tooltip arrow title="Войти в аккаунт">
           <Button
+            disabled={props.isDisabled}
             onClick={props.onLoginClick}
             startDecorator={<LockOpenIcon />}
           >
@@ -47,7 +49,11 @@ function LoginActions(props: TProps) {
         </IconButton>
 
         <Tooltip arrow title="Зарегистрировать аккаунт">
-          <Button onClick={props.onRegisterClick} endDecorator={<Person />}>
+          <Button
+            disabled={props.isDisabled}
+            onClick={props.onRegisterClick}
+            endDecorator={<Person />}
+          >
             Регистрация
           </Button>
         </Tooltip>

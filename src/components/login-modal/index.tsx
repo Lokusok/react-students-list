@@ -1,4 +1,6 @@
-import * as React from 'react';
+import { useEffect, memo } from 'react';
+import { useForm } from 'react-hook-form';
+
 import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
@@ -8,16 +10,16 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
 import DialogContent from '@mui/joy/DialogContent';
 import Stack from '@mui/joy/Stack';
-import { ModalClose } from '@mui/joy';
-import { useForm } from 'react-hook-form';
+import { FormHelperText, ModalClose } from '@mui/joy';
+import { InfoOutlined } from '@mui/icons-material';
+
+import { TUserLogin } from '@src/shared/types';
 
 type TProps = {
+  isSubmitDisabled?: boolean;
+  onFormSubmit: (data: TUserLogin) => void;
   onClose: () => void;
-};
-
-type TInputs = {
-  login: string;
-  password: string;
+  errorMessage: string;
 };
 
 function LoginModal(props: TProps) {
@@ -25,16 +27,17 @@ function LoginModal(props: TProps) {
     register,
     handleSubmit,
     formState: { isDirty, isValid },
-  } = useForm<TInputs>();
+  } = useForm<TUserLogin>();
 
   const handlers = {
-    onSubmit: (data: TInputs) => {
-      props.onClose?.();
+    onSubmit: (data: TUserLogin) => {
+      props.onFormSubmit(data);
     },
   };
 
   const options = {
-    isSubmitDisabled: !isDirty || !isValid,
+    isSubmitDisabled: !isDirty || !isValid || props.isSubmitDisabled,
+    isShowedFormError: Boolean(props.errorMessage),
   };
 
   return (
@@ -55,7 +58,7 @@ function LoginModal(props: TProps) {
           </DialogContent>
           <form onSubmit={handleSubmit(handlers.onSubmit)}>
             <Stack spacing={2}>
-              <FormControl>
+              <FormControl error={options.isShowedFormError}>
                 <FormLabel>Логин:</FormLabel>
                 <Input
                   {...register('login', { required: true })}
@@ -63,7 +66,7 @@ function LoginModal(props: TProps) {
                   required
                 />
               </FormControl>
-              <FormControl>
+              <FormControl error={options.isShowedFormError}>
                 <FormLabel>Пароль:</FormLabel>
                 <Input
                   {...register('password', { required: true })}
@@ -71,6 +74,16 @@ function LoginModal(props: TProps) {
                   required
                 />
               </FormControl>
+
+              {options.isShowedFormError && (
+                <FormControl error>
+                  <FormHelperText>
+                    <InfoOutlined />
+                    {props.errorMessage}
+                  </FormHelperText>
+                </FormControl>
+              )}
+
               <Button disabled={options.isSubmitDisabled} type="submit">
                 Войти
               </Button>
@@ -82,4 +95,4 @@ function LoginModal(props: TProps) {
   );
 }
 
-export default React.memo(LoginModal);
+export default memo(LoginModal);

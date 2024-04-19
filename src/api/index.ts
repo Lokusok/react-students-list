@@ -1,4 +1,4 @@
-import { TStudentData, TUserRegister } from '@src/shared/types';
+import { TStudentData, TUserLogin, TUserRegister } from '@src/shared/types';
 import axios, { AxiosError } from 'axios';
 
 // export const studentsApi = axios.create({
@@ -108,6 +108,44 @@ class ApiService {
       const response = await sessionApi.post('/register', userData);
       console.log('Success: ', response.data);
       return response.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  /**
+   * Логинизация пользователя
+   * @param userData {TUserLogin}
+   */
+  static async loginUser(userData: TUserLogin) {
+    try {
+      const response = await sessionApi.post('/login', userData);
+      console.log('Login success: ', response.data);
+      return response.data;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  /**
+   * Аутентификация пользователя
+   */
+  static async remind() {
+    try {
+      const response = await sessionApi.post('/remind');
+      console.log('Remind success:', response.data);
+      return response.data;
+    } catch (err) {
+      console.log('Error:', err);
+    }
+  }
+
+  /**
+   * Выйти из аккаунта
+   */
+  static async logout() {
+    try {
+      await sessionApi.post('/logout');
     } catch (err) {
       throw err;
     }

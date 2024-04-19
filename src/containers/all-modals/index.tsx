@@ -2,7 +2,7 @@ import React from 'react';
 
 import { observer } from 'mobx-react-lite';
 
-import LoginModal from '@src/components/login-modal';
+import LoginModalWrapper from '../login-modal-wrapper';
 import RegisterModalWrapper from '../register-modal-wrapper';
 
 import { useStores } from '@src/store';
@@ -10,17 +10,21 @@ import { useStores } from '@src/store';
 type TModalsProps = { onClose: () => void };
 
 function AllModals() {
-  const { modalsStore } = useStores();
+  const { modalsStore, sessionStore } = useStores();
 
   const modalsReducer = (
     modalId: string,
     { props }: { props: TModalsProps }
   ) => {
     switch (modalId) {
-      case 'login':
-        return <LoginModal {...props} />;
-      case 'register':
+      case 'login': {
+        sessionStore.resetErrors();
+        return <LoginModalWrapper {...props} />;
+      }
+      case 'register': {
+        sessionStore.resetErrors();
         return <RegisterModalWrapper {...props} />;
+      }
     }
   };
 

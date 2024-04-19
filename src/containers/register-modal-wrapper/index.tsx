@@ -12,9 +12,9 @@ function RegisterModalWrapper(props: TProps) {
   const { sessionStore, modalsStore } = useStores();
 
   const handlers = {
-    onFormSubmit: (data: TUserRegister) => {
+    onFormSubmit: async (data: TUserRegister) => {
       console.log('Submitting: ', data);
-      sessionStore.registerUser(data);
+      await sessionStore.registerUser(data);
       modalsStore.removeActiveModal('register');
     },
   };
