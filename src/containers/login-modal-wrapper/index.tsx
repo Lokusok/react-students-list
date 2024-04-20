@@ -29,6 +29,13 @@ function LoginModalWrapper(props: TProps) {
           bodyText: 'Произошла ошибка при входе в аккаунт...',
         });
       }
+
+      // Пользователь не хочет запоминаться - при закрытии вкладки - выходим из аккаунта
+      if (!data.remember) {
+        window.addEventListener('beforeunload', () => {
+          sessionStore.logout();
+        });
+      }
     },
   };
 

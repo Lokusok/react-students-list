@@ -20,4 +20,5 @@ export type TUserRegister = {
 export type TUserLogin = {
   login: string;
   password: string;
+  remember: boolean;
 };

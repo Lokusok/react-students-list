@@ -1,4 +1,4 @@
-import { useEffect, memo } from 'react';
+import { memo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '@mui/joy/Button';
@@ -8,6 +8,7 @@ import Input from '@mui/joy/Input';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
+import Checkbox from '@mui/joy/Checkbox';
 import DialogContent from '@mui/joy/DialogContent';
 import Stack from '@mui/joy/Stack';
 import { FormHelperText, ModalClose } from '@mui/joy';
@@ -17,6 +18,7 @@ import { TUserLogin } from '@src/shared/types';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { dataForm } from '@src/shared/schemas';
+import z from 'zod';
 
 type TProps = {
   isSubmitDisabled?: boolean;
@@ -25,6 +27,10 @@ type TProps = {
   errorMessage: string;
 };
 
+const loginDataForm = dataForm.extend({
+  remember: z.boolean(),
+});
+
 function LoginModal(props: TProps) {
   const {
     register,
@@ -32,7 +38,7 @@ function LoginModal(props: TProps) {
     formState: { isDirty, isValid, errors },
   } = useForm<TUserLogin>({
     mode: 'onTouched',
-    resolver: zodResolver(dataForm),
+    resolver: zodResolver(loginDataForm),
   });
 
   const handlers = {
@@ -85,6 +91,10 @@ function LoginModal(props: TProps) {
                 {errors.password && (
                   <FormHelperText>{errors.password?.message}</FormHelperText>
                 )}
+              </FormControl>
+
+              <FormControl>
+                <Checkbox {...register('remember')} label="Запомнить" />
               </FormControl>
 
               {options.isShowedFormError && (
