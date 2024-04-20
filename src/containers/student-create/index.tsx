@@ -6,7 +6,7 @@ import { TInputs, TStudentData } from '@src/shared/types';
 import StudentForm from '@src/components/student-form';
 import SuccessSnackbar from '@src/components/success-snackbar';
 
-import { useStores } from '@src/store';
+import { useStores } from '@src/hooks/use-stores';
 
 const initialData = {
   name: '',

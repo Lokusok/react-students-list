@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import LoginModalWrapper from '../login-modal-wrapper';
 import RegisterModalWrapper from '../register-modal-wrapper';
 
-import { useStores } from '@src/store';
+import { useStores } from '@src/hooks/use-stores';
 
 type TModalsProps = { onClose: () => void };
 

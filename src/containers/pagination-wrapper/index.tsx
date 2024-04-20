@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 
 import { Pagination } from '@mui/material';
 
-import { useStores } from '@src/store';
+import { useStores } from '@src/hooks/use-stores';
 
 function PaginationWrapper() {
   const { studentsStore } = useStores();

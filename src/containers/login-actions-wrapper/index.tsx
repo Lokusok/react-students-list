@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 
 import LoginActions from '@src/components/login-actions';
 
-import { useStores } from '@src/store';
+import { useStores } from '@src/hooks/use-stores';
 
 function LoginActionsWrapper() {
   const { modalsStore, sessionStore, snackbarsStore } = useStores();

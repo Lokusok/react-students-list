@@ -1,8 +1,10 @@
 import { observer } from 'mobx-react-lite';
-import { TChoiceProps } from './types';
+
 import ChoiceBlocks from '@src/components/choice-blocks';
 
-import { useStores } from '@src/store';
+import { useStores } from '@src/hooks/use-stores';
+
+import { TChoiceProps } from './types';
 
 function ChoiceBlocksWrapper(props: TChoiceProps) {
   const { sessionStore } = useStores();

@@ -2,7 +2,8 @@ import { observer } from 'mobx-react-lite';
 
 import LoginModal from '@src/components/login-modal';
 
-import { useStores } from '@src/store';
+import { useStores } from '@src/hooks/use-stores';
+
 import { TUserLogin } from '@src/shared/types';
 
 type TProps = {

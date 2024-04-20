@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { observer } from 'mobx-react-lite';
 
-import { useStores } from '@src/store';
+import { useStores } from '@src/hooks/use-stores';
 
 type TProps = {
   children: React.ReactNode;
@@ -17,7 +17,7 @@ function Protected(props: TProps) {
   const navigate = useNavigate();
 
   useLayoutEffect(() => {
-    if (!sessionStore.profile && !sessionStore.loading) {
+    if (!sessionStore.profile && !sessionStore.waiting) {
       navigate(location.state?.from || props.redirectTo || '/', {
         state: { from: location.pathname },
       });
@@ -26,7 +26,7 @@ function Protected(props: TProps) {
     props.redirectTo,
     navigate,
     sessionStore.profile,
-    sessionStore.loading,
+    sessionStore.waiting,
     location,
   ]);
 

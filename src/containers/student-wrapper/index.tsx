@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import { observer } from 'mobx-react-lite';
 
 import StudentInfo from '@src/components/student-info';
@@ -8,7 +9,7 @@ import { Typography } from '@mui/material';
 import { TInputs, TStudentData } from '@src/shared/types';
 import SuccessSnackbar from '@src/components/success-snackbar';
 
-import { useStores } from '@src/store';
+import { useStores } from '@src/hooks/use-stores';
 
 type TProps = {
   id: string | number;

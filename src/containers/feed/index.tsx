@@ -8,7 +8,7 @@ import StudentsSkeleton from '@src/components/feed-skeleton/students-skeleton';
 
 import PaginationWrapper from '../pagination-wrapper';
 
-import { useStores } from '@src/store';
+import { useStores } from '@src/hooks/use-stores';
 
 function Feed() {
   const { studentsStore } = useStores();

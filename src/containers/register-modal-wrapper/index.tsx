@@ -1,8 +1,10 @@
 import { observer } from 'mobx-react-lite';
 
 import RegisterModal from '@src/components/register-modal';
+
+import { useStores } from '@src/hooks/use-stores';
+
 import { TUserRegister } from '@src/shared/types';
-import { useStores } from '@src/store';
 
 type TProps = {
   onClose: () => void;
