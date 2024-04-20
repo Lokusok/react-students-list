@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '@mui/joy/Button';
@@ -14,6 +14,10 @@ import { FormHelperText, ModalClose } from '@mui/joy';
 import { InfoOutlined } from '@mui/icons-material';
 import { TUserRegister } from '@src/shared/types';
 
+import { dataForm } from '@src/shared/schemas';
+import { zodResolver } from '@hookform/resolvers/zod';
+import z from 'zod';
+
 type TProps = {
   isSubmitDisabled?: boolean;
   onFormSubmit: (data: TUserRegister) => void;
@@ -21,15 +25,30 @@ type TProps = {
   errorMessage: string;
 };
 
+const registerDataForm = dataForm
+  .extend({
+    passwordAgain: z.string(),
+  })
+  .refine(
+    (schema) => {
+      console.log({ schema });
+      return schema.password === schema.passwordAgain;
+    },
+    {
+      message: 'Пароли не совпадают',
+      path: ['passwordAgain'],
+    }
+  );
+
 function RegisterModal(props: TProps) {
   const {
     register,
     handleSubmit,
     formState: { isDirty, isValid, errors },
-    watch,
-    setError,
-    clearErrors,
-  } = useForm<TUserRegister>();
+  } = useForm<TUserRegister>({
+    mode: 'onTouched',
+    resolver: zodResolver(registerDataForm),
+  });
 
   console.log({ errorMessageCmp: props.errorMessage });
 
@@ -39,26 +58,10 @@ function RegisterModal(props: TProps) {
     },
   };
 
-  const system = {
-    isPasswordsEquals: watch('password') === watch('passwordAgain'),
-  };
-
   const options = {
-    isSubmitDisabled:
-      !isDirty ||
-      !isValid ||
-      !system.isPasswordsEquals ||
-      props.isSubmitDisabled,
+    isSubmitDisabled: !isDirty || !isValid || props.isSubmitDisabled,
     isShowedFormError: Boolean(props.errorMessage),
   };
-
-  useEffect(() => {
-    if (!system.isPasswordsEquals) {
-      setError('passwordAgain', { message: 'Пароли не совпадают' });
-    } else {
-      clearErrors('passwordAgain');
-    }
-  }, [system.isPasswordsEquals, setError, clearErrors]);
 
   return (
     <>
@@ -78,25 +81,35 @@ function RegisterModal(props: TProps) {
           </DialogContent>
           <form onSubmit={handleSubmit(handlers.onSubmit)}>
             <Stack spacing={2}>
-              <FormControl error={options.isShowedFormError}>
+              <FormControl
+                error={options.isShowedFormError || Boolean(errors.login)}
+              >
                 <FormLabel>Логин:</FormLabel>
                 <Input
                   {...register('login', { required: true })}
                   autoFocus
                   required
                 />
+                {Boolean(errors.login) && (
+                  <FormHelperText>{errors.login?.message}</FormHelperText>
+                )}
               </FormControl>
-              <FormControl error={options.isShowedFormError}>
+              <FormControl
+                error={options.isShowedFormError || Boolean(errors.password)}
+              >
                 <FormLabel>Пароль:</FormLabel>
                 <Input
                   {...register('password', { required: true })}
                   type="password"
                   required
                 />
+                {Boolean(errors.password) && (
+                  <FormHelperText>{errors.password?.message}</FormHelperText>
+                )}
               </FormControl>
               <FormControl
                 error={
-                  Boolean(errors.passwordAgain) || options.isShowedFormError
+                  options.isShowedFormError || Boolean(errors.passwordAgain)
                 }
               >
                 <FormLabel>Подтвердите пароль:</FormLabel>
@@ -108,7 +121,7 @@ function RegisterModal(props: TProps) {
                 {errors.passwordAgain && (
                   <FormHelperText>
                     <InfoOutlined />
-                    {errors.passwordAgain.message}
+                    {errors.passwordAgain?.message}
                   </FormHelperText>
                 )}
               </FormControl>

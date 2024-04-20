@@ -15,6 +15,9 @@ import { InfoOutlined } from '@mui/icons-material';
 
 import { TUserLogin } from '@src/shared/types';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { dataForm } from '@src/shared/schemas';
+
 type TProps = {
   isSubmitDisabled?: boolean;
   onFormSubmit: (data: TUserLogin) => void;
@@ -26,8 +29,11 @@ function LoginModal(props: TProps) {
   const {
     register,
     handleSubmit,
-    formState: { isDirty, isValid },
-  } = useForm<TUserLogin>();
+    formState: { isDirty, isValid, errors },
+  } = useForm<TUserLogin>({
+    mode: 'onTouched',
+    resolver: zodResolver(dataForm),
+  });
 
   const handlers = {
     onSubmit: (data: TUserLogin) => {
@@ -58,21 +64,31 @@ function LoginModal(props: TProps) {
           </DialogContent>
           <form onSubmit={handleSubmit(handlers.onSubmit)}>
             <Stack spacing={2}>
-              <FormControl error={options.isShowedFormError}>
+              <FormControl
+                error={options.isShowedFormError || Boolean(errors.login)}
+              >
                 <FormLabel>Логин:</FormLabel>
                 <Input
                   {...register('login', { required: true })}
                   autoFocus
                   required
                 />
+                {errors.login && (
+                  <FormHelperText>{errors.login?.message}</FormHelperText>
+                )}
               </FormControl>
-              <FormControl error={options.isShowedFormError}>
+              <FormControl
+                error={options.isShowedFormError || Boolean(errors.password)}
+              >
                 <FormLabel>Пароль:</FormLabel>
                 <Input
                   {...register('password', { required: true })}
                   type="password"
                   required
                 />
+                {errors.password && (
+                  <FormHelperText>{errors.password?.message}</FormHelperText>
+                )}
               </FormControl>
 
               {options.isShowedFormError && (
