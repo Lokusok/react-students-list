@@ -7,6 +7,7 @@ import Header from '@src/components/header';
 import PageLayout from '@src/components/page-layout';
 
 import AllModals from '@src/containers/all-modals';
+import AllSnackbars from '@src/containers/all-snackbars';
 
 import { useStores } from '@src/store';
 import useInit from '@src/hooks/use-init';
@@ -19,12 +20,6 @@ function App() {
   });
 
   useEffect(() => {
-    console.log({
-      activeRole: studentsStore.activeRole,
-      currentPage: studentsStore.currentPage,
-      profile: sessionStore.profile,
-    });
-
     if (sessionStore.profile) {
       studentsStore.fetchStudents();
     }
@@ -40,6 +35,7 @@ function App() {
       <Outlet />
 
       <AllModals />
+      <AllSnackbars />
     </PageLayout>
   );
 }

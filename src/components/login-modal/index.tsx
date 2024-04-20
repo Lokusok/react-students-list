@@ -68,11 +68,7 @@ function LoginModal(props: TProps) {
                 error={options.isShowedFormError || Boolean(errors.login)}
               >
                 <FormLabel>Логин:</FormLabel>
-                <Input
-                  {...register('login', { required: true })}
-                  autoFocus
-                  required
-                />
+                <Input {...register('login', { required: true })} required />
                 {errors.login && (
                   <FormHelperText>{errors.login?.message}</FormHelperText>
                 )}

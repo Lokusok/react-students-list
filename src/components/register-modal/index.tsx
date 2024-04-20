@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Button from '@mui/joy/Button';
@@ -38,19 +38,29 @@ const registerDataForm = dataForm
       message: 'Пароли не совпадают',
       path: ['passwordAgain'],
     }
+  )
+  .refine(
+    (schema) => {
+      console.log({ schema });
+      return schema.password === schema.passwordAgain;
+    },
+    {
+      message: 'Пароли не совпадают',
+      path: ['password'],
+    }
   );
 
 function RegisterModal(props: TProps) {
   const {
     register,
     handleSubmit,
+    watch,
+    clearErrors,
     formState: { isDirty, isValid, errors },
   } = useForm<TUserRegister>({
     mode: 'onTouched',
     resolver: zodResolver(registerDataForm),
   });
-
-  console.log({ errorMessageCmp: props.errorMessage });
 
   const handlers = {
     onSubmit: (data: TUserRegister) => {
@@ -62,6 +72,18 @@ function RegisterModal(props: TProps) {
     isSubmitDisabled: !isDirty || !isValid || props.isSubmitDisabled,
     isShowedFormError: Boolean(props.errorMessage),
   };
+
+  const formFields = {
+    password: watch('password'),
+    passwordAgain: watch('passwordAgain'),
+  };
+
+  useEffect(() => {
+    if (formFields.password === formFields.passwordAgain) {
+      clearErrors('passwordAgain');
+      clearErrors('password');
+    }
+  }, [formFields.password, formFields.passwordAgain, clearErrors]);
 
   return (
     <>
@@ -85,11 +107,7 @@ function RegisterModal(props: TProps) {
                 error={options.isShowedFormError || Boolean(errors.login)}
               >
                 <FormLabel>Логин:</FormLabel>
-                <Input
-                  {...register('login', { required: true })}
-                  autoFocus
-                  required
-                />
+                <Input {...register('login', { required: true })} required />
                 {Boolean(errors.login) && (
                   <FormHelperText>{errors.login?.message}</FormHelperText>
                 )}
@@ -104,7 +122,10 @@ function RegisterModal(props: TProps) {
                   required
                 />
                 {Boolean(errors.password) && (
-                  <FormHelperText>{errors.password?.message}</FormHelperText>
+                  <FormHelperText>
+                    <InfoOutlined />
+                    {errors.password?.message}
+                  </FormHelperText>
                 )}
               </FormControl>
               <FormControl
@@ -118,7 +139,7 @@ function RegisterModal(props: TProps) {
                   type="password"
                   required
                 />
-                {errors.passwordAgain && (
+                {Boolean(errors.passwordAgain) && (
                   <FormHelperText>
                     <InfoOutlined />
                     {errors.passwordAgain?.message}

@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 import { TUserLogin, TUserRegister } from '@src/shared/types';
 
@@ -8,11 +8,9 @@ import { AxiosError } from 'axios';
 type TProfile = any; // @todo Описать нормальный тип
 
 export class SessionStore {
-  // waiting: boolean = true; @todo Это должно быть по умолчанию
-  waiting: boolean = false;
+  waiting: boolean = true;
   profile: TProfile | null = null;
   error: string = '';
-  // profile: TProfile | null = {};
 
   constructor() {
     makeAutoObservable(this);
@@ -33,18 +31,20 @@ export class SessionStore {
 
     try {
       const user = await ApiService.registerUser(userData);
-      console.log('@', { user });
       this.resetErrors();
-      this.profile = user;
+      runInAction(() => {
+        this.profile = user;
+      });
     } catch (err) {
-      console.log('Error here:', err);
-
       if (err instanceof AxiosError) {
-        this.error = err.response?.data.error;
-        console.log({ errorInState: this.error });
+        runInAction(() => {
+          this.error = err.response?.data.error;
+        });
       }
     } finally {
-      this.waiting = false;
+      runInAction(() => {
+        this.waiting = false;
+      });
     }
   }
 
@@ -56,18 +56,20 @@ export class SessionStore {
 
     try {
       const user = await ApiService.loginUser(userData);
-      console.log('@', { user });
       this.resetErrors();
-      this.profile = user;
+      runInAction(() => {
+        this.profile = user;
+      });
     } catch (err) {
-      console.log('Error here:', err);
-
       if (err instanceof AxiosError) {
-        this.error = err.response?.data.error;
-        console.log({ errorInState: this.error });
+        runInAction(() => {
+          this.error = err.response?.data.error;
+        });
       }
     } finally {
-      this.waiting = false;
+      runInAction(() => {
+        this.waiting = false;
+      });
     }
   }
 
@@ -79,16 +81,20 @@ export class SessionStore {
 
     try {
       const user = await ApiService.remind();
-      console.log('Remind user:', user);
       this.resetErrors();
-      this.profile = user;
+      runInAction(() => {
+        this.profile = user;
+      });
     } catch (err) {
       if (err instanceof AxiosError) {
-        this.error = err.response?.data.error;
-        console.log({ errorInState: this.error });
+        runInAction(() => {
+          this.error = err.response?.data.error;
+        });
       }
     } finally {
-      this.waiting = false;
+      runInAction(() => {
+        this.waiting = false;
+      });
     }
   }
 

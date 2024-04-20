@@ -105,6 +105,7 @@ class ApiService {
       console.log('Success: ', response.data);
       return response.data;
     } catch (err) {
+      console.log('@@@', { err });
       throw err;
     }
   }
@@ -129,10 +130,9 @@ class ApiService {
   static async remind() {
     try {
       const response = await sessionApi.post('/remind');
-      console.log('Remind success:', response.data);
       return response.data;
     } catch (err) {
-      console.log('Error:', err);
+      throw err;
     }
   }
 

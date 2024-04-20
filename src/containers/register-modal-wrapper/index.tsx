@@ -9,25 +9,37 @@ type TProps = {
 };
 
 function RegisterModalWrapper(props: TProps) {
-  const { sessionStore, modalsStore } = useStores();
+  const { sessionStore, modalsStore, snackbarsStore } = useStores();
 
   const handlers = {
     onFormSubmit: async (data: TUserRegister) => {
-      console.log('Submitting: ', data);
       await sessionStore.registerUser(data);
-      modalsStore.removeActiveModal('register');
+
+      if (!sessionStore.error) {
+        snackbarsStore.setSuccessSnack({
+          buttonText: 'Понятно',
+          bodyText: 'Регистрация прошла успешно!',
+        });
+
+        modalsStore.removeActiveModal('register');
+      } else {
+        snackbarsStore.setErrorSnack({
+          buttonText: 'Понятно',
+          bodyText: 'Произошла ошибка в процессе регистрации...',
+        });
+      }
     },
   };
 
-  console.log({ inContainer: sessionStore.error });
-
   return (
-    <RegisterModal
-      {...props}
-      onFormSubmit={handlers.onFormSubmit}
-      errorMessage={sessionStore.error}
-      isSubmitDisabled={sessionStore.waiting}
-    />
+    <>
+      <RegisterModal
+        {...props}
+        onFormSubmit={handlers.onFormSubmit}
+        errorMessage={sessionStore.error}
+        isSubmitDisabled={sessionStore.waiting}
+      />
+    </>
   );
 }
 

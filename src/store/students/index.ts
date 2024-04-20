@@ -47,7 +47,6 @@ export class StudentsStore {
    * Запрос за студентами
    */
   async fetchStudents() {
-    console.log('here');
     this.isLoading = true;
 
     try {
@@ -107,7 +106,7 @@ export class StudentsStore {
    */
   async deleteStudent(id: string) {
     try {
-      const response = await ApiService.deleteStudent(id);
+      await ApiService.deleteStudent(id);
       this.fetchStudents();
       runInAction(() => {
         this.error = '';
@@ -134,9 +133,8 @@ export class StudentsStore {
           }
 
           return student;
+          this.error = '';
         });
-
-        this.error = '';
       });
     } catch (err) {
       if (err instanceof Error) {

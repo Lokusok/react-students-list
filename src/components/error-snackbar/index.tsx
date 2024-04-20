@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import Button from '@mui/joy/Button';
 import Snackbar from '@mui/joy/Snackbar';
-import PlaylistAddCheckCircleRoundedIcon from '@mui/icons-material/PlaylistAddCheckCircleRounded';
+import DangerousIcon from '@mui/icons-material/Dangerous';
 
 type TProps = {
   isOpen: boolean;
@@ -17,13 +17,13 @@ function SuccessSnackbar(props: TProps) {
     <>
       <Snackbar
         variant="soft"
-        color="success"
+        color="danger"
         open={props.isOpen}
         onClose={() =>
           props.setIsOpen ? props.setIsOpen(false) : props.onClose?.()
         }
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        startDecorator={<PlaylistAddCheckCircleRoundedIcon />}
+        startDecorator={<DangerousIcon />}
         onUnmount={props.onUnmount}
         endDecorator={
           <Button
@@ -32,13 +32,13 @@ function SuccessSnackbar(props: TProps) {
             }
             size="sm"
             variant="soft"
-            color="success"
+            color="danger"
           >
             {props.buttonText || 'Понятно'}
           </Button>
         }
       >
-        {props.bodyText || 'Событие успешно завершено!'}
+        {props.bodyText || 'Произошла ошибка...'}
       </Snackbar>
     </>
   );
