@@ -47,6 +47,7 @@ export class StudentsStore {
    * Запрос за студентами
    */
   async fetchStudents() {
+    console.log('here');
     this.isLoading = true;
 
     try {

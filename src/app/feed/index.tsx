@@ -1,4 +1,4 @@
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import { Helmet } from 'react-helmet';
 
 import { Typography, Divider, Stack } from '@mui/material';
@@ -6,15 +6,7 @@ import { Typography, Divider, Stack } from '@mui/material';
 import Feed from '@src/containers/feed';
 import ActiveRoleSelect from '@src/containers/active-role-select';
 
-import { useStores } from '@src/store';
-
 function FeedPage() {
-  const { studentsStore } = useStores();
-
-  useEffect(() => {
-    studentsStore.fetchStudents();
-  }, [studentsStore]);
-
   return (
     <>
       <Helmet>
@@ -27,7 +19,12 @@ function FeedPage() {
         justifyContent={{ xs: 'center', md: 'space-between' }}
         direction="row"
       >
-        <Typography component="h2" fontSize={26} fontWeight={700}>
+        <Typography
+          textAlign={{ xs: 'center', md: 'start' }}
+          component="h2"
+          fontSize={26}
+          fontWeight={700}
+        >
           Список всех студентов
         </Typography>
 

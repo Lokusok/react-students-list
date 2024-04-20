@@ -19,6 +19,12 @@ function App() {
   });
 
   useEffect(() => {
+    console.log({
+      activeRole: studentsStore.activeRole,
+      currentPage: studentsStore.currentPage,
+      profile: sessionStore.profile,
+    });
+
     if (sessionStore.profile) {
       studentsStore.fetchStudents();
     }
