@@ -4,8 +4,7 @@ import { makeAutoObservable, runInAction, spy } from 'mobx';
 
 import { AxiosError } from 'axios';
 
-import { studentsRoles } from '@src/shared/data/students-roles';
-import { TStudentData } from '@src/shared/types';
+import { TCountRoles, TStudentData } from '@src/shared/types';
 
 import { TViewStrategies } from './types';
 
@@ -20,6 +19,7 @@ export class StudentsStore {
   currentPage: number = 1;
 
   viewStrategy: TViewStrategies = 'grid';
+  countRoles: TCountRoles | {} = {};
 
   constructor() {
     makeAutoObservable(this);
@@ -58,7 +58,6 @@ export class StudentsStore {
    */
   setParams(recordParams: Record<string, string | boolean | number>) {
     const params = new URLSearchParams(window.location.search);
-    console.log(recordParams);
 
     for (const key in recordParams) {
       const paramVal = recordParams[key];
@@ -79,25 +78,7 @@ export class StudentsStore {
     }
 
     const url = window.location.pathname + '?' + params.toString();
-    console.log({ url });
     window.history.pushState({}, '', url);
-  }
-
-  /**
-   * Количество студентов по их ролям
-   */
-  get rolesCount() {
-    const students = this.students;
-
-    const res = studentsRoles.reduce(
-      (acc, val) => ({ ...acc, [val.value]: 0 }),
-      {}
-    );
-    students.forEach((student) => {
-      res[student.role as keyof typeof res]++;
-    });
-
-    return res as Record<string, number>;
   }
 
   /**
@@ -111,15 +92,16 @@ export class StudentsStore {
         page: this.currentPage,
         limit: 6,
       };
-      const { students, totalPages } = await ApiService.getStudentsByRole(
-        this.activeRole,
-        params
-      );
+      const { students, totalPages, countRoles } =
+        await ApiService.getStudentsByRole(this.activeRole, params);
+
+      console.log(countRoles);
 
       runInAction(() => {
         this.totalPages = totalPages;
         this.students = students;
         this.error = '';
+        this.countRoles = countRoles;
       });
     } catch (err) {
       if (err instanceof Error) {

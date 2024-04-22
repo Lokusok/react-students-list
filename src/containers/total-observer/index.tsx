@@ -7,7 +7,7 @@ import { useStores } from '@src/hooks/use-stores';
 function TotalObserver() {
   const { studentsStore } = useStores();
 
-  return <Total totals={studentsStore.rolesCount} />;
+  return <Total totals={studentsStore.countRoles} />;
 }
 
 export default observer(TotalObserver);

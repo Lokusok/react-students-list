@@ -10,29 +10,32 @@ import EventBusyIcon from '@mui/icons-material/EventBusy';
 const items = [
   {
     text: 'Отличник',
+    key: 'excellent',
     icon: <CheckBoxIcon />,
   },
   {
     text: 'Хорошист',
+    key: 'good',
     icon: <AccessTimeFilledIcon />,
   },
   {
     text: 'Троечник',
+    key: 'bad',
     icon: <EventBusyIcon />,
   },
 ];
 
 type TProps = {
-  totals: Record<string, number>;
+  totals: Record<string, string | number>;
 };
 
 function Total(props: TProps) {
   return (
     <Paper elevation={2} sx={{ p: 1 }}>
       <List>
-        {items.map((item, index) => (
-          <ListItem key={item.text + index} icon={item.icon}>{`${item.text} ${
-            props.totals[item.text as keyof typeof props.totals]
+        {items.map((item) => (
+          <ListItem key={item.key} icon={item.icon}>{`${item.text} ${
+            props.totals[item.key as keyof typeof props.totals]
           }`}</ListItem>
         ))}
       </List>

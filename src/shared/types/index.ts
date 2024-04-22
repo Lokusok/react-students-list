@@ -22,3 +22,10 @@ export type TUserLogin = {
   password: string;
   remember: boolean;
 };
+
+export type TCountRoles = {
+  excellent: string | number;
+  good: string | number;
+  normal: string | number;
+  bad: string | number;
+};

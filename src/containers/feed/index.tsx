@@ -11,6 +11,7 @@ import PaginationWrapper from '../pagination-wrapper';
 import { useStores } from '@src/hooks/use-stores';
 import BasicTable from '@src/components/basic-table';
 import produceEntries from '@src/utils/produce-entries';
+import { Link } from 'react-router-dom';
 
 function Feed() {
   const { studentsStore } = useStores();
@@ -49,6 +50,15 @@ function Feed() {
                   'notes',
                 ])}
                 uidHeader={'ID'}
+                renderItemOn={'Имя студента'}
+                renderItem={(data) => (
+                  <Link
+                    to={`/students/${data.id}`}
+                    state={{ from: location.pathname }}
+                  >
+                    {data.title}
+                  </Link>
+                )}
               />
             )}
 

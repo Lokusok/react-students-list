@@ -14,4 +14,8 @@ export default defineConfig({
       bundler: 'vite',
     },
   },
+  env: {
+    login: 'supersecureemail@gmail.com',
+    password: 'securitypassword12345@',
+  },
 });

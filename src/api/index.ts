@@ -1,4 +1,9 @@
-import { TStudentData, TUserLogin, TUserRegister } from '@src/shared/types';
+import {
+  TCountRoles,
+  TStudentData,
+  TUserLogin,
+  TUserRegister,
+} from '@src/shared/types';
 import axios, { AxiosError } from 'axios';
 
 // export const studentsApi = axios.create({
@@ -30,11 +35,16 @@ class ApiService {
   static async getStudentsByRole(
     role: string,
     params: TParams
-  ): Promise<{ students: TStudent[]; totalPages: number }> {
+  ): Promise<{
+    students: TStudent[];
+    totalPages: number;
+    countRoles: TCountRoles;
+  }> {
     const correctSystemPage = params.page - 1;
     const response = await studentsApi.get<{
       result: TStudent[];
       totalPages: number;
+      countRoles: TCountRoles;
     }>('/', {
       params: {
         role,
@@ -46,6 +56,7 @@ class ApiService {
     return {
       students: response.data.result,
       totalPages: response.data.totalPages,
+      countRoles: response.data.countRoles,
     };
   }
 

@@ -6,10 +6,20 @@ type TProps = {
   headers: string[];
   rows: any[][];
   uidHeader?: string;
+  renderItemOn?: string;
+  renderItem?: (data: {
+    id: number | string;
+    title: string;
+  }) => React.ReactNode;
 };
 
 function BasicTable(props: TProps) {
-  const { headers, rows, uidHeader } = props;
+  const { headers, rows, uidHeader, renderItemOn, renderItem } = props;
+
+  const indexOfUid = uidHeader && headers.indexOf(uidHeader);
+  const indexOfRenderItem = renderItemOn && headers.indexOf(renderItemOn);
+
+  console.log({ indexOfRenderItem });
 
   return (
     <Table variant={'soft'}>
@@ -29,9 +39,18 @@ function BasicTable(props: TProps) {
       <tbody>
         {rows.map((row, index) => (
           <tr key={index}>
-            {row.map((col, index) => (
-              <td key={index}>{col}</td>
-            ))}
+            {row.map((col, index) =>
+              index === indexOfRenderItem && renderItem ? (
+                <td key={index}>
+                  {renderItem({
+                    id: row[indexOfUid || 0],
+                    title: row[indexOfRenderItem],
+                  })}
+                </td>
+              ) : (
+                <td key={index}>{col}</td>
+              )
+            )}
           </tr>
         ))}
       </tbody>

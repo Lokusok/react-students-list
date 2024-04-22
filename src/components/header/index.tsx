@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import { Container } from '@mui/material';
 import NavigationDesktop from '@src/containers/navigation-desktop';
 import NavigationMobile from '@src/containers/navigation-mobile';
-import { Button, useTheme } from '@mui/joy';
+import { useTheme } from '@mui/joy';
 
 const drawerWidth = 240;
 

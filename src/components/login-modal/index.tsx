@@ -74,7 +74,11 @@ function LoginModal(props: TProps) {
                 error={options.isShowedFormError || Boolean(errors.login)}
               >
                 <FormLabel>Логин:</FormLabel>
-                <Input {...register('login', { required: true })} required />
+                <Input
+                  {...register('login', { required: true })}
+                  data-testid="auth-input-login"
+                  required
+                />
                 {errors.login && (
                   <FormHelperText>{errors.login?.message}</FormHelperText>
                 )}
@@ -85,6 +89,7 @@ function LoginModal(props: TProps) {
                 <FormLabel>Пароль:</FormLabel>
                 <Input
                   {...register('password', { required: true })}
+                  data-testid="auth-input-password"
                   type="password"
                   required
                 />
@@ -106,7 +111,11 @@ function LoginModal(props: TProps) {
                 </FormControl>
               )}
 
-              <Button disabled={options.isSubmitDisabled} type="submit">
+              <Button
+                data-testid="auth-btn-submit"
+                disabled={options.isSubmitDisabled}
+                type="submit"
+              >
                 Войти
               </Button>
             </Stack>

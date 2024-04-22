@@ -107,7 +107,11 @@ function RegisterModal(props: TProps) {
                 error={options.isShowedFormError || Boolean(errors.login)}
               >
                 <FormLabel>Логин:</FormLabel>
-                <Input {...register('login', { required: true })} required />
+                <Input
+                  {...register('login', { required: true })}
+                  data-testid="register-input-login"
+                  required
+                />
                 {Boolean(errors.login) && (
                   <FormHelperText>{errors.login?.message}</FormHelperText>
                 )}
@@ -118,6 +122,7 @@ function RegisterModal(props: TProps) {
                 <FormLabel>Пароль:</FormLabel>
                 <Input
                   {...register('password', { required: true })}
+                  data-testid="register-input-password"
                   type="password"
                   required
                 />
@@ -136,6 +141,7 @@ function RegisterModal(props: TProps) {
                 <FormLabel>Подтвердите пароль:</FormLabel>
                 <Input
                   {...register('passwordAgain', { required: true })}
+                  data-testid="register-input-password-again"
                   type="password"
                   required
                 />
@@ -155,7 +161,11 @@ function RegisterModal(props: TProps) {
                   </FormHelperText>
                 </FormControl>
               )}
-              <Button disabled={options.isSubmitDisabled} type="submit">
+              <Button
+                data-testid="register-btn-submit"
+                disabled={options.isSubmitDisabled}
+                type="submit"
+              >
                 Зарегистрироваться
               </Button>
             </Stack>
