@@ -9,6 +9,8 @@ import StudentsSkeleton from '@src/components/feed-skeleton/students-skeleton';
 import PaginationWrapper from '../pagination-wrapper';
 
 import { useStores } from '@src/hooks/use-stores';
+import BasicTable from '@src/components/basic-table';
+import produceEntries from '@src/utils/produce-entries';
 
 function Feed() {
   const { studentsStore } = useStores();
@@ -24,11 +26,31 @@ function Feed() {
       <>
         {students.length > 0 && (
           <>
-            <AdaptiveGrid
-              renderItem={renders.studentItem}
-              items={students}
-              keyProp={'id'}
-            />
+            {studentsStore.viewStrategy === 'grid' ? (
+              <AdaptiveGrid
+                renderItem={renders.studentItem}
+                items={students}
+                keyProp={'id'}
+              />
+            ) : (
+              <BasicTable
+                headers={[
+                  'ID',
+                  'Имя студента',
+                  'Возраст студента',
+                  'Роль студента',
+                  'Примечания о студенте',
+                ]}
+                rows={produceEntries(studentsStore.students, [
+                  'id',
+                  'name',
+                  'age',
+                  'role',
+                  'notes',
+                ])}
+                uidHeader={'ID'}
+              />
+            )}
 
             <Box sx={{ display: 'flex', mt: 5 }} justifyContent={'flex-end'}>
               <PaginationWrapper />

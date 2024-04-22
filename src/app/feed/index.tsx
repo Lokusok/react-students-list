@@ -5,8 +5,17 @@ import { Typography, Divider, Stack } from '@mui/material';
 
 import Feed from '@src/containers/feed';
 import ActiveRoleSelect from '@src/containers/active-role-select';
+import ViewTabsChoice from '@src/containers/view-tabs-choice';
+import useInit from '@src/hooks/use-init';
+import { useStores } from '@src/hooks/use-stores';
 
 function FeedPage() {
+  const { studentsStore } = useStores();
+
+  useInit(() => {
+    studentsStore.initParams();
+  });
+
   return (
     <>
       <Helmet>
@@ -16,6 +25,7 @@ function FeedPage() {
       <Stack
         rowGap={'10px'}
         flexWrap={'wrap'}
+        alignItems={'center'}
         justifyContent={{ xs: 'center', md: 'space-between' }}
         direction="row"
       >
@@ -27,6 +37,8 @@ function FeedPage() {
         >
           Список всех студентов
         </Typography>
+
+        <ViewTabsChoice />
 
         <ActiveRoleSelect />
       </Stack>

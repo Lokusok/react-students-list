@@ -18,8 +18,12 @@ function ActiveRoleSelect() {
 
   const handlers = {
     onSelectChange: (_: any, value: string) => {
-      studentsStore.setActiveRole(value);
-      studentsStore.setCurrentPage(1);
+      studentsStore.setParams({
+        role: value,
+        page: 1,
+      });
+      // studentsStore.setActiveRole(value);
+      // studentsStore.setCurrentPage(1);
     },
   };
 

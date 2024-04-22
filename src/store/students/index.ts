@@ -1,12 +1,16 @@
 import ApiService from '@src/api';
+
+import { makeAutoObservable, runInAction, spy } from 'mobx';
+
+import { AxiosError } from 'axios';
+
 import { studentsRoles } from '@src/shared/data/students-roles';
 import { TStudentData } from '@src/shared/types';
-import { AxiosError } from 'axios';
-import { makeAutoObservable, runInAction, spy } from 'mobx';
+
+import { TViewStrategies } from './types';
 
 export class StudentsStore {
   isLoading: boolean = false;
-  // isError: boolean = false;
   error: string = '';
 
   students: TStudent[] = [];
@@ -14,6 +18,8 @@ export class StudentsStore {
 
   totalPages: number = 1;
   currentPage: number = 1;
+
+  viewStrategy: TViewStrategies = 'grid';
 
   constructor() {
     makeAutoObservable(this);
@@ -24,6 +30,57 @@ export class StudentsStore {
    */
   resetErrors() {
     this.error = '';
+  }
+
+  /**
+   * Инициализация параметров из URL
+   */
+  initParams() {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get('viewStrategy')) {
+      this.setViewStrategy(params.get('viewStrategy') as TViewStrategies);
+    } else if (this.viewStrategy) {
+      this.setParams({ viewStrategy: this.viewStrategy });
+    }
+
+    if (params.get('role')) this.setActiveRole(params.get('role')!.normalize());
+    else if (this.activeRole) this.setParams({ role: this.activeRole });
+
+    if (params.get('page')) this.setCurrentPage(Number(params.get('page')));
+    else if (this.currentPage) this.setParams({ page: this.currentPage });
+
+    console.log('@', params);
+  }
+
+  /**
+   * Синхронизация полей стора и URL
+   */
+  setParams(recordParams: Record<string, string | boolean | number>) {
+    const params = new URLSearchParams(window.location.search);
+    console.log(recordParams);
+
+    for (const key in recordParams) {
+      const paramVal = recordParams[key];
+
+      switch (key) {
+        case 'viewStrategy':
+          this.setViewStrategy(paramVal as TViewStrategies);
+          break;
+        case 'role':
+          this.setActiveRole(String(paramVal));
+          break;
+        case 'page':
+          this.setCurrentPage(Number(paramVal));
+          break;
+      }
+
+      params.set(key, String(paramVal));
+    }
+
+    const url = window.location.pathname + '?' + params.toString();
+    console.log({ url });
+    window.history.pushState({}, '', url);
   }
 
   /**
@@ -86,7 +143,9 @@ export class StudentsStore {
     try {
       const response = await ApiService.addStudent(student);
       const newStudent = response.data;
-      this.addStudent(newStudent);
+      // this.addStudent(newStudent);
+
+      this.fetchStudents();
       this.resetErrors();
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -164,6 +223,13 @@ export class StudentsStore {
    */
   addStudent(student: TStudent) {
     this.students.push(student);
+  }
+
+  /**
+   * Установка стратегии отображения данных
+   */
+  setViewStrategy(viewStrategy: TViewStrategies) {
+    this.viewStrategy = viewStrategy;
   }
 }
 

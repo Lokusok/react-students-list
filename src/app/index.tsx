@@ -17,6 +17,7 @@ function App() {
 
   useInit(() => {
     sessionStore.remind();
+    studentsStore.initParams();
   });
 
   useEffect(() => {

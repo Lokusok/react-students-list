@@ -11,7 +11,7 @@ import { useStores } from '@src/hooks/use-stores';
 const initialData = {
   name: '',
   role: 'default',
-  age: '',
+  age: 15,
   notes: '',
   avatar: null,
 };

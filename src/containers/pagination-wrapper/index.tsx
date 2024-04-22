@@ -9,7 +9,8 @@ function PaginationWrapper() {
 
   const handlers = {
     onChange: (_: any, value: number) => {
-      studentsStore.setCurrentPage(value);
+      studentsStore.setParams({ page: value });
+      // studentsStore.setCurrentPage(value);
     },
   };
 
