@@ -7,37 +7,51 @@ import StudentInfo from '@src/components/student-info';
 
 import { Typography } from '@mui/material';
 import { TInputs, TStudentData } from '@src/shared/types';
-import SuccessSnackbar from '@src/components/success-snackbar';
 
 import { useStores } from '@src/hooks/use-stores';
+import makeStudentReadable from '@src/utils/make-student-readable';
 
 type TProps = {
   id: string | number;
 };
 
 function StudentWrapper(props: TProps) {
-  const { studentsStore } = useStores();
+  const { id } = props;
+
+  const { studentsStore, modalsStore, snackbarsStore } = useStores();
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const student = studentsStore.students.find((s) => s.id == props.id);
+  const student = studentsStore.students.find((s) => s.id == id);
+  const studentReadable = makeStudentReadable(student as TStudent);
   const [data, setData] = useState<TStudentData>(student!);
-  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
 
   const callbacks = {
-    deleteStudent: async () => {
-      if (!student) return;
-
-      await studentsStore.deleteStudent(student.id);
-      navigate(location.state.from ?? '/');
-    },
-
     updateStudent: async () => {
       if (!student) return;
 
       await studentsStore.updateStudent(student!.id, data);
-      setIsSnackbarVisible(true);
+
+      if (studentsStore.error) {
+        return snackbarsStore.setErrorSnack({
+          buttonText: 'Понятно',
+          bodyText: 'Ошибка при обновлении студента',
+        });
+      }
+
+      snackbarsStore.setSuccessSnack({
+        buttonText: 'Понятно',
+        bodyText: 'Студент успешно обновлён!',
+      });
+    },
+
+    openModalDeleteAgree: () => {
+      if (!student) return;
+
+      console.log('Открываю модалку для подтверждение удаления');
+      modalsStore.addActiveModal('deleteAgree');
+      studentsStore.setActiveStudent(student.id);
     },
   };
 
@@ -80,21 +94,13 @@ function StudentWrapper(props: TProps) {
       {student && (
         <StudentInfo
           editableData={data}
-          student={student}
-          deleteStudent={callbacks.deleteStudent}
+          student={studentReadable}
           updateStudent={callbacks.updateStudent}
           onChange={handlers.onChange}
           onSubmit={handlers.onSubmit}
           onExtraChange={handlers.onExtraChange}
           onAvatarChange={handlers.onAvatarChange}
-          renderSuccessSnackbar={() => (
-            <SuccessSnackbar
-              isOpen={isSnackbarVisible}
-              setIsOpen={setIsSnackbarVisible}
-              buttonText={'Понятно'}
-              bodyText={'Студент обновлён успешно!'}
-            />
-          )}
+          onDeleteBtnClick={callbacks.openModalDeleteAgree}
         />
       )}
       {!student && <Typography>Информации о студенте не найдено...</Typography>}

@@ -10,11 +10,17 @@ export function produceObj<T extends object>(obj: T, cols: (keyof T)[]) {
 
 function produceEntries<T extends object>(
   arrayOfObj: Array<T>,
-  cols: (keyof T)[]
+  cols: (keyof T)[],
+  updaterFn?: (obj: T) => any
 ) {
   const resArr: any[][] = [];
 
   arrayOfObj.forEach((obj) => {
+    if (updaterFn) {
+      const objUpdated = updaterFn(obj);
+      return resArr.push(produceObj(objUpdated, cols));
+    }
+
     resArr.push(produceObj(obj, cols));
   });
 

@@ -1,6 +1,7 @@
 import { memo } from 'react';
 
 import Table from '@mui/joy/Table';
+import { Box } from '@mui/material';
 
 type TProps = {
   headers: string[];
@@ -11,10 +12,20 @@ type TProps = {
     id: number | string;
     title: string;
   }) => React.ReactNode;
+  onSelectRow?: (index: number) => void;
+  selectedRows?: number[];
 };
 
 function BasicTable(props: TProps) {
-  const { headers, rows, uidHeader, renderItemOn, renderItem } = props;
+  const {
+    headers,
+    rows,
+    uidHeader,
+    renderItemOn,
+    renderItem,
+    selectedRows,
+    onSelectRow,
+  } = props;
 
   const indexOfUid = uidHeader && headers.indexOf(uidHeader);
   const indexOfRenderItem = renderItemOn && headers.indexOf(renderItemOn);
@@ -22,7 +33,7 @@ function BasicTable(props: TProps) {
   console.log({ indexOfRenderItem });
 
   return (
-    <Table variant={'soft'}>
+    <Table variant={'soft'} stripe={'odd'}>
       <thead>
         <tr>
           {headers.map((header, index) =>
@@ -38,7 +49,21 @@ function BasicTable(props: TProps) {
       </thead>
       <tbody>
         {rows.map((row, index) => (
-          <tr key={index}>
+          <Box
+            onClick={() => onSelectRow?.(index)}
+            component={'tr'}
+            sx={{
+              opacity: selectedRows?.includes(index) ? 0.3 : 1,
+              cursor: 'pointer',
+              '&:hover': {
+                opacity: 0.7,
+              },
+              '&:active': {
+                opacity: 0.1,
+              },
+            }}
+            key={index}
+          >
             {row.map((col, index) =>
               index === indexOfRenderItem && renderItem ? (
                 <td key={index}>
@@ -51,7 +76,7 @@ function BasicTable(props: TProps) {
                 <td key={index}>{col}</td>
               )
             )}
-          </tr>
+          </Box>
         ))}
       </tbody>
     </Table>

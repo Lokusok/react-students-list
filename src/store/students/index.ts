@@ -12,6 +12,7 @@ export class StudentsStore {
   isLoading: boolean = false;
   error: string = '';
 
+  activeStudent: string | null = null;
   students: TStudent[] = [];
   activeRole: string = '';
 
@@ -59,7 +60,7 @@ export class StudentsStore {
   setParams(recordParams: Record<string, string | boolean | number>) {
     const params = new URLSearchParams(window.location.search);
 
-    for (const key in recordParams) {
+    loopLabel: for (const key in recordParams) {
       const paramVal = recordParams[key];
 
       switch (key) {
@@ -68,6 +69,10 @@ export class StudentsStore {
           break;
         case 'role':
           this.setActiveRole(String(paramVal));
+          if (String(paramVal) === '') {
+            params.delete(key);
+            continue loopLabel;
+          }
           break;
         case 'page':
           this.setCurrentPage(Number(paramVal));
@@ -153,9 +158,9 @@ export class StudentsStore {
         this.error = '';
       });
     } catch (err) {
-      if (err instanceof Error) {
+      if (err instanceof AxiosError) {
         runInAction(() => {
-          this.error = err.message;
+          this.error = err.response?.data.error;
         });
       }
     }
@@ -169,18 +174,15 @@ export class StudentsStore {
       await ApiService.updateStudent(id, newStudentData);
       runInAction(() => {
         this.students = this.students.map((student) => {
-          if (student.id === id) {
-            return { id, ...newStudentData } as TStudent;
-          }
-
+          if (student.id === id) return { id, ...newStudentData } as TStudent;
           return student;
-          this.error = '';
         });
+        this.error = '';
       });
     } catch (err) {
-      if (err instanceof Error) {
+      if (err instanceof AxiosError) {
         runInAction(() => {
-          this.error = err.message;
+          this.error = err.response?.data.error;
         });
       }
     }
@@ -212,6 +214,13 @@ export class StudentsStore {
    */
   setViewStrategy(viewStrategy: TViewStrategies) {
     this.viewStrategy = viewStrategy;
+  }
+
+  /**
+   * Установка активного студента
+   */
+  setActiveStudent(studentId: string) {
+    this.activeStudent = studentId;
   }
 }
 

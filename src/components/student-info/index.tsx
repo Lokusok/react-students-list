@@ -1,11 +1,9 @@
 import { memo, useEffect, useState } from 'react';
 
-import AgreeModal from '../agree-modal';
-
-import { Box, Divider, Grid, Paper, Typography } from '@mui/material';
+import { Box, Divider, Grid, Typography } from '@mui/material';
 
 import Button from '@mui/joy/Button';
-import { ButtonGroup, AspectRatio } from '@mui/joy';
+import { ButtonGroup } from '@mui/joy';
 import ChangeModal from '../change-modal';
 
 import { TInputs, TStudentData } from '@src/shared/types';
@@ -15,34 +13,26 @@ import studentImage from '@src/assets/student.jpg';
 type TProps = {
   student: TStudent;
   editableData: TStudentData;
-  deleteStudent: () => void;
   updateStudent: () => void;
   onChange: (e: React.ChangeEvent<TInputs>) => void;
   onExtraChange: (id: string, value: string) => void;
   onAvatarChange: (val: File) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  renderSuccessSnackbar: () => React.ReactNode;
+  onDeleteBtnClick: (studentId: string) => void;
 };
 
 function StudentInfo(props: TProps) {
-  const { student } = props;
-  const [isDeletionAgree, setIsDeletionAgree] = useState<null | boolean>(null);
+  const { student, onDeleteBtnClick } = props;
   const [isChangingAgree, setIsChangingAgree] = useState<null | boolean>(null);
 
   const handlers = {
-    handleDeleteClick: () => setIsDeletionAgree(false),
+    handleDeleteClick: () => onDeleteBtnClick(student.id),
     handleChangeClick: () => setIsChangingAgree(false),
   };
 
   const options = {
     avatar: props.student.avatar ?? studentImage,
   };
-
-  useEffect(() => {
-    if (isDeletionAgree === true) {
-      props.deleteStudent();
-    }
-  }, [props, props.deleteStudent, isDeletionAgree]);
 
   useEffect(() => {
     setIsChangingAgree(null);
@@ -77,11 +67,29 @@ function StudentInfo(props: TProps) {
           justifyContent={'center'}
         >
           <Box>
-            <Typography>Имя студента: {student.name}</Typography>
-            <Typography>Возраст: {student.age}</Typography>
-            <Typography>Роль: {student.role}</Typography>
             <Typography>
-              Примечания: {student.notes || 'Отсутствуют'}
+              Имя студента:{' '}
+              <Typography component={'span'} fontWeight={900}>
+                {student.name}
+              </Typography>
+            </Typography>
+            <Typography>
+              Возраст:{' '}
+              <Typography component={'span'} fontWeight={900}>
+                {student.age}
+              </Typography>
+            </Typography>
+            <Typography>
+              Роль:{' '}
+              <Typography component={'span'} fontWeight={900}>
+                {student.role}
+              </Typography>
+            </Typography>
+            <Typography>
+              Примечания:{' '}
+              <Typography component={'span'} fontWeight={900}>
+                {student.notes || 'Отсутствуют'}
+              </Typography>
             </Typography>
           </Box>
         </Grid>
@@ -124,24 +132,6 @@ function StudentInfo(props: TProps) {
           Изменить
         </Button>
       </ButtonGroup>
-
-      {props.renderSuccessSnackbar()}
-
-      {isDeletionAgree === false && (
-        <AgreeModal
-          title={'Подтвердите удаление'}
-          descr={
-            <Typography>
-              Подтвердите удаление студента{' '}
-              <Typography component="span" fontWeight={800}>
-                {student.name}
-              </Typography>
-            </Typography>
-          }
-          onReject={() => setIsDeletionAgree(null)}
-          onAgree={() => setIsDeletionAgree(true)}
-        />
-      )}
 
       {isChangingAgree === false && (
         <ChangeModal

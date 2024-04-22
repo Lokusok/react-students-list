@@ -6,6 +6,7 @@ import LoginModalWrapper from '../login-modal-wrapper';
 import RegisterModalWrapper from '../register-modal-wrapper';
 
 import { useStores } from '@src/hooks/use-stores';
+import DeleteAgreeModal from '../delete-agree-modal';
 
 type TModalsProps = { onClose: () => void };
 
@@ -24,6 +25,10 @@ function AllModals() {
       case 'register': {
         sessionStore.resetErrors();
         return <RegisterModalWrapper {...props} />;
+      }
+      case 'deleteAgree': {
+        sessionStore.resetErrors();
+        return <DeleteAgreeModal {...props} />;
       }
     }
   };

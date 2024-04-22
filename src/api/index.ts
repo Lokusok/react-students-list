@@ -1,14 +1,11 @@
+import axios from 'axios';
+
 import {
   TCountRoles,
   TStudentData,
   TUserLogin,
   TUserRegister,
 } from '@src/shared/types';
-import axios, { AxiosError } from 'axios';
-
-// export const studentsApi = axios.create({
-//   baseURL: 'http://localhost:3000/students',
-// });
 
 export const studentsApi = axios.create({
   baseURL: '/api/students',
@@ -80,11 +77,7 @@ class ApiService {
     try {
       return await studentsApi.delete(`/${id}`);
     } catch (err) {
-      if (err instanceof AxiosError) {
-        throw new Error(err.response?.data);
-      }
-
-      throw new Error('Ошибка при удалении.');
+      throw err;
     }
   }
 
@@ -94,15 +87,10 @@ class ApiService {
    * @param newStudentData {Object}
    */
   static async updateStudent(id: string, newStudentData: TStudentData) {
-    // return studentsApi.put(`/${id}`, newStudentData);
     try {
       return await studentsApi.put(`/${id}`, newStudentData);
     } catch (err) {
-      if (err instanceof AxiosError) {
-        throw new Error(err.response?.data);
-      }
-
-      throw new Error('Ошибка при изменении');
+      throw err;
     }
   }
 
@@ -113,10 +101,8 @@ class ApiService {
   static async registerUser(userData: TUserRegister) {
     try {
       const response = await sessionApi.post('/register', userData);
-      console.log('Success: ', response.data);
       return response.data;
     } catch (err) {
-      console.log('@@@', { err });
       throw err;
     }
   }
@@ -128,7 +114,6 @@ class ApiService {
   static async loginUser(userData: TUserLogin) {
     try {
       const response = await sessionApi.post('/login', userData);
-      console.log('Login success: ', response.data);
       return response.data;
     } catch (err) {
       throw err;
