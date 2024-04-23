@@ -12,7 +12,13 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useStores } from '@src/hooks/use-stores';
 import { Tooltip } from '@mui/joy';
 
-function NavigationDesktop() {
+type TProps = {
+  isProfileVisible?: boolean;
+};
+
+function NavigationDesktop(props: TProps) {
+  const { isProfileVisible } = props;
+
   const { sessionStore } = useStores();
 
   const location = useLocation();
@@ -48,13 +54,22 @@ function NavigationDesktop() {
         </Button>
       ))}
 
-      <Link to="/profile">
-        <Tooltip title="Профиль">
-          <IconButton>
-            <AccountCircleIcon style={{ color: '#fff' }} />
-          </IconButton>
-        </Tooltip>
-      </Link>
+      {isProfileVisible && (
+        <Box
+          component={Link}
+          sx={{
+            pointerEvents: location.pathname === '/profile' ? 'none' : 'all',
+            opacity: location.pathname === '/profile' ? 0.5 : 1,
+          }}
+          to="/profile"
+        >
+          <Tooltip title="Профиль">
+            <IconButton disabled={location.pathname === '/profile'}>
+              <AccountCircleIcon style={{ color: '#fff' }} />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      )}
 
       <ThemeToggler />
     </Box>

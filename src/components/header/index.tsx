@@ -10,13 +10,21 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Container } from '@mui/material';
+
+import { useTheme } from '@mui/joy';
+
 import NavigationDesktop from '@src/containers/navigation-desktop';
 import NavigationMobile from '@src/containers/navigation-mobile';
-import { useTheme } from '@mui/joy';
 
 const drawerWidth = 240;
 
-function Header() {
+type TProps = {
+  isProfileVisible?: boolean;
+};
+
+function Header(props: TProps) {
+  const { isProfileVisible } = props;
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();
 
@@ -83,7 +91,7 @@ function Header() {
               </Typography>
             </Box>
 
-            <NavigationDesktop />
+            <NavigationDesktop isProfileVisible={isProfileVisible} />
           </Toolbar>
         </Container>
       </AppBar>

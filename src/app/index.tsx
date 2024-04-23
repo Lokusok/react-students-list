@@ -31,7 +31,7 @@ function App() {
   ]);
 
   return (
-    <PageLayout head={<Header />}>
+    <PageLayout head={<Header isProfileVisible={sessionStore.profile} />}>
       <Outlet />
 
       <AllModals />

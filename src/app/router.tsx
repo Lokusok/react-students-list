@@ -65,7 +65,7 @@ const routes = [
         path: '/profile',
         element: (
           <Suspense fallback={<h3>Загрузка...</h3>}>
-            <Protected redirectTo="/login">
+            <Protected redirectTo="/">
               <LazyProfile />
             </Protected>
           </Suspense>
