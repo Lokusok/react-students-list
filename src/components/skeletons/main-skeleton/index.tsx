@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import ChoiceBlocks from '../choice-blocks';
+import ChoiceBlocks from '../../choice-blocks';
 import Skeleton from '@mui/material/Skeleton';
 import Box from '@mui/material/Box';
 

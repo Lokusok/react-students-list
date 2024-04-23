@@ -28,7 +28,7 @@ function ViewTabsChoice() {
       <Tabs
         onChange={(_, v) => handlers.onTabChange(v as TViewStrategies)}
         aria-label="Выбор стратегии отображения"
-        defaultValue={studentsStore.viewStrategy}
+        value={studentsStore.viewStrategy}
       >
         <TabList>
           <Tab value="grid">

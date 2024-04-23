@@ -1,7 +1,7 @@
 import { memo } from 'react';
 
 import Table from '@mui/joy/Table';
-import { Box } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 
 type TProps = {
   headers: string[];
@@ -12,8 +12,9 @@ type TProps = {
     id: number | string;
     title: string;
   }) => React.ReactNode;
-  onSelectRow?: (index: number) => void;
-  selectedRows?: number[];
+  onSelectRow?: (index: string) => void;
+  selectedRows?: string[];
+  disabled?: boolean;
 };
 
 function BasicTable(props: TProps) {
@@ -25,6 +26,7 @@ function BasicTable(props: TProps) {
     renderItem,
     selectedRows,
     onSelectRow,
+    disabled,
   } = props;
 
   const indexOfUid = uidHeader && headers.indexOf(uidHeader);
@@ -32,7 +34,11 @@ function BasicTable(props: TProps) {
 
   return (
     <Box sx={{ maxWidth: { xs: 920, md: 'initial' }, overflowX: 'auto' }}>
-      <Table sx={{ minWidth: 650 }} variant={'soft'} stripe={'odd'}>
+      <Table
+        sx={{ minWidth: 650, pointerEvents: disabled ? 'none' : 'all' }}
+        variant={'soft'}
+        stripe={'odd'}
+      >
         <thead>
           <tr>
             {headers.map((header, index) =>
@@ -49,10 +55,10 @@ function BasicTable(props: TProps) {
         <tbody>
           {rows.map((row, index) => (
             <Box
-              onClick={() => onSelectRow?.(index)}
+              onClick={() => onSelectRow?.(row[indexOfUid || 0])}
               component={'tr'}
               sx={{
-                opacity: selectedRows?.includes(index) ? 0.3 : 1,
+                opacity: selectedRows?.includes(row[indexOfUid || 0]) ? 0.3 : 1,
                 cursor: 'pointer',
                 '&:hover': {
                   opacity: 0.7,
@@ -71,8 +77,12 @@ function BasicTable(props: TProps) {
                       title: row[indexOfRenderItem],
                     })}
                   </td>
+                ) : index === indexOfUid && col.length > 3 ? (
+                  <Tooltip title={col}>
+                    <td key={index}>{col.slice(0, 3)}</td>
+                  </Tooltip>
                 ) : (
-                  <td key={index}>{col}</td>
+                  <td key={index}>{col ? col : '---'}</td>
                 )
               )}
             </Box>

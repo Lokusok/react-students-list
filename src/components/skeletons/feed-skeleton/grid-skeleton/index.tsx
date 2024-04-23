@@ -4,7 +4,7 @@ import AdaptiveGrid from '@src/components/adaptive-grid';
 
 import { Skeleton } from '@mui/material';
 
-function StudentsSkeleton() {
+function GridSkeleton() {
   const renders = {
     skeletonItem: () => (
       <Skeleton animation="wave" variant="rounded" width={'80%'} height={230} />
@@ -19,4 +19,4 @@ function StudentsSkeleton() {
   );
 }
 
-export default memo(StudentsSkeleton);
+export default memo(GridSkeleton);

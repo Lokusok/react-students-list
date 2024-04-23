@@ -1,7 +1,9 @@
 import { memo } from 'react';
-import HeaderSkeleton from './header-skeleton';
-import StudentsSkeleton from './students-skeleton';
+
 import { Divider } from '@mui/material';
+
+import HeaderSkeleton from './header-skeleton';
+import GridSkeleton from './grid-skeleton';
 
 function FeedSkeleton() {
   return (
@@ -10,7 +12,7 @@ function FeedSkeleton() {
 
       <Divider sx={{ mt: 2, mb: 2 }} />
 
-      <StudentsSkeleton />
+      <GridSkeleton />
     </>
   );
 }

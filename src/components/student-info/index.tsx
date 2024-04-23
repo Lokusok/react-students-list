@@ -92,8 +92,9 @@ function StudentInfo(props: TProps) {
         >
           <Box
             component={'img'}
-            sx={{ borderRadius: '4px' }}
+            sx={{ borderRadius: '4px', objectFit: 'cover' }}
             width={300}
+            height={300}
             src={options.avatar}
             alt={props.student.name}
           ></Box>

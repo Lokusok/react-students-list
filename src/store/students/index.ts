@@ -10,6 +10,7 @@ import { TViewStrategies } from './types';
 
 export class StudentsStore {
   isLoading: boolean = false;
+  isFetchingDelete: boolean = false;
   error: string = '';
 
   activeStudent: string | null = null;
@@ -50,8 +51,6 @@ export class StudentsStore {
 
     if (params.get('page')) this.setCurrentPage(Number(params.get('page')));
     else if (this.currentPage) this.setParams({ page: this.currentPage });
-
-    console.log('@', params);
   }
 
   /**
@@ -149,6 +148,8 @@ export class StudentsStore {
    * Удалить студента
    */
   async deleteStudent(id: string) {
+    this.isLoading = true;
+
     try {
       await ApiService.deleteStudent(id);
       this.fetchStudents();
@@ -161,6 +162,30 @@ export class StudentsStore {
           this.error = err.response?.data.error;
         });
       }
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    }
+  }
+
+  async deleteStudents(ids: string[]) {
+    this.isFetchingDelete = true;
+
+    try {
+      await ApiService.deleteStudents(ids);
+      await new Promise((res) => setTimeout(res, 3000));
+      this.fetchStudents();
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        runInAction(() => {
+          this.error = err.response?.data.error;
+        });
+      }
+    } finally {
+      runInAction(() => {
+        this.isFetchingDelete = false;
+      });
     }
   }
 

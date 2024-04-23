@@ -11,7 +11,6 @@ import { Box } from '@mui/material';
 
 type TProps = {
   onReject?: () => void;
-  onAgree?: () => void;
   studentData: TStudentData;
   onChange: (e: React.ChangeEvent<TInputs>) => void;
   onExtraChange: (id: string, value: string) => void;

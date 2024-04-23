@@ -81,6 +81,18 @@ class ApiService {
     }
   }
 
+  static async deleteStudents(ids: string[]) {
+    try {
+      return await studentsApi.delete('/', {
+        data: {
+          ids: ids,
+        },
+      });
+    } catch (err) {
+      throw err;
+    }
+  }
+
   /**
    * Обновление студента
    * @param id {String}

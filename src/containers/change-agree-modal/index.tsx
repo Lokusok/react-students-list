@@ -46,8 +46,6 @@ function ChangeAgreeModal(props: TProps) {
     onSubmit: async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      console.log('Сабмит формы изменения');
-
       await studentsStore.updateStudent(student!.id, data);
 
       if (studentsStore.error) {
@@ -69,7 +67,6 @@ function ChangeAgreeModal(props: TProps) {
     <ChangeModal
       studentData={data}
       onReject={onClose}
-      onAgree={() => console.log('onAgree handler')}
       onChange={handlers.onChange}
       onSubmit={handlers.onSubmit}
       onExtraChange={handlers.onExtraChange}

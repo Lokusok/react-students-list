@@ -31,7 +31,6 @@ const registerDataForm = dataForm
   })
   .refine(
     (schema) => {
-      console.log({ schema });
       return schema.password === schema.passwordAgain;
     },
     {
@@ -41,7 +40,6 @@ const registerDataForm = dataForm
   )
   .refine(
     (schema) => {
-      console.log({ schema });
       return schema.password === schema.passwordAgain;
     },
     {

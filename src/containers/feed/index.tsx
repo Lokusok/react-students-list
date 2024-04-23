@@ -1,26 +1,32 @@
+import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 
-import { Box, Fab, Typography, Zoom } from '@mui/material';
+import { Link } from 'react-router-dom';
+
+import { Box, Fab, Stack, Typography, Zoom } from '@mui/material';
 
 import AdaptiveGrid from '@src/components/adaptive-grid';
 import StudentCard from '@src/components/student-card';
-import StudentsSkeleton from '@src/components/feed-skeleton/students-skeleton';
+import GridSkeleton from '@src/components/skeletons/feed-skeleton/grid-skeleton';
+import TableSkeleton from '@src/components/skeletons/feed-skeleton/table-skeleton';
+import BasicTable from '@src/components/basic-table';
+
+import DeleteIcon from '@mui/icons-material/Delete';
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 
 import PaginationWrapper from '../pagination-wrapper';
 
-import { useStores } from '@src/hooks/use-stores';
-import BasicTable from '@src/components/basic-table';
-import produceEntries from '@src/utils/produce-entries';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { Tooltip } from '@mui/joy';
+
+import produceEntries from '@src/utils/produce-entries';
 import makeStudentReadable from '@src/utils/make-student-readable';
 
-function Feed() {
-  const { studentsStore } = useStores();
+import { useStores } from '@src/hooks/use-stores';
 
-  const [selectedRows, setSelectedRows] = useState<number[]>([]);
+function Feed() {
+  const { studentsStore, snackbarsStore } = useStores();
+
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
 
   const students = studentsStore.students;
 
@@ -31,14 +37,37 @@ function Feed() {
   };
 
   const handlers = {
-    onSelectTableRow: (index: number) => {
+    onSelectTableRow: (id: string) => {
       setSelectedRows((s) => {
-        if (s.includes(index))
-          return s.filter((existIndex) => existIndex !== index);
+        if (s.includes(id)) return s.filter((existId) => existId !== id);
 
-        return [...s, index];
+        return [...s, id];
       });
     },
+  };
+
+  const callbacks = {
+    resetSelectedRows: () => setSelectedRows([]),
+    deleteSelectedRows: async () => {
+      await studentsStore.deleteStudents(selectedRows);
+
+      if (studentsStore.error) {
+        return snackbarsStore.setErrorSnack({
+          buttonText: 'Понятно',
+          bodyText: 'Ошибка при удалении',
+        });
+      }
+
+      snackbarsStore.setSuccessSnack({
+        buttonText: 'Понятно',
+        bodyText: 'Удалено успешно',
+      });
+    },
+  };
+
+  const options = {
+    isActionsDisabled:
+      studentsStore.isFetchingDelete || selectedRows.length === 0,
   };
 
   if (!studentsStore.isLoading) {
@@ -55,20 +84,38 @@ function Feed() {
             ) : (
               <>
                 <Zoom in={Boolean(selectedRows.length)}>
-                  <Tooltip title={'Удалить?'}>
+                  <Stack
+                    direction="row"
+                    alignItems={'center'}
+                    spacing={2}
+                    sx={{
+                      position: 'absolute',
+                      right: '50px',
+                      bottom: '50px',
+                    }}
+                  >
+                    <Tooltip title={'Удалить?'}>
+                      <Fab
+                        onClick={callbacks.deleteSelectedRows}
+                        size="large"
+                        color="error"
+                        aria-label="Удалить"
+                        disabled={options.isActionsDisabled}
+                      >
+                        <DeleteIcon />
+                      </Fab>
+                    </Tooltip>
+
                     <Fab
-                      sx={{
-                        position: 'absolute',
-                        right: '50px',
-                        bottom: '50px',
-                      }}
-                      size="large"
-                      color="error"
-                      aria-label="Удалить"
+                      onClick={callbacks.resetSelectedRows}
+                      variant="extended"
+                      color="primary"
+                      disabled={options.isActionsDisabled}
                     >
-                      <DeleteIcon />
+                      <CleaningServicesIcon sx={{ mr: 1 }} />
+                      Очистить
                     </Fab>
-                  </Tooltip>
+                  </Stack>
                 </Zoom>
 
                 <BasicTable
@@ -97,6 +144,7 @@ function Feed() {
                   )}
                   onSelectRow={handlers.onSelectTableRow}
                   selectedRows={selectedRows}
+                  disabled={studentsStore.isFetchingDelete}
                 />
               </>
             )}
@@ -128,7 +176,12 @@ function Feed() {
   }
 
   if (studentsStore.isLoading) {
-    return <StudentsSkeleton />;
+    switch (studentsStore.viewStrategy) {
+      case 'grid':
+        return <GridSkeleton />;
+      case 'table':
+        return <TableSkeleton />;
+    }
   }
 
   if (studentsStore.error) {

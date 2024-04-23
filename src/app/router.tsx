@@ -4,12 +4,13 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import App from '.';
 
-import FeedSkeleton from '@src/components/feed-skeleton';
-import PanelSkeleton from '@src/components/panel-skeleton';
-import MainSkeleton from '@src/components/main-skeleton';
+import FeedSkeleton from '@src/components/skeletons/feed-skeleton';
+import PanelSkeleton from '@src/components/skeletons/panel-skeleton';
+import MainSkeleton from '@src/components/skeletons/main-skeleton';
 
 import NotFoundPage from './not-found';
 import Protected from '@src/containers/protected';
+import StudentSkeleton from '@src/components/skeletons/student-skeleton';
 
 const LazyMain = React.lazy(() => import('./main'));
 const LazyFeed = React.lazy(() => import('./feed'));
@@ -53,7 +54,7 @@ const routes = [
       {
         path: '/students/:id',
         element: (
-          <Suspense fallback={<h3>Загрузка...</h3>}>
+          <Suspense fallback={<StudentSkeleton />}>
             <Protected redirectTo="/">
               <LazyStudent />
             </Protected>
