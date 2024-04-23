@@ -1,8 +1,10 @@
 import { memo } from 'react';
 
-import { Grid, Skeleton } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
+import ViewTabsChoice from '../view-tabs-choice';
+import ActiveRoleSelect from '../active-role-select';
 
-function HeaderSkeleton() {
+function FeedHeader() {
   return (
     <Grid container rowGap={{ xs: '15px' }} justifyContent={'space-between'}>
       <Grid
@@ -15,12 +17,14 @@ function HeaderSkeleton() {
         md={6}
         lg={'auto'}
       >
-        <Skeleton
-          animation="wave"
-          height={35}
-          width={300}
-          variant={'rounded'}
-        />
+        <Typography
+          textAlign={{ xs: 'center', lg: 'start' }}
+          component="h2"
+          fontSize={26}
+          fontWeight={700}
+        >
+          Список всех студентов
+        </Typography>
       </Grid>
 
       <Grid
@@ -33,12 +37,7 @@ function HeaderSkeleton() {
         md={6}
         lg={'auto'}
       >
-        <Skeleton
-          animation="wave"
-          height={35}
-          width={250}
-          variant={'rounded'}
-        />
+        <ViewTabsChoice />
       </Grid>
 
       <Grid
@@ -50,15 +49,10 @@ function HeaderSkeleton() {
         xs={12}
         lg={'auto'}
       >
-        <Skeleton
-          animation="wave"
-          height={35}
-          width={300}
-          variant={'rounded'}
-        />
+        <ActiveRoleSelect />
       </Grid>
     </Grid>
   );
 }
 
-export default memo(HeaderSkeleton);
+export default memo(FeedHeader);

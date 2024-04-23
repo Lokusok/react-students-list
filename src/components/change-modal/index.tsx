@@ -15,7 +15,7 @@ type TProps = {
   studentData: TStudentData;
   onChange: (e: React.ChangeEvent<TInputs>) => void;
   onExtraChange: (id: string, value: string) => void;
-  onAvatarChange: (val: File) => void;
+  onAvatarChange: (val: string) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 

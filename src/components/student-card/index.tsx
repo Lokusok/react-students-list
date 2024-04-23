@@ -9,6 +9,7 @@ import CardContent from '@mui/joy/CardContent';
 import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
 import BookmarkAdd from '@mui/icons-material/BookmarkAddOutlined';
+import Tooltip from '@mui/material/Tooltip';
 
 import studentImage from '@src/assets/student.jpg';
 
@@ -24,15 +25,17 @@ function StudentCard(props: TProps) {
       <div>
         <Typography level="title-lg">{student.name}</Typography>
         <Typography level="body-sm">{student.role}</Typography>
-        <IconButton
-          aria-label="bookmark Bahamas Islands"
-          variant="plain"
-          color="neutral"
-          size="sm"
-          sx={{ position: 'absolute', top: '0.875rem', right: '0.5rem' }}
-        >
-          <BookmarkAdd />
-        </IconButton>
+        <Tooltip title="Добавить в избранное">
+          <IconButton
+            aria-label="Добавить в избранное"
+            variant="plain"
+            color="neutral"
+            size="sm"
+            sx={{ position: 'absolute', top: '0.875rem', right: '0.5rem' }}
+          >
+            <BookmarkAdd />
+          </IconButton>
+        </Tooltip>
       </div>
 
       <AspectRatio

@@ -56,12 +56,12 @@ function Header() {
           <Toolbar disableGutters>
             <IconButton
               color="inherit"
-              aria-label="open drawer"
+              aria-label="Открыть меню"
               edge="start"
               onClick={handleDrawerToggle}
               sx={{ mr: 2, display: { sm: 'none' } }}
             >
-              <MenuIcon />
+              <MenuIcon sx={{ fontSize: '32px' }} />
             </IconButton>
             <Box sx={{ flexGrow: 1 }}>
               <Typography

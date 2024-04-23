@@ -100,8 +100,6 @@ export class StudentsStore {
       const { students, totalPages, countRoles } =
         await ApiService.getStudentsByRole(this.activeRole, params);
 
-      console.log(countRoles);
-
       runInAction(() => {
         this.totalPages = totalPages;
         this.students = students;

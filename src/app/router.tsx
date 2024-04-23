@@ -1,7 +1,9 @@
 import React, { Suspense } from 'react';
 
 import { createBrowserRouter } from 'react-router-dom';
+
 import App from '.';
+
 import FeedSkeleton from '@src/components/feed-skeleton';
 import PanelSkeleton from '@src/components/panel-skeleton';
 import MainSkeleton from '@src/components/main-skeleton';
@@ -13,6 +15,7 @@ const LazyMain = React.lazy(() => import('./main'));
 const LazyFeed = React.lazy(() => import('./feed'));
 const LazyPanel = React.lazy(() => import('./panel'));
 const LazyStudent = React.lazy(() => import('./student'));
+const LazyProfile = React.lazy(() => import('./profile'));
 
 const routes = [
   {
@@ -53,6 +56,16 @@ const routes = [
           <Suspense fallback={<h3>Загрузка...</h3>}>
             <Protected redirectTo="/">
               <LazyStudent />
+            </Protected>
+          </Suspense>
+        ),
+      },
+      {
+        path: '/profile',
+        element: (
+          <Suspense fallback={<h3>Загрузка...</h3>}>
+            <Protected redirectTo="/login">
+              <LazyProfile />
             </Protected>
           </Suspense>
         ),

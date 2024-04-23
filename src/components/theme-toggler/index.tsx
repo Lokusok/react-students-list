@@ -4,6 +4,7 @@ import { useColorScheme as useJoyColorScheme } from '@mui/joy/styles';
 import { useColorScheme as useMaterialColorScheme } from '@mui/material/styles';
 import { IconButton } from '@mui/material';
 import { DarkMode, LightMode } from '@mui/icons-material';
+import { Tooltip } from '@mui/joy';
 
 type TProps = {
   lightColor?: string;
@@ -24,25 +25,27 @@ function ThemeToggler(props: TProps) {
   }
 
   return (
-    <IconButton
-      data-testid="theme-toggler"
-      onClick={() => {
-        setMaterialMode(mode === 'dark' ? 'light' : 'dark');
-        setJoyMode(mode === 'dark' ? 'light' : 'dark');
-      }}
-    >
-      {mode === 'dark' ? (
-        <DarkMode
-          data-testid="theme-light"
-          style={{ color: props.darkColor || 'white' }}
-        />
-      ) : (
-        <LightMode
-          data-testid="theme-dark"
-          style={{ color: props.lightColor || 'white' }}
-        />
-      )}
-    </IconButton>
+    <Tooltip title="Сменить тему">
+      <IconButton
+        data-testid="theme-toggler"
+        onClick={() => {
+          setMaterialMode(mode === 'dark' ? 'light' : 'dark');
+          setJoyMode(mode === 'dark' ? 'light' : 'dark');
+        }}
+      >
+        {mode === 'dark' ? (
+          <DarkMode
+            data-testid="theme-light"
+            style={{ color: props.darkColor || 'white' }}
+          />
+        ) : (
+          <LightMode
+            data-testid="theme-dark"
+            style={{ color: props.lightColor || 'white' }}
+          />
+        )}
+      </IconButton>
+    </Tooltip>
   );
 }
 

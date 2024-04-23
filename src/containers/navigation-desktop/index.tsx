@@ -2,12 +2,15 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { observer } from 'mobx-react-lite';
 
-import { Box, Button } from '@mui/material';
+import { Box, Button, IconButton } from '@mui/material';
 
 import ThemeToggler from '@src/components/theme-toggler';
 import { navigation } from '@src/shared/data/navigation';
 
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 import { useStores } from '@src/hooks/use-stores';
+import { Tooltip } from '@mui/joy';
 
 function NavigationDesktop() {
   const { sessionStore } = useStores();
@@ -44,6 +47,15 @@ function NavigationDesktop() {
           {item.name}
         </Button>
       ))}
+
+      <Link to="/profile">
+        <Tooltip title="Профиль">
+          <IconButton>
+            <AccountCircleIcon style={{ color: '#fff' }} />
+          </IconButton>
+        </Tooltip>
+      </Link>
+
       <ThemeToggler />
     </Box>
   );

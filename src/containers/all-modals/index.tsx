@@ -4,9 +4,10 @@ import { observer } from 'mobx-react-lite';
 
 import LoginModalWrapper from '../login-modal-wrapper';
 import RegisterModalWrapper from '../register-modal-wrapper';
+import DeleteAgreeModal from '../delete-agree-modal';
+import ChangeAgreeModal from '../change-agree-modal';
 
 import { useStores } from '@src/hooks/use-stores';
-import DeleteAgreeModal from '../delete-agree-modal';
 
 type TModalsProps = { onClose: () => void };
 
@@ -29,6 +30,10 @@ function AllModals() {
       case 'deleteAgree': {
         sessionStore.resetErrors();
         return <DeleteAgreeModal {...props} />;
+      }
+      case 'changeAgree': {
+        sessionStore.resetErrors();
+        return <ChangeAgreeModal {...props} />;
       }
     }
   };

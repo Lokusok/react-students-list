@@ -1,42 +1,31 @@
-import { memo, useEffect, useState } from 'react';
+import { memo } from 'react';
 
 import { Box, Divider, Grid, Typography } from '@mui/material';
 
 import Button from '@mui/joy/Button';
 import { ButtonGroup } from '@mui/joy';
-import ChangeModal from '../change-modal';
 
-import { TInputs, TStudentData } from '@src/shared/types';
+import { TStudentData } from '@src/shared/types';
 
 import studentImage from '@src/assets/student.jpg';
 
 type TProps = {
   student: TStudent;
-  editableData: TStudentData;
-  updateStudent: () => void;
-  onChange: (e: React.ChangeEvent<TInputs>) => void;
-  onExtraChange: (id: string, value: string) => void;
-  onAvatarChange: (val: File) => void;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   onDeleteBtnClick: (studentId: string) => void;
+  onChangeBtnClick: (studentId: string) => void;
 };
 
 function StudentInfo(props: TProps) {
-  const { student, onDeleteBtnClick } = props;
-  const [isChangingAgree, setIsChangingAgree] = useState<null | boolean>(null);
+  const { student, onDeleteBtnClick, onChangeBtnClick } = props;
 
   const handlers = {
     handleDeleteClick: () => onDeleteBtnClick(student.id),
-    handleChangeClick: () => setIsChangingAgree(false),
+    handleChangeClick: () => onChangeBtnClick(student.id),
   };
 
   const options = {
     avatar: props.student.avatar ?? studentImage,
   };
-
-  useEffect(() => {
-    setIsChangingAgree(null);
-  }, [props.student]);
 
   return (
     <>
@@ -132,18 +121,6 @@ function StudentInfo(props: TProps) {
           Изменить
         </Button>
       </ButtonGroup>
-
-      {isChangingAgree === false && (
-        <ChangeModal
-          studentData={props.editableData}
-          onReject={() => setIsChangingAgree(null)}
-          onAgree={() => setIsChangingAgree(true)}
-          onChange={props.onChange}
-          onSubmit={props.onSubmit}
-          onExtraChange={props.onExtraChange}
-          onAvatarChange={props.onAvatarChange}
-        />
-      )}
     </>
   );
 }
