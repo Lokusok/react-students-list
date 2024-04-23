@@ -1,3 +1,4 @@
+import ProfileWrapper from '@src/containers/profile-wrapper';
 import { memo } from 'react';
 import { Helmet } from 'react-helmet';
 
@@ -7,7 +8,8 @@ function ProfilePage() {
       <Helmet>
         <title>Профиль администратора</title>
       </Helmet>
-      ProfilePage
+
+      <ProfileWrapper />
     </div>
   );
 }

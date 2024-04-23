@@ -97,7 +97,7 @@ function StudentInfo(props: TProps) {
             height={300}
             src={options.avatar}
             alt={props.student.name}
-          ></Box>
+          />
         </Grid>
       </Grid>
 
