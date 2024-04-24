@@ -27,12 +27,17 @@ function Feed() {
   const { studentsStore, snackbarsStore } = useStores();
 
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
+  const [favourites, setFavourites] = useState<string[]>([]);
 
   const students = studentsStore.students;
 
   const renders = {
     studentItem: (student: TStudent) => (
-      <StudentCard student={makeStudentReadable(student)} />
+      <StudentCard
+        isFavourite={favourites.includes(student.id)}
+        onFavouriteAdd={callbacks.addToFavourite}
+        student={makeStudentReadable(student)}
+      />
     ),
   };
 
@@ -62,6 +67,13 @@ function Feed() {
         buttonText: 'Понятно',
         bodyText: 'Удалено успешно',
       });
+    },
+
+    addToFavourite: (id: string) => {
+      const newFavourites = favourites.includes(id)
+        ? favourites.filter((existId) => existId !== id)
+        : [...favourites, id];
+      setFavourites(newFavourites);
     },
   };
 

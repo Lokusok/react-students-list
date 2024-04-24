@@ -8,17 +8,22 @@ import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
-import BookmarkAdd from '@mui/icons-material/BookmarkAddOutlined';
+import BookmarkAddOutlined from '@mui/icons-material/BookmarkAddOutlined';
+import BookmarkAddedOutlined from '@mui/icons-material/BookmarkAddedOutlined';
 import Tooltip from '@mui/material/Tooltip';
 
 import studentImage from '@src/assets/student.jpg';
 
 type TProps = {
   student: TStudent;
+  onFavouriteAdd: (id: string) => void;
+  isFavourite?: boolean;
 };
 
 function StudentCard(props: TProps) {
-  const { student } = props;
+  const { student, onFavouriteAdd, isFavourite } = props;
+
+  console.log({ studentId: student.id, isFavourite });
 
   return (
     <Card sx={{ width: 320 }}>
@@ -32,8 +37,9 @@ function StudentCard(props: TProps) {
             color="neutral"
             size="sm"
             sx={{ position: 'absolute', top: '0.875rem', right: '0.5rem' }}
+            onClick={() => onFavouriteAdd(student.id)}
           >
-            <BookmarkAdd />
+            {isFavourite ? <BookmarkAddedOutlined /> : <BookmarkAddOutlined />}
           </IconButton>
         </Tooltip>
       </div>
