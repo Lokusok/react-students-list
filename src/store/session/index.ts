@@ -1,11 +1,9 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 
-import { TUserLogin, TUserRegister } from '@src/shared/types';
+import { TProfile, TUserLogin, TUserRegister } from '@src/shared/types';
 
 import ApiService from '@src/api';
 import { AxiosError } from 'axios';
-
-type TProfile = any; // @todo Описать нормальный тип
 
 export class SessionStore {
   waiting: boolean = true;
@@ -37,10 +35,14 @@ export class SessionStore {
       });
     } catch (err) {
       if (err instanceof AxiosError) {
-        runInAction(() => {
+        return runInAction(() => {
           this.error = err.response?.data.error;
         });
       }
+
+      runInAction(() => {
+        this.error = 'Ошибка при регистрации';
+      });
     } finally {
       runInAction(() => {
         this.waiting = false;
@@ -62,10 +64,14 @@ export class SessionStore {
       });
     } catch (err) {
       if (err instanceof AxiosError) {
-        runInAction(() => {
+        return runInAction(() => {
           this.error = err.response?.data.error;
         });
       }
+
+      runInAction(() => {
+        this.error = 'Ошибка при входе';
+      });
     } finally {
       runInAction(() => {
         this.waiting = false;
@@ -87,10 +93,14 @@ export class SessionStore {
       });
     } catch (err) {
       if (err instanceof AxiosError) {
-        runInAction(() => {
+        return runInAction(() => {
           this.error = err.response?.data.error;
         });
       }
+
+      runInAction(() => {
+        this.error = 'Ошибка при аутентификации';
+      });
     } finally {
       runInAction(() => {
         this.waiting = false;
@@ -106,13 +116,51 @@ export class SessionStore {
 
     try {
       await ApiService.logout();
-      this.profile = null;
+      runInAction(() => {
+        this.profile = null;
+      });
     } catch (err) {
       if (err instanceof AxiosError) {
-        this.error = err.response?.data.error;
+        return runInAction(() => {
+          this.error = err.response?.data.error;
+        });
       }
+
+      runInAction(() => {
+        this.error = 'Ошибка при выходе';
+      });
     } finally {
-      this.waiting = false;
+      runInAction(() => {
+        this.waiting = false;
+      });
+    }
+  }
+
+  /**
+   * Изменить информацию об аккаунте
+   */
+  async changeUserInfo(userInfo: FormData) {
+    this.waiting = true;
+
+    try {
+      const profile = await ApiService.changeUserInfo(userInfo);
+      runInAction(() => {
+        this.profile = profile;
+      });
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return runInAction(() => {
+          this.error = err.response?.data.message;
+        });
+      }
+
+      runInAction(() => {
+        this.error = 'Ошибка при изменении';
+      });
+    } finally {
+      runInAction(() => {
+        this.waiting = false;
+      });
     }
   }
 }

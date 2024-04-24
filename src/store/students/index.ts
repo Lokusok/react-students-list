@@ -107,10 +107,14 @@ export class StudentsStore {
       });
     } catch (err) {
       if (err instanceof Error) {
-        runInAction(() => {
+        return runInAction(() => {
           this.error = err.message;
         });
       }
+
+      runInAction(() => {
+        this.error = 'Ошибка при запросе студентов';
+      });
     } finally {
       runInAction(() => {
         this.isLoading = false;
@@ -126,17 +130,19 @@ export class StudentsStore {
 
     try {
       const response = await ApiService.addStudent(student);
-      const newStudent = response.data;
-      // this.addStudent(newStudent);
 
       this.fetchStudents();
       this.resetErrors();
     } catch (err) {
       if (err instanceof AxiosError) {
-        runInAction(() => {
+        return runInAction(() => {
           this.error = err.response?.data.error;
         });
       }
+
+      runInAction(() => {
+        this.error = 'Ошибка при создании студента';
+      });
     } finally {
       runInAction(() => {
         this.isLoading = false;
@@ -158,10 +164,14 @@ export class StudentsStore {
       });
     } catch (err) {
       if (err instanceof AxiosError) {
-        runInAction(() => {
+        return runInAction(() => {
           this.error = err.response?.data.error;
         });
       }
+
+      runInAction(() => {
+        this.error = 'Ошибка при удалении студента';
+      });
     } finally {
       runInAction(() => {
         this.isLoading = false;
@@ -178,10 +188,14 @@ export class StudentsStore {
       this.fetchStudents();
     } catch (err) {
       if (err instanceof AxiosError) {
-        runInAction(() => {
+        return runInAction(() => {
           this.error = err.response?.data.error;
         });
       }
+
+      runInAction(() => {
+        this.error = 'Ошибка при удалении студентов';
+      });
     } finally {
       runInAction(() => {
         this.isFetchingDelete = false;
@@ -204,10 +218,14 @@ export class StudentsStore {
       });
     } catch (err) {
       if (err instanceof AxiosError) {
-        runInAction(() => {
+        return runInAction(() => {
           this.error = err.response?.data.error;
         });
       }
+
+      runInAction(() => {
+        this.error = 'Ошибка при обновлении студента';
+      });
     }
   }
 

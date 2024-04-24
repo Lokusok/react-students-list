@@ -2,7 +2,9 @@ import axios from 'axios';
 
 import {
   TCountRoles,
+  TProfile,
   TStudentData,
+  TUserInfo,
   TUserLogin,
   TUserRegister,
 } from '@src/shared/types';
@@ -150,6 +152,18 @@ class ApiService {
   static async logout() {
     try {
       await sessionApi.post('/logout');
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  /**
+   * Изменить информацию об аккаунте
+   */
+  static async changeUserInfo(userInfo: FormData): Promise<TProfile> {
+    try {
+      const response = await sessionApi.post<TProfile>('/change', userInfo);
+      return response.data;
     } catch (err) {
       throw err;
     }

@@ -29,3 +29,20 @@ export type TCountRoles = {
   normal: string | number;
   bad: string | number;
 };
+
+export type TUserInfo = {
+  username: string;
+  bio: string;
+  avatar: FileList;
+};
+
+export type TProfile = {
+  id: string;
+  username: string;
+  login: string;
+  password: string;
+  bio: string;
+  createdAt: string;
+  updatedAt: string;
+  avatar: string;
+};
