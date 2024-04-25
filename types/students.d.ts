@@ -8,5 +8,6 @@ declare global {
     age: number | string;
     notes: string;
     avatar: string | null | undefined;
+    isFavourite: boolean;
   };
 }

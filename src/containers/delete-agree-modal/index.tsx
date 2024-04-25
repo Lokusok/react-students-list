@@ -19,8 +19,8 @@ function DeleteAgreeModal(props: TProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const student = studentsStore.students.find(
-    (s) => s.id === studentsStore.activeStudent
+  const student = studentsStore.students.find((s) =>
+    studentsStore.activeStudents.includes(s.id)
   )!;
 
   const callbacks = {

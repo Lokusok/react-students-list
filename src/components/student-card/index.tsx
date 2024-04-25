@@ -16,14 +16,12 @@ import studentImage from '@src/assets/student.jpg';
 
 type TProps = {
   student: TStudent;
-  onFavouriteAdd: (id: string) => void;
-  isFavourite?: boolean;
+  onFavouriteAdd: (student: TStudent) => void;
+  isFavouriteBtnDisabled?: boolean;
 };
 
 function StudentCard(props: TProps) {
-  const { student, onFavouriteAdd, isFavourite } = props;
-
-  console.log({ studentId: student.id, isFavourite });
+  const { student, onFavouriteAdd, isFavouriteBtnDisabled } = props;
 
   return (
     <Card sx={{ width: 320 }}>
@@ -32,14 +30,19 @@ function StudentCard(props: TProps) {
         <Typography level="body-sm">{student.role}</Typography>
         <Tooltip title="Добавить в избранное">
           <IconButton
+            disabled={isFavouriteBtnDisabled}
             aria-label="Добавить в избранное"
             variant="plain"
             color="neutral"
             size="sm"
             sx={{ position: 'absolute', top: '0.875rem', right: '0.5rem' }}
-            onClick={() => onFavouriteAdd(student.id)}
+            onClick={() => onFavouriteAdd(student)}
           >
-            {isFavourite ? <BookmarkAddedOutlined /> : <BookmarkAddOutlined />}
+            {student.isFavourite ? (
+              <BookmarkAddedOutlined />
+            ) : (
+              <BookmarkAddOutlined />
+            )}
           </IconButton>
         </Tooltip>
       </div>

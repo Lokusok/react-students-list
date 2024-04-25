@@ -3,20 +3,18 @@ import { observer } from 'mobx-react-lite';
 
 import { Link } from 'react-router-dom';
 
-import { Box, Fab, Stack, Typography, Zoom } from '@mui/material';
-
 import AdaptiveGrid from '@src/components/adaptive-grid';
 import StudentCard from '@src/components/student-card';
 import GridSkeleton from '@src/components/skeletons/feed-skeleton/grid-skeleton';
 import TableSkeleton from '@src/components/skeletons/feed-skeleton/table-skeleton';
 import BasicTable from '@src/components/basic-table';
 
+import { Box, Fab, Stack, Typography, Zoom } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
+import { Tooltip } from '@mui/joy';
 
 import PaginationWrapper from '../pagination-wrapper';
-
-import { Tooltip } from '@mui/joy';
 
 import produceEntries from '@src/utils/produce-entries';
 import makeStudentReadable from '@src/utils/make-student-readable';
@@ -27,18 +25,28 @@ function Feed() {
   const { studentsStore, snackbarsStore } = useStores();
 
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
-  const [favourites, setFavourites] = useState<string[]>([]);
 
   const students = studentsStore.students;
 
+  const fetchingParams = {
+    isFetchingUpdate: studentsStore.isFetchingUpdate,
+    activeStudents: studentsStore.activeStudents,
+  };
+
   const renders = {
-    studentItem: (student: TStudent) => (
-      <StudentCard
-        isFavourite={favourites.includes(student.id)}
-        onFavouriteAdd={callbacks.addToFavourite}
-        student={makeStudentReadable(student)}
-      />
-    ),
+    studentItem: (student: TStudent) => {
+      const isFavouriteBtnDisabled =
+        fetchingParams.isFetchingUpdate &&
+        fetchingParams.activeStudents.includes(student.id);
+
+      return (
+        <StudentCard
+          isFavouriteBtnDisabled={isFavouriteBtnDisabled}
+          onFavouriteAdd={callbacks.addToFavourite}
+          student={makeStudentReadable(student)}
+        />
+      );
+    },
   };
 
   const handlers = {
@@ -69,11 +77,24 @@ function Feed() {
       });
     },
 
-    addToFavourite: (id: string) => {
-      const newFavourites = favourites.includes(id)
-        ? favourites.filter((existId) => existId !== id)
-        : [...favourites, id];
-      setFavourites(newFavourites);
+    addToFavourite: async (student: TStudent) => {
+      const favouriteStudent: TStudent = {
+        ...student,
+        isFavourite: !student.isFavourite,
+      };
+      await studentsStore.updateStudent(student.id, favouriteStudent);
+
+      if (!studentsStore.error) {
+        return snackbarsStore.setSuccessSnack({
+          buttonText: 'Понятно',
+          bodyText: 'Пользователь обновлён',
+        });
+      }
+
+      snackbarsStore.setErrorSnack({
+        buttonText: 'Понятно',
+        bodyText: 'Произошла ошибка...',
+      });
     },
   };
 

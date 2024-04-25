@@ -7,13 +7,15 @@ import { AxiosError } from 'axios';
 import { TCountRoles, TStudentData } from '@src/shared/types';
 
 import { TViewStrategies } from './types';
+import student from '@src/app/student';
 
 export class StudentsStore {
   isLoading: boolean = false;
   isFetchingDelete: boolean = false;
+  isFetchingUpdate: boolean = false;
   error: string = '';
 
-  activeStudent: string | null = null;
+  activeStudents: string[] = [];
   students: TStudent[] = [];
   activeRole: string = '';
 
@@ -129,7 +131,7 @@ export class StudentsStore {
     this.isLoading = true;
 
     try {
-      const response = await ApiService.addStudent(student);
+      await ApiService.addStudent(student);
 
       this.fetchStudents();
       this.resetErrors();
@@ -207,6 +209,11 @@ export class StudentsStore {
    * Обновить студента
    */
   async updateStudent(id: string, newStudentData: TStudentData) {
+    this.isFetchingUpdate = true;
+    this.activeStudents = [...this.activeStudents, id];
+
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
     try {
       await ApiService.updateStudent(id, newStudentData);
       runInAction(() => {
@@ -226,8 +233,19 @@ export class StudentsStore {
       runInAction(() => {
         this.error = 'Ошибка при обновлении студента';
       });
+    } finally {
+      runInAction(() => {
+        this.isFetchingUpdate = Boolean(this.activeStudents.length);
+        this.activeStudents = this.activeStudents.filter(
+          (existId) => existId !== id
+        );
+      });
     }
   }
+
+  /**
+   * Добавить студента в избранное
+   */
 
   /**
    * Установить активную роль
@@ -261,7 +279,7 @@ export class StudentsStore {
    * Установка активного студента
    */
   setActiveStudent(studentId: string) {
-    this.activeStudent = studentId;
+    this.activeStudents = [...this.activeStudents, studentId];
   }
 }
 

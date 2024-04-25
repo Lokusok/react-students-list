@@ -16,8 +16,8 @@ function ChangeAgreeModal(props: TProps) {
 
   const { studentsStore, snackbarsStore } = useStores();
 
-  const student = studentsStore.students.find(
-    (s) => s.id == studentsStore.activeStudent
+  const student = studentsStore.students.find((s) =>
+    studentsStore.activeStudents.includes(s.id)
   );
   const [data, setData] = useState<TStudent>(student!);
 
@@ -63,6 +63,13 @@ function ChangeAgreeModal(props: TProps) {
     },
   };
 
+  const options = {
+    isDisabled:
+      !student ||
+      (studentsStore.isFetchingUpdate &&
+        studentsStore.activeStudents.includes(student.id)),
+  };
+
   return (
     <ChangeModal
       studentData={data}
@@ -71,6 +78,7 @@ function ChangeAgreeModal(props: TProps) {
       onSubmit={handlers.onSubmit}
       onExtraChange={handlers.onExtraChange}
       onAvatarChange={handlers.onAvatarChange}
+      disabled={options.isDisabled}
     />
   );
 }

@@ -16,6 +16,7 @@ type TProps = {
   onExtraChange: (id: string, value: string) => void;
   onAvatarChange: (val: string) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  disabled: boolean;
 };
 
 function ChangeModal(props: TProps) {
@@ -39,6 +40,7 @@ function ChangeModal(props: TProps) {
               onSubmit={handlers.onSubmit}
               onExtraChange={props.onExtraChange}
               onAvatarChange={props.onAvatarChange}
+              disabled={props.disabled}
             />
           </Box>
         </ModalDialog>
