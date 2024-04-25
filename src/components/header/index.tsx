@@ -8,10 +8,9 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import { Container } from '@mui/material';
 
-import { useTheme } from '@mui/joy';
+import { Typography, useTheme } from '@mui/joy';
 
 import NavigationDesktop from '@src/containers/navigation-desktop';
 import NavigationMobile from '@src/containers/navigation-mobile';
@@ -43,8 +42,8 @@ function Header(props: TProps) {
           textDecoration: 'none',
           background: 'none',
           display: 'inline-block',
+          fontSize: 40,
         }}
-        variant="h6"
         to={'/'}
       >
         STUDE-LIST
@@ -73,16 +72,16 @@ function Header(props: TProps) {
             </IconButton>
             <Box sx={{ flexGrow: 1 }}>
               <Typography
-                variant="h6"
                 component={Link}
                 sx={{
                   display: { xs: 'none', sm: 'inline-block' },
                   color: '#fff',
                   textDecoration: 'none',
                   transition: 'opacity ease 0.2s',
-
                   '&:hover': { opacity: 0.7 },
                   '&:active': { opacity: 0.3 },
+                  fontSize: '22px',
+                  fontWeight: 700,
                 }}
                 to="/"
                 data-testid="logo"

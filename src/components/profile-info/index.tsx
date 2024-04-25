@@ -1,7 +1,7 @@
 import { memo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { Box, Divider, Grid, Paper, Typography } from '@mui/material';
+import { Box, Divider, Grid, Paper } from '@mui/material';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
@@ -16,6 +16,7 @@ import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { TProfile, TUserInfo } from '@src/shared/types';
+import Title from '../title';
 
 type TProps = {
   profile: TProfile;
@@ -38,6 +39,8 @@ function ProfileInfo(props: TProps) {
     register,
     handleSubmit,
     formState: { isValid },
+    watch,
+    reset,
   } = useForm<TUserInfo>({
     resolver: zodResolver(schema),
     mode: 'onTouched',
@@ -46,6 +49,8 @@ function ProfileInfo(props: TProps) {
       bio: profile.bio,
     },
   });
+
+  const avatarVal = watch('avatar');
 
   const options = {
     avatar: profile.avatar || adminImage,
@@ -59,17 +64,35 @@ function ProfileInfo(props: TProps) {
     },
   };
 
+  const callbacks = {
+    toggleEditingMode: () => {
+      const nextEditingMode = !isEditing;
+      setIsEditing(nextEditingMode);
+
+      if (!nextEditingMode) {
+        reset();
+      }
+    },
+  };
+
   return (
     <>
-      <Typography component={'h2'} fontSize={26} fontWeight={700}>
-        Профиль администратора
-      </Typography>
+      <Title component="h2">Профиль администратора</Title>
 
       <Divider sx={{ mt: 2, mb: 2 }} />
 
       <Grid container columnGap="20px">
-        <Grid item>
-          <Tooltip title={isEditing ? 'Кликни и загрузи' : null}>
+        <Grid item xs={3.45}>
+          <Tooltip
+            open={Boolean(avatarVal)}
+            title={
+              avatarVal
+                ? 'Аватар будет изменён после отправки формы'
+                : isEditing
+                ? 'Кликни и загрузи'
+                : null
+            }
+          >
             <Paper
               sx={
                 isEditing
@@ -87,6 +110,7 @@ function ProfileInfo(props: TProps) {
                       '&:active': {
                         opacity: 0.5,
                       },
+                      opacity: avatarVal ? 0.3 : 1,
                     }
                   : {
                       py: 1,
@@ -132,19 +156,19 @@ function ProfileInfo(props: TProps) {
           </Tooltip>
         </Grid>
 
-        <Grid item>
+        <Grid item xs={6.5}>
           <Stack
             direction="row"
             alignItems={'center'}
             justifyContent="space-between"
             sx={{ mb: 3 }}
           >
-            <Typography component={'h3'} fontSize={20} fontWeight={700}>
+            <Title component={'h3'} fontSize={20}>
               Информация об администраторе
-            </Typography>
+            </Title>
 
             <IconButton
-              onClick={() => setIsEditing((e) => !e)}
+              onClick={callbacks.toggleEditingMode}
               variant={isEditing ? 'solid' : 'soft'}
             >
               <CreateIcon />
@@ -164,6 +188,7 @@ function ProfileInfo(props: TProps) {
                 <Input
                   {...register('username')}
                   name="username"
+                  placeholder="Ваше имя"
                   disabled={!isEditing}
                 />
               </FormControl>
@@ -199,6 +224,10 @@ function ProfileInfo(props: TProps) {
           </Box>
         </Grid>
       </Grid>
+
+      <Divider sx={{ mt: 2.5, mb: 2.5 }} />
+
+      <Title component="h4">Избранные студенты</Title>
     </>
   );
 }

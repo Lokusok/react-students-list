@@ -3,6 +3,7 @@ import { memo } from 'react';
 import { Grid, Typography } from '@mui/material';
 import ViewTabsChoice from '../view-tabs-choice';
 import ActiveRoleSelect from '../active-role-select';
+import Title from '@src/components/title';
 
 function FeedHeader() {
   return (
@@ -17,14 +18,14 @@ function FeedHeader() {
         md={6}
         lg={'auto'}
       >
-        <Typography
+        <Title
           textAlign={{ xs: 'center', lg: 'start' }}
           component="h2"
           fontSize={26}
           fontWeight={700}
         >
           Список всех студентов
-        </Typography>
+        </Title>
       </Grid>
 
       <Grid

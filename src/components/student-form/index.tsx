@@ -1,13 +1,9 @@
 import { memo } from 'react';
 
-import {
-  Box,
-  InputLabel,
-  Paper,
-  Typography,
-  Button,
-  Stack,
-} from '@mui/material';
+import { Box, InputLabel, Paper, Stack } from '@mui/material';
+
+import { Button, Typography } from '@mui/joy';
+import { Add } from '@mui/icons-material';
 
 import Input from '../input';
 import Select from '../select';
@@ -161,7 +157,8 @@ function StudentForm(props: TProps) {
               <Button
                 type="submit"
                 disabled={options.isDisabled}
-                variant="contained"
+                variant="soft"
+                startDecorator={<Add />}
               >
                 {props.submitText}
               </Button>

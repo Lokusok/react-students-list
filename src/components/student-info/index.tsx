@@ -1,11 +1,10 @@
 import { memo } from 'react';
 
-import { Box, Divider, Grid, Typography } from '@mui/material';
+import { Box, Divider, Grid } from '@mui/material';
 
-import Button from '@mui/joy/Button';
-import { ButtonGroup } from '@mui/joy';
+import { Button, ButtonGroup, Typography } from '@mui/joy';
 
-import { TStudentData } from '@src/shared/types';
+import Title from '../title';
 
 import studentImage from '@src/assets/student.jpg';
 
@@ -29,7 +28,7 @@ function StudentInfo(props: TProps) {
 
   return (
     <>
-      <Typography
+      <Title
         component="h2"
         fontSize={24}
         sx={{ textAlign: { xs: 'center', md: 'start' } }}
@@ -38,7 +37,7 @@ function StudentInfo(props: TProps) {
         <Typography component="span" fontSize={24} fontWeight={800}>
           {student.name}
         </Typography>
-      </Typography>
+      </Title>
 
       <Divider sx={{ mt: 2, mb: 2 }} />
 

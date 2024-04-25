@@ -1,6 +1,7 @@
 import { memo } from 'react';
 
-import { Avatar, ListItem as ListItemMui, Typography, ListItemAvatar } from '@mui/material';
+import { Avatar, ListItem as ListItemMui, ListItemAvatar } from '@mui/material';
+import { Typography } from '@mui/joy';
 
 type TProps = {
   icon: React.ReactNode;
