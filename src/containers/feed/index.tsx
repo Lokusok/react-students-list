@@ -87,7 +87,7 @@ function Feed() {
       if (!studentsStore.error) {
         return snackbarsStore.setSuccessSnack({
           buttonText: 'Понятно',
-          bodyText: 'Пользователь обновлён',
+          bodyText: 'Студент обновлён',
         });
       }
 

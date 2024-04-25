@@ -2,7 +2,9 @@ import { memo } from 'react';
 
 import { Box, Divider, Grid } from '@mui/material';
 
-import { Button, ButtonGroup, Typography } from '@mui/joy';
+import { Button, ButtonGroup, IconButton, Tooltip, Typography } from '@mui/joy';
+import BookmarkAddOutlined from '@mui/icons-material/BookmarkAddOutlined';
+import BookmarkAddedOutlined from '@mui/icons-material/BookmarkAddedOutlined';
 
 import Title from '../title';
 
@@ -12,14 +14,23 @@ type TProps = {
   student: TStudent;
   onDeleteBtnClick: (studentId: string) => void;
   onChangeBtnClick: (studentId: string) => void;
+  onFavouriteBtnClick?: (student: TStudent) => void;
+  isFavouriteBtnDisabled?: boolean;
 };
 
 function StudentInfo(props: TProps) {
-  const { student, onDeleteBtnClick, onChangeBtnClick } = props;
+  const {
+    student,
+    onDeleteBtnClick,
+    onChangeBtnClick,
+    onFavouriteBtnClick,
+    isFavouriteBtnDisabled,
+  } = props;
 
   const handlers = {
     handleDeleteClick: () => onDeleteBtnClick(student.id),
     handleChangeClick: () => onChangeBtnClick(student.id),
+    handleToFavouriteClick: () => onFavouriteBtnClick?.(student),
   };
 
   const options = {
@@ -120,6 +131,27 @@ function StudentInfo(props: TProps) {
         >
           Изменить
         </Button>
+        {onFavouriteBtnClick && (
+          <Tooltip
+            title={
+              student.isFavourite
+                ? 'Удалить из избранного'
+                : 'Добавить в избранное'
+            }
+          >
+            <IconButton
+              disabled={isFavouriteBtnDisabled}
+              onClick={handlers.handleToFavouriteClick}
+              variant={student.isFavourite ? 'solid' : 'soft'}
+            >
+              {student.isFavourite ? (
+                <BookmarkAddedOutlined />
+              ) : (
+                <BookmarkAddOutlined />
+              )}
+            </IconButton>
+          </Tooltip>
+        )}
       </ButtonGroup>
     </>
   );

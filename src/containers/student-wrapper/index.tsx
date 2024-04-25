@@ -15,10 +15,15 @@ type TProps = {
 function StudentWrapper(props: TProps) {
   const { id } = props;
 
-  const { studentsStore, modalsStore } = useStores();
+  const { studentsStore, modalsStore, snackbarsStore } = useStores();
 
   const student = studentsStore.students.find((s) => s.id == id);
   const studentReadable = makeStudentReadable(student as TStudent);
+
+  const fetchingParams = {
+    isFetchingUpdate: studentsStore.isFetchingUpdate,
+    activeStudents: studentsStore.activeStudents,
+  };
 
   const callbacks = {
     openModalChangeAgree: () => {
@@ -34,6 +39,35 @@ function StudentWrapper(props: TProps) {
       modalsStore.addActiveModal('deleteAgree');
       studentsStore.setActiveStudent(student.id);
     },
+
+    addToFavourite: async (student: TStudent) => {
+      if (!student) return;
+
+      const favouriteStudent: TStudent = {
+        ...student,
+        isFavourite: !student.isFavourite,
+      };
+
+      await studentsStore.updateStudent(student.id, favouriteStudent);
+
+      if (!studentsStore.error) {
+        return snackbarsStore.setSuccessSnack({
+          buttonText: 'Понятно',
+          bodyText: 'Студент обновлён',
+        });
+      }
+
+      snackbarsStore.setErrorSnack({
+        buttonText: 'Понятно',
+        bodyText: 'Произошла ошибка...',
+      });
+    },
+  };
+
+  const options = {
+    isFavouriteBtnDisabled:
+      fetchingParams.isFetchingUpdate &&
+      fetchingParams.activeStudents.includes(student!.id),
   };
 
   return (
@@ -43,6 +77,8 @@ function StudentWrapper(props: TProps) {
           student={studentReadable}
           onDeleteBtnClick={callbacks.openModalDeleteAgree}
           onChangeBtnClick={callbacks.openModalChangeAgree}
+          onFavouriteBtnClick={callbacks.addToFavourite}
+          isFavouriteBtnDisabled={options.isFavouriteBtnDisabled}
         />
       )}
       {!student && <Typography>Информации о студенте не найдено...</Typography>}

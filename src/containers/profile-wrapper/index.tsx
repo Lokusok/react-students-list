@@ -6,6 +6,8 @@ import { TUserInfo } from '@src/shared/types';
 
 import { useStores } from '@src/hooks/use-stores';
 
+import studentsStore from '@src/store/students';
+
 function ProfileWrapper() {
   const { sessionStore, snackbarsStore } = useStores();
 
@@ -40,8 +42,13 @@ function ProfileWrapper() {
     },
   };
 
+  const values = {
+    favouritesStudents: studentsStore.students.filter((s) => s.isFavourite),
+  };
+
   return (
     <ProfileInfo
+      students={values.favouritesStudents}
       profile={sessionStore.profile!}
       onInfoFormSubmit={handlers.onInfoFormSubmit}
       isInfoSubmitDisabled={sessionStore.waiting}

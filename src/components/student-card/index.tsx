@@ -16,7 +16,7 @@ import studentImage from '@src/assets/student.jpg';
 
 type TProps = {
   student: TStudent;
-  onFavouriteAdd: (student: TStudent) => void;
+  onFavouriteAdd?: (student: TStudent) => void;
   isFavouriteBtnDisabled?: boolean;
 };
 
@@ -28,23 +28,35 @@ function StudentCard(props: TProps) {
       <div>
         <Typography level="title-lg">{student.name}</Typography>
         <Typography level="body-sm">{student.role}</Typography>
-        <Tooltip title="Добавить в избранное">
-          <IconButton
-            disabled={isFavouriteBtnDisabled}
-            aria-label="Добавить в избранное"
-            variant="plain"
-            color="neutral"
-            size="sm"
-            sx={{ position: 'absolute', top: '0.875rem', right: '0.5rem' }}
-            onClick={() => onFavouriteAdd(student)}
+        {onFavouriteAdd && (
+          <Tooltip
+            title={
+              student.isFavourite
+                ? 'Удалить из избранного'
+                : 'Добавить в избранное'
+            }
           >
-            {student.isFavourite ? (
-              <BookmarkAddedOutlined />
-            ) : (
-              <BookmarkAddOutlined />
-            )}
-          </IconButton>
-        </Tooltip>
+            <IconButton
+              disabled={isFavouriteBtnDisabled}
+              aria-label={
+                student.isFavourite
+                  ? 'Удалить из избранного'
+                  : 'Добавить в избранное'
+              }
+              variant="plain"
+              color="neutral"
+              size="sm"
+              sx={{ position: 'absolute', top: '0.875rem', right: '0.5rem' }}
+              onClick={() => onFavouriteAdd(student)}
+            >
+              {student.isFavourite ? (
+                <BookmarkAddedOutlined />
+              ) : (
+                <BookmarkAddOutlined />
+              )}
+            </IconButton>
+          </Tooltip>
+        )}
       </div>
 
       <AspectRatio

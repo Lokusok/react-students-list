@@ -42,7 +42,7 @@ function Header(props: TProps) {
           textDecoration: 'none',
           background: 'none',
           display: 'inline-block',
-          fontSize: 40,
+          fontSize: '26px',
         }}
         to={'/'}
       >
@@ -80,7 +80,7 @@ function Header(props: TProps) {
                   transition: 'opacity ease 0.2s',
                   '&:hover': { opacity: 0.7 },
                   '&:active': { opacity: 0.3 },
-                  fontSize: '22px',
+                  fontSize: '24px',
                   fontWeight: 700,
                 }}
                 to="/"

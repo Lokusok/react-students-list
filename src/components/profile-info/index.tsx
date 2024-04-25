@@ -17,8 +17,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { TProfile, TUserInfo } from '@src/shared/types';
 import Title from '../title';
+import makeStudentReadable from '@src/utils/make-student-readable';
+import StudentCard from '../student-card';
+import AdaptiveGrid from '../adaptive-grid';
 
 type TProps = {
+  students: TStudent[];
   profile: TProfile;
   onInfoFormSubmit: (data: TUserInfo) => void;
   isInfoSubmitDisabled?: boolean;
@@ -31,7 +35,7 @@ const schema = z.object({
 });
 
 function ProfileInfo(props: TProps) {
-  const { profile, onInfoFormSubmit, isInfoSubmitDisabled } = props;
+  const { profile, students, onInfoFormSubmit, isInfoSubmitDisabled } = props;
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -72,6 +76,12 @@ function ProfileInfo(props: TProps) {
       if (!nextEditingMode) {
         reset();
       }
+    },
+  };
+
+  const renders = {
+    studentItem: (student: TStudent) => {
+      return <StudentCard student={makeStudentReadable(student)} />;
     },
   };
 
@@ -227,7 +237,15 @@ function ProfileInfo(props: TProps) {
 
       <Divider sx={{ mt: 2.5, mb: 2.5 }} />
 
-      <Title component="h4">Избранные студенты</Title>
+      <Title sx={{ mb: 2 }} component="h4">
+        Избранные студенты
+      </Title>
+
+      <AdaptiveGrid
+        renderItem={renders.studentItem}
+        items={students}
+        keyProp={'id'}
+      />
     </>
   );
 }
