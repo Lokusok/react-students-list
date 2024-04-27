@@ -21,6 +21,8 @@ function ChangeAgreeModal(props: TProps) {
   );
   const [data, setData] = useState<TStudent>(student!);
 
+  console.log(student);
+
   const handlers = {
     onChange: (e: React.ChangeEvent<TInputs>) => {
       setData((prevData) => ({
@@ -46,7 +48,11 @@ function ChangeAgreeModal(props: TProps) {
     onSubmit: async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      await studentsStore.updateStudent(student!.id, data);
+      const form = e.target as HTMLFormElement;
+      const formData = new FormData(form);
+      formData.append('id', crypto.randomUUID());
+
+      await studentsStore.updateStudent(student!.id, formData);
 
       if (studentsStore.error) {
         return snackbarsStore.setErrorSnack({
@@ -60,6 +66,8 @@ function ChangeAgreeModal(props: TProps) {
         bodyText: 'Студент успешно обновлён!',
       });
       onClose();
+
+      form.reset();
     },
   };
 

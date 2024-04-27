@@ -160,9 +160,7 @@ export class StudentsStore {
     try {
       await ApiService.deleteStudent(id);
       this.fetchStudents();
-      runInAction(() => {
-        this.error = '';
-      });
+      this.resetErrors();
     } catch (err) {
       if (err instanceof AxiosError) {
         return runInAction(() => {
@@ -209,19 +207,14 @@ export class StudentsStore {
   /**
    * Обновить студента
    */
-  async updateStudent(id: string, newStudentData: TStudentData) {
+  async updateStudent(id: string, newStudentData: FormData) {
     this.isFetchingUpdate = true;
     this.activeStudents = [...this.activeStudents, id];
 
     try {
       await ApiService.updateStudent(id, newStudentData);
-      runInAction(() => {
-        this.students = this.students.map((student) => {
-          if (student.id === id) return { id, ...newStudentData } as TStudent;
-          return student;
-        });
-        this.error = '';
-      });
+      this.fetchStudents();
+      this.resetErrors();
     } catch (err) {
       if (err instanceof AxiosError) {
         return runInAction(() => {
@@ -241,10 +234,6 @@ export class StudentsStore {
       });
     }
   }
-
-  /**
-   * Добавить студента в избранное
-   */
 
   /**
    * Установить активную роль

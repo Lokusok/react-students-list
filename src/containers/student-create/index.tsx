@@ -4,7 +4,6 @@ import { observer } from 'mobx-react-lite';
 import { TInputs, TStudentData } from '@src/shared/types';
 
 import StudentForm from '@src/components/student-form';
-import SuccessSnackbar from '@src/components/success-snackbar';
 
 import { useStores } from '@src/hooks/use-stores';
 
@@ -16,17 +15,10 @@ const initialData = {
   avatar: null,
 };
 
-type TSnackbar = {
-  buttonText: string;
-  bodyText: string;
-};
-
 function StudentCreate() {
-  const { studentsStore } = useStores();
+  const { studentsStore, snackbarsStore } = useStores();
 
   const [data, setData] = useState<TStudentData>(() => ({ ...initialData }));
-  const [isSnackbarVisible, setIsSnackbarVisible] = useState(false);
-  const [snackbar, setSnackbar] = useState<TSnackbar | null>(null);
 
   const handlers = {
     onChange: (e: React.ChangeEvent<TInputs>) => {
@@ -58,13 +50,20 @@ function StudentCreate() {
       formData.append('id', crypto.randomUUID());
 
       await studentsStore.createStudent(formData);
-      setData({ ...initialData });
 
-      setIsSnackbarVisible(true);
-      setSnackbar({
+      if (studentsStore.error) {
+        return snackbarsStore.setSuccessSnack({
+          buttonText: 'Понятно',
+          bodyText: 'Ошибка при создании студента',
+        });
+      }
+
+      snackbarsStore.setSuccessSnack({
         buttonText: 'Понятно',
-        bodyText: 'Студент успешно добавлен!',
+        bodyText: 'Студент успешно создан',
       });
+      setData({ ...initialData });
+      form.reset();
     },
   };
 
@@ -79,14 +78,6 @@ function StudentCreate() {
         onAvatarChange={handlers.onAvatarChange}
         submitText={'Добавить'}
         disabled={studentsStore.isLoading}
-      />
-
-      <SuccessSnackbar
-        isOpen={isSnackbarVisible}
-        onUnmount={() => setSnackbar(null)}
-        setIsOpen={setIsSnackbarVisible}
-        buttonText={snackbar?.buttonText}
-        bodyText={snackbar?.bodyText}
       />
     </>
   );

@@ -40,6 +40,7 @@ function StudentSkeleton() {
       <Stack direction="row" columnGap={'17px'}>
         <Skeleton variant="rounded" height={33} width={175} />
         <Skeleton variant="rounded" height={33} width={115} />
+        <Skeleton variant="rounded" height={33} width={33} />
       </Stack>
     </>
   );

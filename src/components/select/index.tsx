@@ -25,7 +25,10 @@ function UnstyledSelectControlled(props: TProps) {
         id={props.id}
         name={props.id}
         value={props.value}
-        onChange={(_, newValue) => props.onChange?.(props.id || '', newValue)}
+        onChange={(_, newValue) => {
+          props.onChange?.(props.id || '', newValue);
+          console.log({ newValue });
+        }}
       >
         <Option disabled value={'default'}>
           Выберите роль

@@ -3,23 +3,30 @@ import { memo } from 'react';
 import ListItem from './list-item';
 
 import { List, Paper } from '@mui/material';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
+
+import GppGoodIcon from '@mui/icons-material/GppGood';
+import TokenIcon from '@mui/icons-material/Token';
+import CellTowerIcon from '@mui/icons-material/CellTower';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 
 const items = [
   {
     text: 'Отличник',
     key: 'excellent',
-    icon: <CheckBoxIcon />,
+    icon: <GppGoodIcon />,
   },
   {
     text: 'Хорошист',
     key: 'good',
-    icon: <AccessTimeFilledIcon />,
+    icon: <TokenIcon />,
   },
   {
     text: 'Троечник',
+    key: 'normal',
+    icon: <CellTowerIcon />,
+  },
+  {
+    text: 'Двоечник',
     key: 'bad',
     icon: <EventBusyIcon />,
   },

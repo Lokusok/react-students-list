@@ -100,9 +100,16 @@ class ApiService {
    * @param id {String}
    * @param newStudentData {Object}
    */
-  static async updateStudent(id: string, newStudentData: TStudentData) {
+  static async updateStudent(
+    id: string,
+    newStudentData: FormData
+  ): Promise<TStudentData> {
     try {
-      return await studentsApi.put(`/${id}`, newStudentData);
+      const response = await studentsApi.put<TStudentData>(
+        `/${id}`,
+        newStudentData
+      );
+      return response.data;
     } catch (err) {
       throw err;
     }

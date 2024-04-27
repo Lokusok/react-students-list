@@ -116,6 +116,7 @@ export class SessionStore {
     // 100% должны разлогинить пользователя
     try {
       await ApiService.logout();
+      this.resetErrors();
     } catch (err) {
       if (err instanceof Error) {
         console.log(err.message);
@@ -139,6 +140,7 @@ export class SessionStore {
       runInAction(() => {
         this.profile = profile;
       });
+      this.resetErrors();
     } catch (err) {
       if (err instanceof AxiosError) {
         return runInAction(() => {
@@ -169,6 +171,10 @@ export class SessionStore {
           this.error = err.response?.data.message;
         });
       }
+
+      runInAction(() => {
+        this.error = 'Ошибка при подтверждении пользователя';
+      });
     }
   }
 
@@ -185,6 +191,10 @@ export class SessionStore {
           this.error = err.response?.data.message;
         });
       }
+
+      runInAction(() => {
+        this.error = 'Ошибка при подтверждении пароля';
+      });
     }
   }
 
@@ -205,6 +215,10 @@ export class SessionStore {
           this.error = err.response?.data.message;
         });
       }
+
+      runInAction(() => {
+        this.error = 'Ошибка при удалении пользователя';
+      });
     } finally {
       runInAction(() => {
         this.isWaitingDelete = false;
