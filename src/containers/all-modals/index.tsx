@@ -6,11 +6,13 @@ import LoginModalWrapper from '../login-modal-wrapper';
 import RegisterModalWrapper from '../register-modal-wrapper';
 import DeleteAgreeModal from '../delete-agree-modal';
 import ChangeAgreeModal from '../change-agree-modal';
-import ConfirmPasswordModalWrapper from '../confirm-password-modal-wrapper';
+import ConfirmPasswordUserDeleteModalWrapper from '../confirm-password-user-delete-modal-wrapper';
 
 import { useStores } from '@src/hooks/use-stores';
 
-type TModalsProps = { onClose: () => void };
+type TModalsProps = {
+  onClose: () => void;
+};
 
 function AllModals() {
   const { modalsStore, sessionStore } = useStores();
@@ -36,9 +38,9 @@ function AllModals() {
         sessionStore.resetErrors();
         return <ChangeAgreeModal {...props} />;
       }
-      case 'confirmPassword': {
+      case 'confirmPasswordUserDelete': {
         sessionStore.resetErrors();
-        return <ConfirmPasswordModalWrapper {...props} />;
+        return <ConfirmPasswordUserDeleteModalWrapper {...props} />;
       }
     }
   };

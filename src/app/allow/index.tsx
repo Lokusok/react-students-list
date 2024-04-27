@@ -1,6 +1,7 @@
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 
 import { useStores } from '@src/hooks/use-stores';
 import Allow from '@src/components/allow';
@@ -44,4 +45,4 @@ function AllowPage() {
   );
 }
 
-export default memo(AllowPage);
+export default observer(AllowPage);

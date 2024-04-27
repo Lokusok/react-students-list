@@ -22,8 +22,6 @@ function ActiveRoleSelect() {
         role: value,
         page: 1,
       });
-      // studentsStore.setActiveRole(value);
-      // studentsStore.setCurrentPage(1);
     },
   };
 

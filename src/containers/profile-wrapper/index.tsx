@@ -41,7 +41,7 @@ function ProfileWrapper() {
       callbacks.updateUserInfo(formData);
     },
     onDeleteBtnClick: () => {
-      modalsStore.addActiveModal('confirmPassword');
+      modalsStore.addActiveModal('confirmPasswordUserDelete');
     },
   };
 

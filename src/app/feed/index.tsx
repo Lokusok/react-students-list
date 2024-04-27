@@ -1,14 +1,14 @@
-import { memo } from 'react';
 import { Helmet } from 'react-helmet';
 
-import { Typography, Divider, Grid } from '@mui/material';
+import { observer } from 'mobx-react-lite';
+
+import { Divider } from '@mui/material';
 
 import Feed from '@src/containers/feed';
-import ActiveRoleSelect from '@src/containers/active-role-select';
-import ViewTabsChoice from '@src/containers/view-tabs-choice';
-import useInit from '@src/hooks/use-init';
-import { useStores } from '@src/hooks/use-stores';
 import FeedHeader from '@src/containers/feed-header';
+
+import { useStores } from '@src/hooks/use-stores';
+import useInit from '@src/hooks/use-init';
 
 function FeedPage() {
   const { studentsStore } = useStores();
@@ -32,4 +32,4 @@ function FeedPage() {
   );
 }
 
-export default memo(FeedPage);
+export default observer(FeedPage);

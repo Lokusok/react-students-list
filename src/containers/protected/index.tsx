@@ -30,7 +30,9 @@ function Protected(props: TProps) {
     location,
   ]);
 
-  return <>{props.children}</>;
+  if (sessionStore.profile) {
+    return <>{props.children}</>;
+  }
 }
 
 export default observer(Protected);

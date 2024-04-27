@@ -19,6 +19,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 type TProps = {
   onClose: () => void;
   onSubmit: (data: TInputs) => void;
+  isSubmitBtnDisabled?: boolean;
 };
 
 const schema = z.object({
@@ -46,7 +47,7 @@ function ConfirmPasswordModal(props: TProps) {
   };
 
   const options = {
-    isSubmitBtnDisabled: !isValid,
+    isSubmitBtnDisabled: !isValid || props.isSubmitBtnDisabled,
   };
 
   return (

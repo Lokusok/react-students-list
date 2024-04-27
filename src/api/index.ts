@@ -201,8 +201,10 @@ class ApiService {
    */
   static async deleteUser(userId: string) {
     try {
-      await sessionApi.post('/delete', {
-        id: userId,
+      await sessionApi.delete('/delete', {
+        data: {
+          id: userId,
+        },
       });
     } catch (err) {
       throw err;

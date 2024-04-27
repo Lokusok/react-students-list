@@ -1,4 +1,6 @@
-import { memo } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { observer } from 'mobx-react-lite';
 
 import ConfirmPasswordModal from '@src/components/confirm-password-modal';
 
@@ -8,16 +10,28 @@ type TProps = {
   onClose: () => void;
 };
 
-function ConfirmPasswordModalWrapper(props: TProps) {
+function ConfirmPasswordUserDeleteModalWrapper(props: TProps) {
   const { sessionStore, snackbarsStore } = useStores();
+  const navigate = useNavigate();
 
   const handlers = {
     onFormSubmit: async (data: { password: string }) => {
+      if (!sessionStore.profile) {
+        return snackbarsStore.setErrorSnack({
+          buttonText: 'Понятно',
+          bodyText: 'Вы уже вышли из аккаунта',
+        });
+      }
+
       await sessionStore.confirmPassword(data.password);
 
       if (!sessionStore.error) {
-        props.onClose();
         await sessionStore.deleteUser();
+        await sessionStore.logout();
+
+        navigate('/');
+
+        props.onClose();
         return snackbarsStore.setInfoSnack({
           buttonText: 'Понятно',
           bodyText: 'Пользователь удалён',
@@ -33,9 +47,13 @@ function ConfirmPasswordModalWrapper(props: TProps) {
 
   return (
     <>
-      <ConfirmPasswordModal {...props} onSubmit={handlers.onFormSubmit} />
+      <ConfirmPasswordModal
+        {...props}
+        onSubmit={handlers.onFormSubmit}
+        isSubmitBtnDisabled={sessionStore.isWaitingDelete}
+      />
     </>
   );
 }
 
-export default memo(ConfirmPasswordModalWrapper);
+export default observer(ConfirmPasswordUserDeleteModalWrapper);

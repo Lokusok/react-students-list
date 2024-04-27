@@ -7,7 +7,6 @@ import { AxiosError } from 'axios';
 import { TCountRoles, TStudentData } from '@src/shared/types';
 
 import { TViewStrategies } from './types';
-import student from '@src/app/student';
 
 export class StudentsStore {
   isLoading: boolean = false;

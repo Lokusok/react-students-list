@@ -11,7 +11,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 import adminImage from '@src/assets/admin.jpg';
-import { Button, IconButton, Stack, Tooltip } from '@mui/joy';
+import { Button, IconButton, Stack, Tooltip, Typography } from '@mui/joy';
 
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,7 +21,6 @@ import Title from '../title';
 import makeStudentReadable from '@src/utils/make-student-readable';
 import StudentCard from '../student-card';
 import AdaptiveGrid from '../adaptive-grid';
-import modalsStore from '@src/store/modals';
 
 type TProps = {
   students: TStudent[];
@@ -268,12 +267,17 @@ function ProfileInfo(props: TProps) {
         Избранные студенты
       </Title>
 
-      {}
-      <AdaptiveGrid
-        renderItem={renders.studentItem}
-        items={students}
-        keyProp={'id'}
-      />
+      {students.length > 0 ? (
+        <AdaptiveGrid
+          renderItem={renders.studentItem}
+          items={students}
+          keyProp={'id'}
+        />
+      ) : (
+        <Typography sx={{ color: 'gray' }}>
+          Нет студентов в избранном...
+        </Typography>
+      )}
     </>
   );
 }

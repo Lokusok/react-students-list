@@ -7,6 +7,8 @@ import { AxiosError } from 'axios';
 
 export class SessionStore {
   waiting: boolean = true;
+  isWaitingDelete: boolean = false;
+
   profile: TProfile | null = null;
   error: string = '';
 
@@ -111,23 +113,16 @@ export class SessionStore {
   async logout() {
     this.waiting = true;
 
+    // 100% должны разлогинить пользователя
     try {
       await ApiService.logout();
-      runInAction(() => {
-        this.profile = null;
-      });
     } catch (err) {
-      if (err instanceof AxiosError) {
-        return runInAction(() => {
-          this.error = err.response?.data.error;
-        });
+      if (err instanceof Error) {
+        console.log(err.message);
       }
-
-      runInAction(() => {
-        this.error = 'Ошибка при выходе';
-      });
     } finally {
       runInAction(() => {
+        this.profile = null;
         this.waiting = false;
       });
     }
@@ -197,6 +192,10 @@ export class SessionStore {
    * Удалить пользователя
    */
   async deleteUser() {
+    this.isWaitingDelete = true;
+
+    await new Promise((res) => setTimeout(res, 3000));
+
     try {
       await ApiService.deleteUser(this.profile!.id);
       this.resetErrors();
@@ -206,6 +205,10 @@ export class SessionStore {
           this.error = err.response?.data.message;
         });
       }
+    } finally {
+      runInAction(() => {
+        this.isWaitingDelete = false;
+      });
     }
   }
 }
