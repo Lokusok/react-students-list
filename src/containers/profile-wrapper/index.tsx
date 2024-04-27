@@ -2,14 +2,14 @@ import { observer } from 'mobx-react-lite';
 
 import ProfileInfo from '@src/components/profile-info';
 
-import { TUserInfo } from '@src/shared/types';
-
 import { useStores } from '@src/hooks/use-stores';
 
 import studentsStore from '@src/store/students';
 
+import { TUserInfo } from '@src/shared/types';
+
 function ProfileWrapper() {
-  const { sessionStore, snackbarsStore } = useStores();
+  const { sessionStore, snackbarsStore, modalsStore } = useStores();
 
   const callbacks = {
     updateUserInfo: async (userInfo: FormData) => {
@@ -40,6 +40,9 @@ function ProfileWrapper() {
 
       callbacks.updateUserInfo(formData);
     },
+    onDeleteBtnClick: () => {
+      modalsStore.addActiveModal('confirmPassword');
+    },
   };
 
   const values = {
@@ -52,6 +55,7 @@ function ProfileWrapper() {
       profile={sessionStore.profile!}
       onInfoFormSubmit={handlers.onInfoFormSubmit}
       isInfoSubmitDisabled={sessionStore.waiting}
+      onDeleteBtnClick={handlers.onDeleteBtnClick}
     />
   );
 }

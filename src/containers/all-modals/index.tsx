@@ -6,6 +6,7 @@ import LoginModalWrapper from '../login-modal-wrapper';
 import RegisterModalWrapper from '../register-modal-wrapper';
 import DeleteAgreeModal from '../delete-agree-modal';
 import ChangeAgreeModal from '../change-agree-modal';
+import ConfirmPasswordModalWrapper from '../confirm-password-modal-wrapper';
 
 import { useStores } from '@src/hooks/use-stores';
 
@@ -34,6 +35,10 @@ function AllModals() {
       case 'changeAgree': {
         sessionStore.resetErrors();
         return <ChangeAgreeModal {...props} />;
+      }
+      case 'confirmPassword': {
+        sessionStore.resetErrors();
+        return <ConfirmPasswordModalWrapper {...props} />;
       }
     }
   };

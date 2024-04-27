@@ -8,6 +8,7 @@ import Input from '@mui/joy/Input';
 import Textarea from '@mui/joy/Textarea';
 
 import CreateIcon from '@mui/icons-material/Create';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 import adminImage from '@src/assets/admin.jpg';
 import { Button, IconButton, Stack, Tooltip } from '@mui/joy';
@@ -20,12 +21,14 @@ import Title from '../title';
 import makeStudentReadable from '@src/utils/make-student-readable';
 import StudentCard from '../student-card';
 import AdaptiveGrid from '../adaptive-grid';
+import modalsStore from '@src/store/modals';
 
 type TProps = {
   students: TStudent[];
   profile: TProfile;
   onInfoFormSubmit: (data: TUserInfo) => void;
   isInfoSubmitDisabled?: boolean;
+  onDeleteBtnClick?: () => void;
 };
 
 const schema = z.object({
@@ -35,7 +38,13 @@ const schema = z.object({
 });
 
 function ProfileInfo(props: TProps) {
-  const { profile, students, onInfoFormSubmit, isInfoSubmitDisabled } = props;
+  const {
+    profile,
+    students,
+    onInfoFormSubmit,
+    isInfoSubmitDisabled,
+    onDeleteBtnClick,
+  } = props;
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -65,6 +74,9 @@ function ProfileInfo(props: TProps) {
     onFormSubmit: (data: TUserInfo) => {
       onInfoFormSubmit(data);
       setIsEditing(false);
+    },
+    onDeleteBtnClick: () => {
+      onDeleteBtnClick?.();
     },
   };
 
@@ -226,11 +238,26 @@ function ProfileInfo(props: TProps) {
               />
             </FormControl>
 
-            <Box sx={{ mt: 2 }}>
+            <Stack
+              sx={{ mt: 2 }}
+              direction="row"
+              justifyContent="space-between"
+            >
               <Button type="submit" disabled={options.isSubmitDisabled}>
                 Сохранить
               </Button>
-            </Box>
+
+              {onDeleteBtnClick && (
+                <Tooltip title="Удалить аккаунт">
+                  <IconButton
+                    onClick={handlers.onDeleteBtnClick}
+                    color="danger"
+                  >
+                    <DeleteForeverIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Stack>
           </Box>
         </Grid>
       </Grid>
@@ -241,6 +268,7 @@ function ProfileInfo(props: TProps) {
         Избранные студенты
       </Title>
 
+      {}
       <AdaptiveGrid
         renderItem={renders.studentItem}
         items={students}
