@@ -168,6 +168,19 @@ class ApiService {
       throw err;
     }
   }
+
+  /**
+   * Сделать пользователя подтверждённым
+   */
+  static async allowUser(userId: string) {
+    try {
+      await sessionApi.post('/allow', {
+        id: userId,
+      });
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 export default ApiService;

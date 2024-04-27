@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 
 import { useStores } from '@src/hooks/use-stores';
 
+import InfoSnackbar from '@src/components/info-snackbar';
 import SuccessSnackbar from '@src/components/success-snackbar';
 import ErrorSnackbar from '@src/components/error-snackbar';
 
@@ -10,6 +11,14 @@ function AllSnackbars() {
 
   return (
     <>
+      <InfoSnackbar
+        isOpen={Boolean(snackbarsStore.isInfoSnackVisible)}
+        onClose={() => snackbarsStore.resetInfoSnackVisibility()}
+        onUnmount={() => snackbarsStore.resetInfoSnack()}
+        buttonText={snackbarsStore.infoSnack?.buttonText}
+        bodyText={snackbarsStore.infoSnack?.bodyText}
+      />
+
       <SuccessSnackbar
         isOpen={Boolean(snackbarsStore.isSuccessSnackVisible)}
         onClose={() => snackbarsStore.resetSuccessSnackVisibility()}

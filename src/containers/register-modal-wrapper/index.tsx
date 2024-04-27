@@ -18,9 +18,9 @@ function RegisterModalWrapper(props: TProps) {
       await sessionStore.registerUser(data);
 
       if (!sessionStore.error) {
-        snackbarsStore.setSuccessSnack({
+        snackbarsStore.setInfoSnack({
           buttonText: 'Понятно',
-          bodyText: 'Регистрация прошла успешно!',
+          bodyText: 'Письмо с подтверждением отправлено на почту',
         });
 
         modalsStore.removeActiveModal('register');

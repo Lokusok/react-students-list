@@ -6,14 +6,24 @@ type TSnack = {
 };
 
 export class SnackbarsStore {
+  isInfoSnackVisible: boolean = false;
   isSuccessSnackVisible: boolean = false;
   isErrorSnackVisible: boolean = false;
 
+  infoSnack: TSnack | null = null;
   successSnack: TSnack | null = null;
   errorSnack: TSnack | null = null;
 
   constructor() {
     makeAutoObservable(this);
+  }
+
+  /**
+   * Установить снекбар с обычной информацией
+   */
+  setInfoSnack(snack: TSnack) {
+    this.isInfoSnackVisible = true;
+    this.infoSnack = snack;
   }
 
   /**
@@ -30,6 +40,20 @@ export class SnackbarsStore {
   setErrorSnack(snack: TSnack) {
     this.isErrorSnackVisible = true;
     this.errorSnack = snack;
+  }
+
+  /**
+   * Сбросить снекбар с информацией
+   */
+  resetInfoSnack() {
+    this.infoSnack = null;
+  }
+
+  /**
+   * Сбросить видимость информационного снекбара
+   */
+  resetInfoSnackVisibility() {
+    this.isInfoSnackVisible = false;
   }
 
   /**

@@ -17,6 +17,7 @@ const LazyFeed = React.lazy(() => import('./feed'));
 const LazyPanel = React.lazy(() => import('./panel'));
 const LazyStudent = React.lazy(() => import('./student'));
 const LazyProfile = React.lazy(() => import('./profile'));
+const LazyAllow = React.lazy(() => import('./allow'));
 
 const routes = [
   {
@@ -68,6 +69,14 @@ const routes = [
             <Protected redirectTo="/">
               <LazyProfile />
             </Protected>
+          </Suspense>
+        ),
+      },
+      {
+        path: '/allow/:id',
+        element: (
+          <Suspense fallback={<h3>Загрузка...</h3>}>
+            <LazyAllow />
           </Suspense>
         ),
       },

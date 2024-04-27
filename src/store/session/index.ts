@@ -28,11 +28,8 @@ export class SessionStore {
     this.waiting = true;
 
     try {
-      const user = await ApiService.registerUser(userData);
+      await ApiService.registerUser(userData);
       this.resetErrors();
-      runInAction(() => {
-        this.profile = user;
-      });
     } catch (err) {
       if (err instanceof AxiosError) {
         return runInAction(() => {
@@ -161,6 +158,22 @@ export class SessionStore {
       runInAction(() => {
         this.waiting = false;
       });
+    }
+  }
+
+  /**
+   * Сделать пользователя подтверждённым
+   */
+  async makeAllowedUser(userId: string) {
+    try {
+      await ApiService.allowUser(userId);
+      this.resetErrors();
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return runInAction(() => {
+          this.error = err.response?.data.message;
+        });
+      }
     }
   }
 }
