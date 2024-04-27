@@ -181,12 +181,14 @@ export class StudentsStore {
     }
   }
 
+  /**
+   * Удалить сразу нескольких студентов
+   */
   async deleteStudents(ids: string[]) {
     this.isFetchingDelete = true;
 
     try {
       await ApiService.deleteStudents(ids);
-      await new Promise((res) => setTimeout(res, 3000));
       this.fetchStudents();
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -212,8 +214,6 @@ export class StudentsStore {
     this.isFetchingUpdate = true;
     this.activeStudents = [...this.activeStudents, id];
 
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-
     try {
       await ApiService.updateStudent(id, newStudentData);
       runInAction(() => {
@@ -235,10 +235,10 @@ export class StudentsStore {
       });
     } finally {
       runInAction(() => {
-        this.isFetchingUpdate = Boolean(this.activeStudents.length);
         this.activeStudents = this.activeStudents.filter(
           (existId) => existId !== id
         );
+        this.isFetchingUpdate = Boolean(this.activeStudents.length);
       });
     }
   }

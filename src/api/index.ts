@@ -181,6 +181,33 @@ class ApiService {
       throw err;
     }
   }
+
+  /**
+   * Подтвердить пароль пользователя
+   */
+  static async confirmPassword(userId: string, password: string) {
+    try {
+      await sessionApi.post('/confirm', {
+        id: userId,
+        password,
+      });
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  /**
+   * Удалить пользователя
+   */
+  static async deleteUser(userId: string) {
+    try {
+      await sessionApi.post('/delete', {
+        id: userId,
+      });
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 export default ApiService;

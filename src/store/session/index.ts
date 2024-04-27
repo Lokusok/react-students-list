@@ -176,6 +176,38 @@ export class SessionStore {
       }
     }
   }
+
+  /**
+   * Подтверждение пароля
+   */
+  async confirmPassword(password: string) {
+    try {
+      await ApiService.confirmPassword(this.profile!.id, password);
+      this.resetErrors();
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return runInAction(() => {
+          this.error = err.response?.data.message;
+        });
+      }
+    }
+  }
+
+  /**
+   * Удалить пользователя
+   */
+  async deleteUser() {
+    try {
+      await ApiService.deleteUser(this.profile!.id);
+      this.resetErrors();
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return runInAction(() => {
+          this.error = err.response?.data.message;
+        });
+      }
+    }
+  }
 }
 
 const sessionStore = new SessionStore();

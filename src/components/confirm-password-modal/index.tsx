@@ -11,23 +11,43 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle';
 import DialogContent from '@mui/joy/DialogContent';
 import Stack from '@mui/joy/Stack';
-import { ModalClose } from '@mui/joy';
+import { FormHelperText, ModalClose } from '@mui/joy';
 
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 type TProps = {
-  onClose?: () => void;
+  onClose: () => void;
+  onSubmit: (data: TInputs) => void;
 };
 
 const schema = z.object({
-  password: z.string(),
+  password: z.string().min(1, { message: 'Введите пароль!' }),
 });
 
+type TInputs = {
+  password: string;
+};
+
 function ConfirmPasswordModal(props: TProps) {
-  const { ...register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<TInputs>({
     resolver: zodResolver(schema),
   });
+
+  const handlers = {
+    onSubmit: (data: TInputs) => {
+      console.log('@', data);
+      props.onSubmit(data);
+    },
+  };
+
+  const options = {
+    isSubmitBtnDisabled: !isValid,
+  };
 
   return (
     <Modal open={true} onClose={() => props.onClose?.()}>
@@ -37,14 +57,20 @@ function ConfirmPasswordModal(props: TProps) {
         <DialogContent>
           Для совершения действия, введите пароль от аккаунта
         </DialogContent>
-        <form onSubmit={() => console.log('hello world')}>
+        <form onSubmit={handleSubmit(handlers.onSubmit)}>
           <Stack spacing={2}>
-            <FormControl>
+            <FormControl error={Boolean(errors.password)}>
               <FormLabel>Пароль:</FormLabel>
-              <Input type="password" required />
+              <Input {...register('password')} type="password" required />
+
+              {errors.password && (
+                <FormHelperText>{errors.password?.message}</FormHelperText>
+              )}
             </FormControl>
 
-            <Button type="submit">Подтвердить</Button>
+            <Button disabled={options.isSubmitBtnDisabled} type="submit">
+              Подтвердить
+            </Button>
           </Stack>
         </form>
       </ModalDialog>
