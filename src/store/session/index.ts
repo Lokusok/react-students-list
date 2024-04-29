@@ -57,10 +57,10 @@ export class SessionStore {
 
     try {
       const user = await ApiService.loginUser(userData);
-      this.resetErrors();
       runInAction(() => {
         this.profile = user;
       });
+      this.resetErrors();
     } catch (err) {
       if (err instanceof AxiosError) {
         return runInAction(() => {
@@ -86,10 +86,10 @@ export class SessionStore {
 
     try {
       const user = await ApiService.remind();
-      this.resetErrors();
       runInAction(() => {
         this.profile = user;
       });
+      this.resetErrors();
     } catch (err) {
       if (err instanceof AxiosError) {
         return runInAction(() => {
@@ -168,7 +168,7 @@ export class SessionStore {
     } catch (err) {
       if (err instanceof AxiosError) {
         return runInAction(() => {
-          this.error = err.response?.data.message;
+          this.error = err.response?.data.error;
         });
       }
 

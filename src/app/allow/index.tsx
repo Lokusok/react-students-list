@@ -38,9 +38,11 @@ function AllowPage() {
     asyncEffect();
   }, [id, sessionStore, snackbarsStore]);
 
+  console.log({ sessionStoreError: sessionStore.error });
+
   return (
     <>
-      <Allow status={status} />
+      <Allow status={status} error={sessionStore.error} />
     </>
   );
 }
