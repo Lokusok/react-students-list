@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Skeleton } from '@mui/material';
 
 import Panel from '@src/components/panel';
@@ -15,4 +16,4 @@ function PanelSkeleton() {
   );
 }
 
-export default PanelSkeleton;
+export default memo(PanelSkeleton);

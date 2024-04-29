@@ -37,6 +37,10 @@ function LoginModalWrapper(props: TProps) {
         });
       }
     },
+
+    onForgotPasswordClick: () => {
+      modalsStore.removeActiveModal('login');
+    },
   };
 
   return (
@@ -45,6 +49,8 @@ function LoginModalWrapper(props: TProps) {
       onFormSubmit={handlers.onFormSubmit}
       errorMessage={sessionStore.error}
       isSubmitDisabled={sessionStore.waiting}
+      forgotPasswordLink={'/password_restore'}
+      onForgotPasswordClick={handlers.onForgotPasswordClick}
     />
   );
 }

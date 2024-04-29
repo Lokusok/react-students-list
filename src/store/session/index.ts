@@ -119,7 +119,7 @@ export class SessionStore {
       this.resetErrors();
     } catch (err) {
       if (err instanceof Error) {
-        console.log(err.message);
+        console.error(err.message);
       }
     } finally {
       runInAction(() => {

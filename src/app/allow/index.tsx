@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 
 import { useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
@@ -38,10 +39,12 @@ function AllowPage() {
     asyncEffect();
   }, [id, sessionStore, snackbarsStore]);
 
-  console.log({ sessionStoreError: sessionStore.error });
-
   return (
     <>
+      <Helmet>
+        <title>Подтверждение аккаунта</title>
+      </Helmet>
+
       <Allow status={status} error={sessionStore.error} />
     </>
   );

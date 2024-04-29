@@ -19,12 +19,15 @@ import { TUserLogin } from '@src/shared/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { dataForm } from '@src/shared/schemas';
 import z from 'zod';
+import { Link } from 'react-router-dom';
 
 type TProps = {
   isSubmitDisabled?: boolean;
   onFormSubmit: (data: TUserLogin) => void;
   onClose: () => void;
   errorMessage: string;
+  forgotPasswordLink?: string;
+  onForgotPasswordClick?: () => void;
 };
 
 const loginDataForm = dataForm.extend({
@@ -101,6 +104,17 @@ function LoginModal(props: TProps) {
               <FormControl>
                 <Checkbox {...register('remember')} label="Запомнить" />
               </FormControl>
+
+              {props.forgotPasswordLink && (
+                <FormControl>
+                  <Link
+                    to={props.forgotPasswordLink}
+                    onClick={() => props.onForgotPasswordClick?.()}
+                  >
+                    Забыли пароль?
+                  </Link>
+                </FormControl>
+              )}
 
               {options.isShowedFormError && (
                 <FormControl error>

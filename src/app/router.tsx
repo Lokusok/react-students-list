@@ -7,10 +7,12 @@ import App from '.';
 import FeedSkeleton from '@src/components/skeletons/feed-skeleton';
 import PanelSkeleton from '@src/components/skeletons/panel-skeleton';
 import MainSkeleton from '@src/components/skeletons/main-skeleton';
+import ProfileSkeleton from '@src/components/skeletons/profile-skeleton';
 
 import NotFoundPage from './not-found';
 import Protected from '@src/containers/protected';
 import StudentSkeleton from '@src/components/skeletons/student-skeleton';
+import GridSkeleton from '@src/components/skeletons/feed-skeleton/grid-skeleton';
 
 const LazyMain = React.lazy(() => import('./main'));
 const LazyFeed = React.lazy(() => import('./feed'));
@@ -18,6 +20,7 @@ const LazyPanel = React.lazy(() => import('./panel'));
 const LazyStudent = React.lazy(() => import('./student'));
 const LazyProfile = React.lazy(() => import('./profile'));
 const LazyAllow = React.lazy(() => import('./allow'));
+const LazyRestore = React.lazy(() => import('./password-restore'));
 
 const routes = [
   {
@@ -65,7 +68,9 @@ const routes = [
       {
         path: '/profile',
         element: (
-          <Suspense fallback={<h3>Загрузка...</h3>}>
+          <Suspense
+            fallback={<ProfileSkeleton gridSkeleton={() => <GridSkeleton />} />}
+          >
             <Protected redirectTo="/">
               <LazyProfile />
             </Protected>
@@ -77,6 +82,14 @@ const routes = [
         element: (
           <Suspense fallback={<h3>Загрузка...</h3>}>
             <LazyAllow />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/password_restore',
+        element: (
+          <Suspense fallback={<h3>Загрузка...</h3>}>
+            <LazyRestore />
           </Suspense>
         ),
       },

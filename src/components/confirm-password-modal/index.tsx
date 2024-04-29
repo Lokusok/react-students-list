@@ -41,7 +41,6 @@ function ConfirmPasswordModal(props: TProps) {
 
   const handlers = {
     onSubmit: (data: TInputs) => {
-      console.log('@', data);
       props.onSubmit(data);
     },
   };

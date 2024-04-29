@@ -102,8 +102,8 @@ function ProfileInfo(props: TProps) {
 
       <Divider sx={{ mt: 2, mb: 2 }} />
 
-      <Grid container columnGap="20px">
-        <Grid item xs={3.45}>
+      <Grid container rowGap="25px" columnGap="20px">
+        <Grid item sx={{ display: 'flex' }} xs={12} lg={3.45}>
           <Tooltip
             open={Boolean(avatarVal)}
             title={
@@ -144,8 +144,7 @@ function ProfileInfo(props: TProps) {
             >
               <Box
                 component={'img'}
-                sx={{ objectFit: 'cover' }}
-                width={300}
+                sx={{ objectFit: 'cover', width: { xs: 250, sm: 300 } }}
                 height={320}
                 src={options.avatar}
                 alt="Аватар пользователя"
@@ -177,7 +176,7 @@ function ProfileInfo(props: TProps) {
           </Tooltip>
         </Grid>
 
-        <Grid item xs={6.5}>
+        <Grid item xs={12} lg={6.5}>
           <Stack
             direction="row"
             alignItems={'center'}
@@ -203,7 +202,15 @@ function ProfileInfo(props: TProps) {
             onSubmit={handleSubmit(handlers.onFormSubmit)}
             encType="multipart/form-data"
           >
-            <Stack sx={{ mb: 1.5 }} direction="row" spacing={3}>
+            <Box
+              sx={{
+                display: 'flex',
+                rowGap: '10px',
+                flexWrap: 'wrap',
+                mb: 1.5,
+                columnGap: '20px',
+              }}
+            >
               <FormControl>
                 <FormLabel>Имя:</FormLabel>
                 <Input
@@ -224,7 +231,7 @@ function ProfileInfo(props: TProps) {
                   />
                 </FormControl>
               </Tooltip>
-            </Stack>
+            </Box>
 
             <FormControl>
               <FormLabel>Немного о себе:</FormLabel>

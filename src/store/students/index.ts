@@ -207,13 +207,21 @@ export class StudentsStore {
   /**
    * Обновить студента
    */
-  async updateStudent(id: string, newStudentData: FormData) {
+  async updateStudent(
+    id: string,
+    newStudentData: FormData,
+    fetchAllAgain = true
+  ) {
     this.isFetchingUpdate = true;
     this.activeStudents = [...this.activeStudents, id];
 
     try {
-      await ApiService.updateStudent(id, newStudentData);
-      this.fetchStudents();
+      const student = await ApiService.updateStudent(id, newStudentData);
+      if (fetchAllAgain) this.fetchStudents();
+      else
+        this.students = this.students.map((s) =>
+          s.id === student.id ? student : s
+        );
       this.resetErrors();
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -233,6 +241,23 @@ export class StudentsStore {
         this.isFetchingUpdate = Boolean(this.activeStudents.length);
       });
     }
+  }
+
+  /**
+   * Переключатель студента в избранное
+   */
+  async toggleFavourite(id: string) {
+    const student = this.students.find((s) => s.id === id);
+    const favouriteStudent = new FormData();
+
+    for (const key in student) {
+      const value = student[key as keyof typeof student];
+      favouriteStudent.append(key, String(value));
+    }
+
+    favouriteStudent.set('isFavourite', String(!student?.isFavourite));
+
+    await this.updateStudent(id, favouriteStudent, false);
   }
 
   /**

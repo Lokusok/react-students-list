@@ -78,11 +78,7 @@ function Feed() {
     },
 
     addToFavourite: async (student: TStudent) => {
-      const favouriteStudent: TStudent = {
-        ...student,
-        isFavourite: !student.isFavourite,
-      };
-      await studentsStore.updateStudent(student.id, favouriteStudent);
+      await studentsStore.toggleFavourite(student.id);
 
       if (!studentsStore.error) {
         return snackbarsStore.setSuccessSnack({

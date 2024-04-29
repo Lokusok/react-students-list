@@ -8,6 +8,7 @@ import GppGoodIcon from '@mui/icons-material/GppGood';
 import TokenIcon from '@mui/icons-material/Token';
 import CellTowerIcon from '@mui/icons-material/CellTower';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
+import { Box, Divider, Stack } from '@mui/joy';
 
 const items = [
   {
@@ -34,6 +35,7 @@ const items = [
 
 type TProps = {
   totals: Record<string, string | number>;
+  renderFooter: () => React.ReactNode;
 };
 
 function Total(props: TProps) {
@@ -46,6 +48,13 @@ function Total(props: TProps) {
           }`}</ListItem>
         ))}
       </List>
+
+      {props.renderFooter && (
+        <>
+          <Divider sx={{ mb: 1.5 }} />
+          {props.renderFooter()}
+        </>
+      )}
     </Paper>
   );
 }

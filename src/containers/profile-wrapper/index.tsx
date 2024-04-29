@@ -14,6 +14,7 @@ function ProfileWrapper() {
   const callbacks = {
     updateUserInfo: async (userInfo: FormData) => {
       await sessionStore.changeUserInfo(userInfo);
+      modalsStore.removeActiveModal('confirmPasswordUserDelete');
 
       if (sessionStore.error) {
         return snackbarsStore.setErrorSnack({

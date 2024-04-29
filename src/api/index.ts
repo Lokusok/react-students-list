@@ -103,9 +103,9 @@ class ApiService {
   static async updateStudent(
     id: string,
     newStudentData: FormData
-  ): Promise<TStudentData> {
+  ): Promise<TStudent> {
     try {
-      const response = await studentsApi.put<TStudentData>(
+      const response = await studentsApi.put<TStudent>(
         `/${id}`,
         newStudentData
       );

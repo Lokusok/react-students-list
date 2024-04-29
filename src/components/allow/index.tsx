@@ -18,21 +18,21 @@ function Allow(props: TProps) {
   const { status, error } = props;
 
   const navigate = useNavigate();
-  const [timeToRedirect, setTimeToRedirect] = useState(0);
+  const [timeToRedirect, setTimeToRedirect] = useState(5);
 
-  // useEffect(() => {
-  //   const interval = setInterval(
-  //     () => setTimeToRedirect(timeToRedirect - 1),
-  //     1000
-  //   );
-  //   return () => clearInterval(interval);
-  // }, [timeToRedirect]);
+  useEffect(() => {
+    const interval = setInterval(
+      () => setTimeToRedirect(timeToRedirect - 1),
+      1000
+    );
+    return () => clearInterval(interval);
+  }, [timeToRedirect]);
 
-  // if (timeToRedirect === 0) {
-  //   navigate('/');
-  // }
+  if (timeToRedirect === 0 && status !== 'rejected') {
+    navigate('/');
+  }
 
-  if (error || status === 'rejected') {
+  if (error && status === 'rejected') {
     return (
       <Box>
         <Alert variant="soft" color="danger" startDecorator={<ReportIcon />}>
