@@ -9,6 +9,7 @@ import ChangeAgreeModal from '../change-agree-modal';
 import ConfirmPasswordUserDeleteModalWrapper from '../confirm-password-user-delete-modal-wrapper';
 
 import useStores from '@src/hooks/use-stores';
+import RolesChartModalWrapper from '../roles-chart-modal-wrapper';
 
 type TModalsProps = {
   onClose: () => void;
@@ -41,6 +42,10 @@ function AllModals() {
       case 'confirmPasswordUserDelete': {
         sessionStore.resetErrors();
         return <ConfirmPasswordUserDeleteModalWrapper {...props} />;
+      }
+      case 'rolesCountChart': {
+        sessionStore.resetErrors();
+        return <RolesChartModalWrapper {...props} />;
       }
     }
   };

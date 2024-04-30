@@ -11,6 +11,8 @@ import AllSnackbars from '@src/containers/all-snackbars';
 
 import useStores from '@src/hooks/use-stores';
 import useInit from '@src/hooks/use-init';
+import RolesChartModalWrapper from '@src/containers/roles-chart-modal-wrapper';
+import { Box } from '@mui/material';
 
 function App() {
   const { studentsStore, sessionStore } = useStores();
@@ -31,7 +33,9 @@ function App() {
   ]);
 
   return (
-    <PageLayout head={<Header isProfileVisible={sessionStore.profile} />}>
+    <PageLayout
+      head={<Header isProfileVisible={Boolean(sessionStore.profile)} />}
+    >
       <Outlet />
 
       <AllModals />
