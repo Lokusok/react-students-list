@@ -225,11 +225,11 @@ export class SessionStore {
   /**
    * Удалить пользователя
    */
-  async deleteUser() {
+  async deleteUser(password: string) {
     this.isWaitingDelete = true;
 
     try {
-      await ApiService.deleteUser(this.profile!.id);
+      await ApiService.deleteUser(this.profile!.id, password);
       this.resetErrors();
     } catch (err) {
       if (err instanceof AxiosError)

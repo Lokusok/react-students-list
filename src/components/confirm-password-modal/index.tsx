@@ -20,6 +20,7 @@ type TProps = {
   onClose: () => void;
   onSubmit: (data: TInputs) => void;
   isSubmitBtnDisabled?: boolean;
+  errorPasswordField?: string;
 };
 
 const schema = z.object({
@@ -59,12 +60,20 @@ function ConfirmPasswordModal(props: TProps) {
         </DialogContent>
         <form onSubmit={handleSubmit(handlers.onSubmit)}>
           <Stack spacing={2}>
-            <FormControl error={Boolean(errors.password)}>
+            <FormControl
+              error={
+                Boolean(errors.password) || Boolean(props.errorPasswordField)
+              }
+            >
               <FormLabel>Пароль:</FormLabel>
               <Input {...register('password')} type="password" required />
 
               {errors.password && (
                 <FormHelperText>{errors.password?.message}</FormHelperText>
+              )}
+
+              {props.errorPasswordField && (
+                <FormHelperText>{props.errorPasswordField}</FormHelperText>
               )}
             </FormControl>
 

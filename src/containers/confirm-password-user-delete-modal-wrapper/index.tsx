@@ -23,10 +23,11 @@ function ConfirmPasswordUserDeleteModalWrapper(props: TProps) {
         });
       }
 
-      await sessionStore.confirmPassword(data.password);
+      // await sessionStore.confirmPassword(data.password);
+
+      await sessionStore.deleteUser(data.password);
 
       if (!sessionStore.error) {
-        await sessionStore.deleteUser();
         await sessionStore.logout();
 
         navigate('/');
@@ -40,7 +41,7 @@ function ConfirmPasswordUserDeleteModalWrapper(props: TProps) {
 
       snackbarsStore.setErrorSnack({
         buttonText: 'Понятно',
-        bodyText: 'Ошибка при удалении пользователя',
+        bodyText: sessionStore.error,
       });
     },
   };
@@ -51,6 +52,7 @@ function ConfirmPasswordUserDeleteModalWrapper(props: TProps) {
         {...props}
         onSubmit={handlers.onFormSubmit}
         isSubmitBtnDisabled={sessionStore.isWaitingDelete}
+        errorPasswordField={sessionStore.error}
       />
     </>
   );

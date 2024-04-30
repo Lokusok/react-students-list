@@ -207,11 +207,12 @@ class ApiService {
   /**
    * Удалить пользователя
    */
-  static async deleteUser(userId: string) {
+  static async deleteUser(userId: string, password: string) {
     try {
       await sessionApi.delete('/delete', {
         data: {
           id: userId,
+          password,
         },
       });
     } catch (err) {
