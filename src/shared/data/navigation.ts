@@ -25,4 +25,9 @@ export const navigationMobile = [
     name: 'Управление',
     path: '/panel',
   },
+
+  {
+    name: 'Профиль',
+    path: '/profile',
+  },
 ];

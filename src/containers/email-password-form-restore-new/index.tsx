@@ -7,7 +7,7 @@ import { Box } from '@mui/joy';
 import Title from '@src/components/title';
 import EmailPasswordFormNew from '@src/components/email-password-form-new';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 
 import { TUserMainLogin } from '@src/shared/types';
 

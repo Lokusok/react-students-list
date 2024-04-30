@@ -7,7 +7,7 @@ function PanelSkeleton() {
   return (
     <Panel
       renderLeft={() => (
-        <Skeleton animation="wave" variant={'rounded'} height={245} />
+        <Skeleton animation="wave" variant={'rounded'} height={285} />
       )}
       renderRight={() => (
         <Skeleton animation="wave" variant={'rounded'} height={500} />

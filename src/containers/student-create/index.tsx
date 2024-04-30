@@ -5,7 +5,7 @@ import { TInputs, TStudentData } from '@src/shared/types';
 
 import StudentForm from '@src/components/student-form';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 
 const initialData = {
   name: '',

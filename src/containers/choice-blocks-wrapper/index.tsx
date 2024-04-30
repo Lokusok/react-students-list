@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 
 import ChoiceBlocks from '@src/components/choice-blocks';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 
 import { TChoiceProps } from './types';
 

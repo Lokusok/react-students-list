@@ -8,7 +8,7 @@ import DeleteAgreeModal from '../delete-agree-modal';
 import ChangeAgreeModal from '../change-agree-modal';
 import ConfirmPasswordUserDeleteModalWrapper from '../confirm-password-user-delete-modal-wrapper';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 
 type TModalsProps = {
   onClose: () => void;

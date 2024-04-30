@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import PieChartIcon from '@mui/icons-material/PieChart';
 import Total from '@src/components/total';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 import { Box, IconButton, Tooltip } from '@mui/joy';
 
 function TotalObserver() {

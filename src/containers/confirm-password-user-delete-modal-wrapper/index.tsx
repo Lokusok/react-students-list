@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 import ConfirmPasswordModal from '@src/components/confirm-password-modal';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 
 type TProps = {
   onClose: () => void;

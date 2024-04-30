@@ -6,7 +6,7 @@ import Title from '@src/components/title';
 import EmailForm from '@src/components/email-form';
 import DangerousIcon from '@mui/icons-material/Dangerous';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 
 function EmailFormRestorePassword() {
   const { sessionStore, snackbarsStore } = useStores();

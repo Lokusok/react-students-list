@@ -10,7 +10,7 @@ type TGlobalStore = {
   snackbarsStore: SnackbarsStore;
 };
 
-export function useStores(): TGlobalStore {
+function useStores(): TGlobalStore {
   return {
     modalsStore,
     sessionStore,
@@ -18,3 +18,5 @@ export function useStores(): TGlobalStore {
     snackbarsStore,
   };
 }
+
+export default useStores;

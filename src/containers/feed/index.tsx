@@ -19,7 +19,7 @@ import PaginationWrapper from '../pagination-wrapper';
 import produceEntries from '@src/utils/produce-entries';
 import makeStudentReadable from '@src/utils/make-student-readable';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 
 function Feed() {
   const { studentsStore, snackbarsStore } = useStores();

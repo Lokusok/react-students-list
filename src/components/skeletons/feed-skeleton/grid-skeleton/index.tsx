@@ -7,7 +7,13 @@ import { Skeleton } from '@mui/material';
 function GridSkeleton() {
   const renders = {
     skeletonItem: () => (
-      <Skeleton animation="wave" variant="rounded" width={'80%'} height={230} />
+      <Skeleton
+        animation="wave"
+        sx={{ transform: 'none' }}
+        variant="rounded"
+        width={290}
+        height={270}
+      />
     ),
   };
 

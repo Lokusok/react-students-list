@@ -4,7 +4,7 @@ import StudentInfo from '@src/components/student-info';
 
 import { Typography } from '@mui/material';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 
 import makeStudentReadable from '@src/utils/make-student-readable';
 

@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 import Allow from '@src/components/allow';
 
 function AllowPage() {

@@ -9,7 +9,7 @@ import { navigation } from '@src/shared/data/navigation';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 import { Tooltip } from '@mui/joy';
 
 type TProps = {

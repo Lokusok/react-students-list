@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 
 import ChangeModal from '@src/components/change-modal';
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 
 import { TInputs } from '@src/shared/types';
 

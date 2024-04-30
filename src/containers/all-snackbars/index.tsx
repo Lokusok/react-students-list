@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 
 import InfoSnackbar from '@src/components/info-snackbar';
 import SuccessSnackbar from '@src/components/success-snackbar';

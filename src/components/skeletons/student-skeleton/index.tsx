@@ -7,7 +7,14 @@ import { Skeleton } from '@mui/material';
 function StudentSkeleton() {
   return (
     <>
-      <Skeleton variant="rounded" height={25} width={420} />
+      <Box
+        sx={{
+          display: { xs: 'flex', md: 'block' },
+          justifyContent: { xs: 'center', md: 'flex-start' },
+        }}
+      >
+        <Skeleton variant="rounded" height={25} width={420} />
+      </Box>
 
       <Divider sx={{ mt: 2, mb: 2 }} />
 
@@ -32,12 +39,28 @@ function StudentSkeleton() {
           </Stack>
         </Grid>
 
-        <Skeleton sx={{ transform: 'none' }} width={'300px'} height={'300px'} />
+        <Box
+          sx={{
+            display: { xs: 'flex', md: 'initial' },
+            width: { xs: '100%', md: 'initial' },
+            justifyContent: { xs: 'center', md: 'initial' },
+          }}
+        >
+          <Skeleton
+            sx={{ transform: 'none' }}
+            width={'300px'}
+            height={'300px'}
+          />
+        </Box>
       </Grid>
 
       <Divider sx={{ mt: 2, mb: 2 }} />
 
-      <Stack direction="row" columnGap={'17px'}>
+      <Stack
+        direction="row"
+        columnGap={'17px'}
+        sx={{ justifyContent: { xs: 'center', md: 'flex-start' } }}
+      >
         <Skeleton variant="rounded" height={33} width={175} />
         <Skeleton variant="rounded" height={33} width={115} />
         <Skeleton variant="rounded" height={33} width={33} />

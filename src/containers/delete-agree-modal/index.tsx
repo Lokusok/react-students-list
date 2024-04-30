@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import AgreeModal from '@src/components/agree-modal';
 import { Typography } from '@mui/material';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 
 type TProps = {
   onClose: () => void;

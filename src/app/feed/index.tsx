@@ -7,7 +7,7 @@ import { Divider } from '@mui/material';
 import Feed from '@src/containers/feed';
 import FeedHeader from '@src/containers/feed-header';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 import useInit from '@src/hooks/use-init';
 
 function FeedPage() {

@@ -1,7 +1,6 @@
 import { memo } from 'react';
 
 import { Skeleton, Grid, Box, Divider } from '@mui/material';
-import GridSkeleton from '../feed-skeleton/grid-skeleton';
 
 type TProps = {
   gridSkeleton: () => React.ReactNode;
@@ -18,12 +17,15 @@ function ProfileSkeleton(props: TProps) {
 
       <Divider sx={{ mt: 2, mb: 2 }} />
 
-      <Grid container columnGap="20px">
+      <Grid container rowGap="25px" columnGap="20px">
         <Grid item xs={12} lg={3.5}>
-          <Skeleton sx={{ transform: 'none  ' }} height={330} />
+          <Skeleton
+            sx={{ transform: 'none', maxWidth: '330px' }}
+            height={330}
+          />
         </Grid>
         <Grid item xs={12} lg={6}>
-          <Skeleton sx={{ transform: 'none  ' }} height={330} />
+          <Skeleton sx={{ transform: 'none' }} height={330} />
         </Grid>
       </Grid>
 

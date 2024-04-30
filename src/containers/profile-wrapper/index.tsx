@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 
 import ProfileInfo from '@src/components/profile-info';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 
 import studentsStore from '@src/store/students';
 

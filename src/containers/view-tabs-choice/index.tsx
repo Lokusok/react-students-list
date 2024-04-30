@@ -9,7 +9,7 @@ import Stack from '@mui/joy/Stack';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import TableRowsIcon from '@mui/icons-material/TableRows';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 
 import { TViewStrategies } from '@src/store/students/types';
 

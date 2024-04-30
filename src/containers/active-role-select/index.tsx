@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import Select from '@src/components/select';
 import { studentsRoles } from '@src/shared/data/students-roles';
 
-import { useStores } from '@src/hooks/use-stores';
+import useStores from '@src/hooks/use-stores';
 
 const rolesOptions = [
   {
