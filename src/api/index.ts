@@ -224,7 +224,7 @@ class ApiService {
    */
   static async startRestorePassword(email: string) {
     try {
-      await sessionApi.post('/start_password_restore/', {
+      await sessionApi.post('/start_password_restore', {
         email,
       });
     } catch (err) {
@@ -238,7 +238,7 @@ class ApiService {
   static async resetPassword(data: TUserMainLogin) {
     try {
       await sessionApi.post('/password_reset', {
-        email: data.login,
+        login: data.login,
         password: data.password,
       });
     } catch (err) {

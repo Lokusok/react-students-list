@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import { observer } from 'mobx-react-lite';
 
 import { Box } from '@mui/joy';
@@ -11,24 +13,29 @@ import { TUserMainLogin } from '@src/shared/types';
 
 function EmailPasswordFormRestoreNew() {
   const { sessionStore, snackbarsStore } = useStores();
+  const navigate = useNavigate();
 
   const handlers = {
     onNewPasswordFormSubmit: async (data: TUserMainLogin) => {
       await sessionStore.resetPassword(data);
-      console.log(data);
 
       if (!sessionStore.error) {
-        return snackbarsStore.setSuccessSnack({
+        snackbarsStore.setSuccessSnack({
           buttonText: 'Понятно',
           bodyText: 'Пароль успешно обновлён!',
         });
+        return navigate('/');
       }
 
       snackbarsStore.setErrorSnack({
         buttonText: 'Понятно',
-        bodyText: 'Произошла ошибка при обновлении пароля',
+        bodyText: sessionStore.error,
       });
     },
+  };
+
+  const options = {
+    isFormDisabled: sessionStore.isWaitingRestore,
   };
 
   return (
@@ -36,7 +43,11 @@ function EmailPasswordFormRestoreNew() {
       <Title sx={{ textAlign: 'center', mb: 1.5 }}>Ввод нового пароля</Title>
 
       <Box sx={{ display: 'flex', placeContent: 'center' }}>
-        <EmailPasswordFormNew onSubmit={handlers.onNewPasswordFormSubmit} />
+        <EmailPasswordFormNew
+          defaultEmail={sessionStore.profile?.login}
+          disabled={options.isFormDisabled}
+          onSubmit={handlers.onNewPasswordFormSubmit}
+        />
       </Box>
     </>
   );

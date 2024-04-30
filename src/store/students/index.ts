@@ -276,7 +276,7 @@ export class StudentsStore {
 
 spy((event) => {
   if (event.type === 'action') {
-    console.log(`${event.name} with args: ${event.arguments}`);
+    console.log(`${event.name} with args:`, event.arguments);
   }
 });
 

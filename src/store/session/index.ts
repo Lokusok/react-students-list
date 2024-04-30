@@ -87,6 +87,21 @@ export class SessionStore {
   }
 
   /**
+   * Удалить email из localStorage
+   */
+  syncRemoveFromLocalStorageProcessingResetPasswordEmail(email: string) {
+    const alreadyProcessingEmails: string[] = JSON.parse(
+      localStorage.getItem(LocalStorageEnum.PASSWORD_RESTORE_PROCESS) || '[]'
+    );
+    const newEmails = alreadyProcessingEmails.filter((e) => e !== email);
+
+    localStorage.setItem(
+      LocalStorageEnum.PASSWORD_RESTORE_PROCESS,
+      JSON.stringify(newEmails)
+    );
+  }
+
+  /**
    * Логинизация пользователя
    */
   async loginUser(userData: TUserLogin) {
@@ -257,9 +272,12 @@ export class SessionStore {
   async resetPassword(data: TUserMainLogin) {
     this.isWaitingRestore = true;
 
+    await new Promise((res) => setTimeout(res, 5000));
+
     try {
       await ApiService.resetPassword(data);
       this.resetErrors();
+      this.syncRemoveFromLocalStorageProcessingResetPasswordEmail(data.login);
     } catch (err) {
       if (err instanceof AxiosError)
         return this.setError(err.response?.data?.error);

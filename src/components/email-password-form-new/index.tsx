@@ -25,7 +25,7 @@ const dataFormExtended = dataForm.extend({
 });
 
 function EmailPasswordFormNew(props: TProps) {
-  const { onSubmit, disabled = false } = props;
+  const { onSubmit, defaultEmail = '', disabled = false } = props;
 
   const {
     register,
@@ -36,7 +36,7 @@ function EmailPasswordFormNew(props: TProps) {
     resolver: zodResolver(dataFormExtended),
     mode: 'onTouched',
     values: {
-      login: 'test@gmail.com', // Запросить с сервера по id
+      login: defaultEmail,
       password: '',
     },
   });
@@ -48,13 +48,13 @@ function EmailPasswordFormNew(props: TProps) {
   };
 
   const options = {
-    isSubmitBtnDisabled: !isValid,
+    isSubmitBtnDisabled: !isValid || disabled,
   };
 
   return (
     <Paper elevation={4} sx={{ maxWidth: 340, width: '100%', p: 4 }}>
       <form onSubmit={handleSubmit(handlers.onSubmit)}>
-        <FormControl disabled={disabled} sx={{ mb: 2 }}>
+        <FormControl sx={{ mb: 2 }}>
           <FormHelperText sx={{ mb: 0.5 }}>
             На эту почту пришло письмо
           </FormHelperText>
@@ -63,6 +63,7 @@ function EmailPasswordFormNew(props: TProps) {
             {...register('login', {
               onChange: () => resetField('login'),
             })}
+            disabled={disabled}
             placeholder="Введите email"
           />
         </FormControl>
@@ -72,7 +73,11 @@ function EmailPasswordFormNew(props: TProps) {
             Это будет новый пароль
           </FormHelperText>
 
-          <Input {...register('password')} placeholder="Введите новый пароль" />
+          <Input
+            {...register('password')}
+            disabled={disabled}
+            placeholder="Введите новый пароль"
+          />
 
           {Boolean(errors.password) && (
             <FormHelperText>{errors.password?.message}</FormHelperText>

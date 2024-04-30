@@ -31,8 +31,8 @@ function AllSnackbars() {
         isOpen={Boolean(snackbarsStore.isErrorSnackVisible)}
         onClose={() => snackbarsStore.resetErrorSnackVisibility()}
         onUnmount={() => snackbarsStore.resetErrorSnack()}
-        buttonText={snackbarsStore.successSnack?.buttonText}
-        bodyText={snackbarsStore.successSnack?.bodyText}
+        buttonText={snackbarsStore.errorSnack?.buttonText}
+        bodyText={snackbarsStore.errorSnack?.bodyText}
       />
     </>
   );
