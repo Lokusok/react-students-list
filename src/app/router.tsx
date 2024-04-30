@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -14,13 +14,14 @@ import Protected from '@src/containers/protected';
 import StudentSkeleton from '@src/components/skeletons/student-skeleton';
 import GridSkeleton from '@src/components/skeletons/feed-skeleton/grid-skeleton';
 
-const LazyMain = React.lazy(() => import('./main'));
-const LazyFeed = React.lazy(() => import('./feed'));
-const LazyPanel = React.lazy(() => import('./panel'));
-const LazyStudent = React.lazy(() => import('./student'));
-const LazyProfile = React.lazy(() => import('./profile'));
-const LazyAllow = React.lazy(() => import('./allow'));
-const LazyRestore = React.lazy(() => import('./password-restore'));
+const LazyMain = lazy(() => import('./main'));
+const LazyFeed = lazy(() => import('./feed'));
+const LazyPanel = lazy(() => import('./panel'));
+const LazyStudent = lazy(() => import('./student'));
+const LazyProfile = lazy(() => import('./profile'));
+const LazyAllow = lazy(() => import('./allow'));
+const LazyRestore = lazy(() => import('./password-restore'));
+const LazyNewPassword = lazy(() => import('./new-password'));
 
 const routes = [
   {
@@ -90,6 +91,14 @@ const routes = [
         element: (
           <Suspense fallback={<h3>Загрузка...</h3>}>
             <LazyRestore />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/password_restore/:id',
+        element: (
+          <Suspense fallback={<h3>Загрузка...</h3>}>
+            <LazyNewPassword />
           </Suspense>
         ),
       },

@@ -217,6 +217,19 @@ class ApiService {
       throw err;
     }
   }
+
+  /**
+   * Начать процесс сброса пароля
+   */
+  static async startRestorePassword(email: string) {
+    try {
+      await sessionApi.post(`/start_password_restore/${email}`, {
+        email,
+      });
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 export default ApiService;

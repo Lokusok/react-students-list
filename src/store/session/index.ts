@@ -4,12 +4,15 @@ import { TProfile, TUserLogin, TUserRegister } from '@src/shared/types';
 
 import ApiService from '@src/api';
 import { AxiosError } from 'axios';
+import { LocalStorageEnum } from '@src/shared/enums';
 
 export class SessionStore {
   waiting: boolean = true;
+  isWaitingRestore: boolean = false;
   isWaitingDelete: boolean = false;
 
   profile: TProfile | null = null;
+  isRestoringPasswordInProcess: boolean = false;
   error: string = '';
 
   constructor() {
@@ -83,6 +86,9 @@ export class SessionStore {
    */
   async remind() {
     this.waiting = true;
+    this.isRestoringPasswordInProcess = JSON.parse(
+      localStorage.getItem(LocalStorageEnum.PASSWORD_RESTORE_PROCESS) || 'false'
+    );
 
     try {
       const user = await ApiService.remind();
@@ -222,6 +228,36 @@ export class SessionStore {
     } finally {
       runInAction(() => {
         this.isWaitingDelete = false;
+      });
+    }
+  }
+
+  /**
+   * Начать процесс сброса пароля
+   */
+  async startRestorePassword(email: string) {
+    this.isWaitingRestore = true;
+    localStorage.setItem(
+      LocalStorageEnum.PASSWORD_RESTORE_PROCESS,
+      String(true)
+    );
+    this.isRestoringPasswordInProcess = true;
+
+    try {
+      await ApiService.startRestorePassword(email);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return runInAction(() => {
+          this.error = err.response?.data?.error;
+        });
+      }
+
+      runInAction(() => {
+        this.error = 'Ошибка при попытке сбросить пароль...';
+      });
+    } finally {
+      runInAction(() => {
+        this.isWaitingRestore = false;
       });
     }
   }

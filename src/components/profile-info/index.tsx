@@ -9,6 +9,7 @@ import Textarea from '@mui/joy/Textarea';
 
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 
 import adminImage from '@src/assets/admin.jpg';
 import { Button, IconButton, Stack, Tooltip, Typography } from '@mui/joy';
@@ -17,8 +18,10 @@ import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { TProfile, TUserInfo } from '@src/shared/types';
-import Title from '../title';
+
 import makeStudentReadable from '@src/utils/make-student-readable';
+
+import Title from '../title';
 import StudentCard from '../student-card';
 import AdaptiveGrid from '../adaptive-grid';
 
@@ -28,6 +31,7 @@ type TProps = {
   onInfoFormSubmit: (data: TUserInfo) => void;
   isInfoSubmitDisabled?: boolean;
   onDeleteBtnClick?: () => void;
+  onRestorePasswordClick?: () => void;
 };
 
 const schema = z.object({
@@ -43,6 +47,7 @@ function ProfileInfo(props: TProps) {
     onInfoFormSubmit,
     isInfoSubmitDisabled,
     onDeleteBtnClick,
+    onRestorePasswordClick,
   } = props;
 
   const [isEditing, setIsEditing] = useState(false);
@@ -76,6 +81,9 @@ function ProfileInfo(props: TProps) {
     },
     onDeleteBtnClick: () => {
       onDeleteBtnClick?.();
+    },
+    onRestorePasswordClick: () => {
+      onRestorePasswordClick?.();
     },
   };
 
@@ -253,16 +261,31 @@ function ProfileInfo(props: TProps) {
                 Сохранить
               </Button>
 
-              {onDeleteBtnClick && (
-                <Tooltip title="Удалить аккаунт">
-                  <IconButton
-                    onClick={handlers.onDeleteBtnClick}
-                    color="danger"
-                  >
-                    <DeleteForeverIcon />
-                  </IconButton>
-                </Tooltip>
-              )}
+              <Stack direction="row" spacing={0.5}>
+                {onRestorePasswordClick && (
+                  <Tooltip title="Восстановить пароль">
+                    <IconButton
+                      onClick={handlers.onRestorePasswordClick}
+                      color="neutral"
+                      variant="outlined"
+                    >
+                      <SettingsBackupRestoreIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
+
+                {onDeleteBtnClick && (
+                  <Tooltip title="Удалить аккаунт">
+                    <IconButton
+                      onClick={handlers.onDeleteBtnClick}
+                      color="danger"
+                      variant="outlined"
+                    >
+                      <DeleteForeverIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </Stack>
             </Stack>
           </Box>
         </Grid>

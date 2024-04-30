@@ -7,9 +7,11 @@ import { useStores } from '@src/hooks/use-stores';
 import studentsStore from '@src/store/students';
 
 import { TUserInfo } from '@src/shared/types';
+import { useNavigate } from 'react-router-dom';
 
 function ProfileWrapper() {
   const { sessionStore, snackbarsStore, modalsStore } = useStores();
+  const navigate = useNavigate();
 
   const callbacks = {
     updateUserInfo: async (userInfo: FormData) => {
@@ -44,6 +46,9 @@ function ProfileWrapper() {
     onDeleteBtnClick: () => {
       modalsStore.addActiveModal('confirmPasswordUserDelete');
     },
+    onRestorePasswordClick: () => {
+      navigate('/password_restore');
+    },
   };
 
   const values = {
@@ -57,6 +62,7 @@ function ProfileWrapper() {
       onInfoFormSubmit={handlers.onInfoFormSubmit}
       isInfoSubmitDisabled={sessionStore.waiting}
       onDeleteBtnClick={handlers.onDeleteBtnClick}
+      onRestorePasswordClick={handlers.onRestorePasswordClick}
     />
   );
 }
