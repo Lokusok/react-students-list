@@ -29,14 +29,14 @@ function Feed() {
   const students = studentsStore.students;
 
   const fetchingParams = {
-    isFetchingUpdate: studentsStore.isFetchingUpdate,
+    isWaitingUpdate: studentsStore.isWaitingUpdate,
     activeStudents: studentsStore.activeStudents,
   };
 
   const renders = {
     studentItem: (student: TStudent) => {
       const isFavouriteBtnDisabled =
-        fetchingParams.isFetchingUpdate &&
+        fetchingParams.isWaitingUpdate &&
         fetchingParams.activeStudents.includes(student.id);
 
       return (
@@ -96,10 +96,10 @@ function Feed() {
 
   const options = {
     isActionsDisabled:
-      studentsStore.isFetchingDelete || selectedRows.length === 0,
+      studentsStore.isWaitingDelete || selectedRows.length === 0,
   };
 
-  if (!studentsStore.isLoading) {
+  if (!studentsStore.waiting) {
     return (
       <>
         {students.length > 0 && (
@@ -173,7 +173,7 @@ function Feed() {
                   )}
                   onSelectRow={handlers.onSelectTableRow}
                   selectedRows={selectedRows}
-                  disabled={studentsStore.isFetchingDelete}
+                  disabled={studentsStore.isWaitingDelete}
                 />
               </>
             )}
@@ -204,7 +204,7 @@ function Feed() {
     );
   }
 
-  if (studentsStore.isLoading) {
+  if (studentsStore.waiting) {
     switch (studentsStore.viewStrategy) {
       case 'grid':
         return <GridSkeleton />;

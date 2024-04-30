@@ -9,9 +9,9 @@ import { TCountRoles } from '@src/shared/types';
 import { TViewStrategies } from './types';
 
 export class StudentsStore {
-  isLoading: boolean = false;
-  isFetchingDelete: boolean = false;
-  isFetchingUpdate: boolean = false;
+  waiting: boolean = false;
+  isWaitingDelete: boolean = false;
+  isWaitingUpdate: boolean = false;
   error: string = '';
 
   activeStudents: string[] = [];
@@ -97,7 +97,7 @@ export class StudentsStore {
    * Запрос за студентами
    */
   async fetchStudents() {
-    this.isLoading = true;
+    this.waiting = true;
 
     try {
       const params = {
@@ -119,7 +119,7 @@ export class StudentsStore {
       this.setError('Ошибка при запросе студентов');
     } finally {
       runInAction(() => {
-        this.isLoading = false;
+        this.waiting = false;
       });
     }
   }
@@ -128,7 +128,7 @@ export class StudentsStore {
    * Создание студента и добавление в стейт
    */
   async createStudent(student: FormData) {
-    this.isLoading = true;
+    this.waiting = true;
 
     try {
       await ApiService.addStudent(student);
@@ -141,7 +141,7 @@ export class StudentsStore {
       this.setError('Ошибка при создании студента');
     } finally {
       runInAction(() => {
-        this.isLoading = false;
+        this.waiting = false;
       });
     }
   }
@@ -150,7 +150,7 @@ export class StudentsStore {
    * Удалить студента
    */
   async deleteStudent(id: string) {
-    this.isLoading = true;
+    this.waiting = true;
 
     try {
       await ApiService.deleteStudent(id);
@@ -162,7 +162,7 @@ export class StudentsStore {
       this.setError('Ошибка при удалении студента');
     } finally {
       runInAction(() => {
-        this.isLoading = false;
+        this.waiting = false;
       });
     }
   }
@@ -171,7 +171,7 @@ export class StudentsStore {
    * Удалить сразу нескольких студентов
    */
   async deleteStudents(ids: string[]) {
-    this.isFetchingDelete = true;
+    this.isWaitingDelete = true;
 
     try {
       await ApiService.deleteStudents(ids);
@@ -183,7 +183,7 @@ export class StudentsStore {
       this.setError('Ошибка при удалении студентов');
     } finally {
       runInAction(() => {
-        this.isFetchingDelete = false;
+        this.isWaitingDelete = false;
       });
     }
   }
@@ -196,7 +196,7 @@ export class StudentsStore {
     newStudentData: FormData,
     fetchAllAgain = true
   ) {
-    this.isFetchingUpdate = true;
+    this.isWaitingUpdate = true;
     this.activeStudents = [...this.activeStudents, id];
 
     try {
@@ -216,7 +216,7 @@ export class StudentsStore {
         this.activeStudents = this.activeStudents.filter(
           (existId) => existId !== id
         );
-        this.isFetchingUpdate = Boolean(this.activeStudents.length);
+        this.isWaitingUpdate = Boolean(this.activeStudents.length);
       });
     }
   }

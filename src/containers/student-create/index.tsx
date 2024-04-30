@@ -77,7 +77,7 @@ function StudentCreate() {
         onExtraChange={handlers.onExtraChange}
         onAvatarChange={handlers.onAvatarChange}
         submitText={'Добавить'}
-        disabled={studentsStore.isLoading}
+        disabled={studentsStore.waiting}
       />
     </>
   );

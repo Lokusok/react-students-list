@@ -21,7 +21,7 @@ function StudentWrapper(props: TProps) {
   const studentReadable = makeStudentReadable(student as TStudent);
 
   const fetchingParams = {
-    isFetchingUpdate: studentsStore.isFetchingUpdate,
+    isWaitingUpdate: studentsStore.isWaitingUpdate,
     activeStudents: studentsStore.activeStudents,
   };
 
@@ -66,7 +66,7 @@ function StudentWrapper(props: TProps) {
 
   const options = {
     isFavouriteBtnDisabled:
-      fetchingParams.isFetchingUpdate &&
+      fetchingParams.isWaitingUpdate &&
       fetchingParams.activeStudents.includes(student!.id),
   };
 

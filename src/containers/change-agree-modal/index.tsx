@@ -72,7 +72,7 @@ function ChangeAgreeModal(props: TProps) {
   const options = {
     isDisabled:
       !student ||
-      (studentsStore.isFetchingUpdate &&
+      (studentsStore.isWaitingUpdate &&
         studentsStore.activeStudents.includes(student.id)),
   };
 

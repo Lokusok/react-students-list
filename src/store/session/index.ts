@@ -17,6 +17,7 @@ export class SessionStore {
   isWaitingDelete: boolean = false;
 
   profile: TProfile | null = null;
+  isLogined: boolean = false;
   isRestoringPasswordInProcess: boolean = false;
   error: string = '';
 
@@ -102,6 +103,17 @@ export class SessionStore {
   }
 
   /**
+   * Синхронизация состояния стора и localStorage
+   */
+  syncIsLogined(isLogined: boolean) {
+    this.isLogined = isLogined;
+    localStorage.setItem(
+      LocalStorageEnum.IS_LOGINED,
+      JSON.stringify(this.isLogined)
+    );
+  }
+
+  /**
    * Логинизация пользователя
    */
   async loginUser(userData: TUserLogin) {
@@ -114,6 +126,7 @@ export class SessionStore {
       });
       this.syncResetPasswordStatesWithLocalStorage();
       this.resetErrors();
+      this.syncIsLogined(true);
     } catch (err) {
       if (err instanceof AxiosError)
         return this.setError(err.response?.data.error);
@@ -129,6 +142,12 @@ export class SessionStore {
    * Аутентификация пользователя
    */
   async remind() {
+    if (
+      !JSON.parse(localStorage.getItem(LocalStorageEnum.IS_LOGINED) || 'false')
+    ) {
+      this.waiting = false;
+      return;
+    }
     this.waiting = true;
 
     try {
@@ -159,6 +178,7 @@ export class SessionStore {
     try {
       await ApiService.logout();
       this.resetErrors();
+      this.syncIsLogined(false);
     } catch (err) {
       if (err instanceof Error) {
         console.error(err.message);
