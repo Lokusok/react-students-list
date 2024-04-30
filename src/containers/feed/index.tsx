@@ -119,8 +119,8 @@ function Feed() {
                     spacing={2}
                     sx={{
                       position: 'absolute',
-                      right: '50px',
-                      bottom: '50px',
+                      right: { xs: '15px', sm: '50px' },
+                      bottom: { xs: '15px', sm: '50px' },
                     }}
                   >
                     <Tooltip title={'Удалить?'}>

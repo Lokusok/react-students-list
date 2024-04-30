@@ -82,7 +82,13 @@ function BasicTable(props: TProps) {
                     <td key={index}>{col.slice(0, 3)}</td>
                   </Tooltip>
                 ) : (
-                  <td key={index}>{col ? col : '---'}</td>
+                  <td key={index}>
+                    {col
+                      ? col.length > 10
+                        ? col.slice(0, 10) + '...'
+                        : col
+                      : '---'}
+                  </td>
                 )
               )}
             </Box>

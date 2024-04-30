@@ -86,7 +86,11 @@ function StudentInfo(props: TProps) {
             </Typography>
             <Typography>
               Примечания:{' '}
-              <Typography component={'span'} fontWeight={900}>
+              <Typography
+                sx={{ wordBreak: 'break-word' }}
+                component={'span'}
+                fontWeight={900}
+              >
                 {student.notes || 'Отсутствуют'}
               </Typography>
             </Typography>
