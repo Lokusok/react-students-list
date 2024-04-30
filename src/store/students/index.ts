@@ -4,7 +4,7 @@ import { makeAutoObservable, runInAction, spy } from 'mobx';
 
 import { AxiosError } from 'axios';
 
-import { TCountRoles, TStudentData } from '@src/shared/types';
+import { TCountRoles } from '@src/shared/types';
 
 import { TViewStrategies } from './types';
 
@@ -33,6 +33,13 @@ export class StudentsStore {
    */
   resetErrors() {
     this.error = '';
+  }
+
+  /**
+   * Установить ошибку
+   */
+  setError(error: string) {
+    this.error = error;
   }
 
   /**
@@ -103,19 +110,13 @@ export class StudentsStore {
       runInAction(() => {
         this.totalPages = totalPages;
         this.students = students;
-        this.error = '';
         this.countRoles = countRoles;
       });
+      this.resetErrors();
     } catch (err) {
-      if (err instanceof Error) {
-        return runInAction(() => {
-          this.error = err.message;
-        });
-      }
-
-      runInAction(() => {
-        this.error = 'Ошибка при запросе студентов';
-      });
+      if (err instanceof AxiosError)
+        return this.setError(err.response?.data?.error);
+      this.setError('Ошибка при запросе студентов');
     } finally {
       runInAction(() => {
         this.isLoading = false;
@@ -135,15 +136,9 @@ export class StudentsStore {
       this.fetchStudents();
       this.resetErrors();
     } catch (err) {
-      if (err instanceof AxiosError) {
-        return runInAction(() => {
-          this.error = err.response?.data.error;
-        });
-      }
-
-      runInAction(() => {
-        this.error = 'Ошибка при создании студента';
-      });
+      if (err instanceof AxiosError)
+        return this.setError(err.response?.data.error);
+      this.setError('Ошибка при создании студента');
     } finally {
       runInAction(() => {
         this.isLoading = false;
@@ -162,15 +157,9 @@ export class StudentsStore {
       this.fetchStudents();
       this.resetErrors();
     } catch (err) {
-      if (err instanceof AxiosError) {
-        return runInAction(() => {
-          this.error = err.response?.data.error;
-        });
-      }
-
-      runInAction(() => {
-        this.error = 'Ошибка при удалении студента';
-      });
+      if (err instanceof AxiosError)
+        return this.setError(err.response?.data.error);
+      this.setError('Ошибка при удалении студента');
     } finally {
       runInAction(() => {
         this.isLoading = false;
@@ -187,16 +176,11 @@ export class StudentsStore {
     try {
       await ApiService.deleteStudents(ids);
       this.fetchStudents();
+      this.resetErrors();
     } catch (err) {
-      if (err instanceof AxiosError) {
-        return runInAction(() => {
-          this.error = err.response?.data.error;
-        });
-      }
-
-      runInAction(() => {
-        this.error = 'Ошибка при удалении студентов';
-      });
+      if (err instanceof AxiosError)
+        return this.setError(err.response?.data.error);
+      this.setError('Ошибка при удалении студентов');
     } finally {
       runInAction(() => {
         this.isFetchingDelete = false;
@@ -224,15 +208,9 @@ export class StudentsStore {
         );
       this.resetErrors();
     } catch (err) {
-      if (err instanceof AxiosError) {
-        return runInAction(() => {
-          this.error = err.response?.data.error;
-        });
-      }
-
-      runInAction(() => {
-        this.error = 'Ошибка при обновлении студента';
-      });
+      if (err instanceof AxiosError)
+        return this.setError(err.response?.data.error);
+      this.setError('Ошибка при обновлении студента');
     } finally {
       runInAction(() => {
         this.activeStudents = this.activeStudents.filter(

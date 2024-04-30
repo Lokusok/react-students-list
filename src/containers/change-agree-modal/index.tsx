@@ -21,8 +21,6 @@ function ChangeAgreeModal(props: TProps) {
   );
   const [data, setData] = useState<TStudent>(student!);
 
-  console.log(student);
-
   const handlers = {
     onChange: (e: React.ChangeEvent<TInputs>) => {
       setData((prevData) => ({

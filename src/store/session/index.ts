@@ -1,6 +1,11 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 
-import { TProfile, TUserLogin, TUserRegister } from '@src/shared/types';
+import {
+  TProfile,
+  TUserLogin,
+  TUserMainLogin,
+  TUserRegister,
+} from '@src/shared/types';
 
 import ApiService from '@src/api';
 import { AxiosError } from 'axios';
@@ -27,6 +32,13 @@ export class SessionStore {
   }
 
   /**
+   * Установить ошибку
+   */
+  setError(error: string) {
+    this.error = error;
+  }
+
+  /**
    * Регистрация пользователя
    */
   async registerUser(userData: TUserRegister) {
@@ -36,20 +48,42 @@ export class SessionStore {
       await ApiService.registerUser(userData);
       this.resetErrors();
     } catch (err) {
-      if (err instanceof AxiosError) {
-        return runInAction(() => {
-          this.error = err.response?.data.error;
-        });
-      }
-
-      runInAction(() => {
-        this.error = 'Ошибка при регистрации';
-      });
+      if (err instanceof AxiosError)
+        return this.setError(err.response?.data.error);
+      this.setError('Ошибка при регистрации');
     } finally {
       runInAction(() => {
         this.waiting = false;
       });
     }
+  }
+
+  /**
+   * Синхронизация состояний, связанных с сбросом пароля с localStorage'ом
+   */
+  syncResetPasswordStatesWithLocalStorage() {
+    const alreadyProcessingEmails = JSON.parse(
+      localStorage.getItem(LocalStorageEnum.PASSWORD_RESTORE_PROCESS) || '[]'
+    );
+
+    this.isRestoringPasswordInProcess = alreadyProcessingEmails.includes(
+      this.profile?.login
+    );
+  }
+
+  /**
+   * Добавить в localStorage новый процессируемый email
+   */
+  syncAddToLocalStorageProcessingResetPasswordEmail(email: string) {
+    const alreadyProcessingEmails = JSON.parse(
+      localStorage.getItem(LocalStorageEnum.PASSWORD_RESTORE_PROCESS) || '[]'
+    );
+
+    alreadyProcessingEmails.push(email);
+    localStorage.setItem(
+      LocalStorageEnum.PASSWORD_RESTORE_PROCESS,
+      JSON.stringify(alreadyProcessingEmails)
+    );
   }
 
   /**
@@ -63,17 +97,12 @@ export class SessionStore {
       runInAction(() => {
         this.profile = user;
       });
+      this.syncResetPasswordStatesWithLocalStorage();
       this.resetErrors();
     } catch (err) {
-      if (err instanceof AxiosError) {
-        return runInAction(() => {
-          this.error = err.response?.data.error;
-        });
-      }
-
-      runInAction(() => {
-        this.error = 'Ошибка при входе';
-      });
+      if (err instanceof AxiosError)
+        return this.setError(err.response?.data.error);
+      this.setError('Ошибка при входе');
     } finally {
       runInAction(() => {
         this.waiting = false;
@@ -86,26 +115,18 @@ export class SessionStore {
    */
   async remind() {
     this.waiting = true;
-    this.isRestoringPasswordInProcess = JSON.parse(
-      localStorage.getItem(LocalStorageEnum.PASSWORD_RESTORE_PROCESS) || 'false'
-    );
 
     try {
       const user = await ApiService.remind();
       runInAction(() => {
         this.profile = user;
       });
+      this.syncResetPasswordStatesWithLocalStorage();
       this.resetErrors();
     } catch (err) {
-      if (err instanceof AxiosError) {
-        return runInAction(() => {
-          this.error = err.response?.data.error;
-        });
-      }
-
-      runInAction(() => {
-        this.error = 'Ошибка при аутентификации';
-      });
+      if (err instanceof AxiosError)
+        return this.setError(err.response?.data.error);
+      this.setError('Ошибка при аутентификации');
     } finally {
       runInAction(() => {
         this.waiting = false;
@@ -148,15 +169,9 @@ export class SessionStore {
       });
       this.resetErrors();
     } catch (err) {
-      if (err instanceof AxiosError) {
-        return runInAction(() => {
-          this.error = err.response?.data.message;
-        });
-      }
-
-      runInAction(() => {
-        this.error = 'Ошибка при изменении';
-      });
+      if (err instanceof AxiosError)
+        return this.setError(err.response?.data.message);
+      this.setError('Ошибка при изменении');
     } finally {
       runInAction(() => {
         this.waiting = false;
@@ -172,15 +187,9 @@ export class SessionStore {
       await ApiService.allowUser(userId);
       this.resetErrors();
     } catch (err) {
-      if (err instanceof AxiosError) {
-        return runInAction(() => {
-          this.error = err.response?.data.error;
-        });
-      }
-
-      runInAction(() => {
-        this.error = 'Ошибка при подтверждении пользователя';
-      });
+      if (err instanceof AxiosError)
+        return this.setError(err.response?.data.error);
+      this.setError('Ошибка при подтверждении пользователя');
     }
   }
 
@@ -192,15 +201,9 @@ export class SessionStore {
       await ApiService.confirmPassword(this.profile!.id, password);
       this.resetErrors();
     } catch (err) {
-      if (err instanceof AxiosError) {
-        return runInAction(() => {
-          this.error = err.response?.data.message;
-        });
-      }
-
-      runInAction(() => {
-        this.error = 'Ошибка при подтверждении пароля';
-      });
+      if (err instanceof AxiosError)
+        return this.setError(err.response?.data.message);
+      this.setError('Ошибка при подтверждении пароля');
     }
   }
 
@@ -210,21 +213,13 @@ export class SessionStore {
   async deleteUser() {
     this.isWaitingDelete = true;
 
-    await new Promise((res) => setTimeout(res, 3000));
-
     try {
       await ApiService.deleteUser(this.profile!.id);
       this.resetErrors();
     } catch (err) {
-      if (err instanceof AxiosError) {
-        return runInAction(() => {
-          this.error = err.response?.data.message;
-        });
-      }
-
-      runInAction(() => {
-        this.error = 'Ошибка при удалении пользователя';
-      });
+      if (err instanceof AxiosError)
+        return this.setError(err.response?.data.message);
+      this.setError('Ошибка при удалении пользователя');
     } finally {
       runInAction(() => {
         this.isWaitingDelete = false;
@@ -237,24 +232,38 @@ export class SessionStore {
    */
   async startRestorePassword(email: string) {
     this.isWaitingRestore = true;
-    localStorage.setItem(
-      LocalStorageEnum.PASSWORD_RESTORE_PROCESS,
-      String(true)
-    );
+
+    this.syncAddToLocalStorageProcessingResetPasswordEmail(email);
+
     this.isRestoringPasswordInProcess = true;
 
     try {
       await ApiService.startRestorePassword(email);
+      this.resetErrors();
     } catch (err) {
-      if (err instanceof AxiosError) {
-        return runInAction(() => {
-          this.error = err.response?.data?.error;
-        });
-      }
-
+      if (err instanceof AxiosError)
+        return this.setError(err.response?.data?.error);
+      this.setError('Ошибка при попытке сбросить пароль...');
+    } finally {
       runInAction(() => {
-        this.error = 'Ошибка при попытке сбросить пароль...';
+        this.isWaitingRestore = false;
       });
+    }
+  }
+
+  /**
+   * Сбросить пароль
+   */
+  async resetPassword(data: TUserMainLogin) {
+    this.isWaitingRestore = true;
+
+    try {
+      await ApiService.resetPassword(data);
+      this.resetErrors();
+    } catch (err) {
+      if (err instanceof AxiosError)
+        return this.setError(err.response?.data?.error);
+      this.setError('Ошибка при попытке сбросить пароль...');
     } finally {
       runInAction(() => {
         this.isWaitingRestore = false;

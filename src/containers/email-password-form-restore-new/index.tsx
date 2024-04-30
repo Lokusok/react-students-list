@@ -14,7 +14,7 @@ function EmailPasswordFormRestoreNew() {
 
   const handlers = {
     onNewPasswordFormSubmit: async (data: TUserMainLogin) => {
-      await sessionStore.resetPassword();
+      await sessionStore.resetPassword(data);
       console.log(data);
 
       if (!sessionStore.error) {
