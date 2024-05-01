@@ -36,7 +36,7 @@ function Allow(props: TProps) {
     return (
       <Box>
         <Alert variant="soft" color="danger" startDecorator={<ReportIcon />}>
-          {Boolean(error) ? error : 'Ошибка при подтверждении аккаунта'}
+          {Boolean(error) ? String(error) : 'Ошибка при подтверждении аккаунта'}
         </Alert>
       </Box>
     );
