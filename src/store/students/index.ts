@@ -1,6 +1,6 @@
 import ApiService from '@src/api';
 
-import { makeAutoObservable, runInAction, spy } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 
 import { AxiosError } from 'axios';
 
