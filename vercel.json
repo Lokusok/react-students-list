@@ -1,12 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/api/:path(.*)",
-      "destination": "http://149.154.64.114/:match/:path"
+      "source": "/api/:match*",
+      "destination": "http://149.154.64.114/:match*"
     },
     {
-      "source": "/uploads/:path(.*)",
-      "destination": "http://149.154.64.114/:path"
+      "source": "/uploads/:match*",
+      "destination": "http://149.154.64.114/:match*"
     }
   ]
 }
