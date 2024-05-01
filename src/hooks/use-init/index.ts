@@ -8,6 +8,7 @@ type TInitFunc = () => void;
  * Используется на главных страницах (src/app)
  */
 function useInit(initFunc: TInitFunc) {
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(initFunc, []);
 }
 
