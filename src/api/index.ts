@@ -64,7 +64,7 @@ class ApiService {
    */
   static async addStudent(student: FormData) {
     try {
-      return await studentsApi.post('/', student);
+      return await studentsApi.post('', student);
     } catch (err) {
       throw err;
     }
@@ -84,7 +84,7 @@ class ApiService {
 
   static async deleteStudents(ids: string[]) {
     try {
-      return await studentsApi.delete('/', {
+      return await studentsApi.delete('', {
         data: {
           ids: ids,
         },
