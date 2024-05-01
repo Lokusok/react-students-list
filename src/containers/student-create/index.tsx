@@ -52,7 +52,7 @@ function StudentCreate() {
       await studentsStore.createStudent(formData);
 
       if (studentsStore.error) {
-        return snackbarsStore.setSuccessSnack({
+        return snackbarsStore.setErrorSnack({
           buttonText: 'Понятно',
           bodyText: 'Ошибка при создании студента',
         });
