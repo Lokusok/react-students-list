@@ -3,12 +3,12 @@ import { memo } from 'react';
 import ListItem from './list-item';
 
 import { List, Paper } from '@mui/material';
+import { Divider } from '@mui/joy';
 
 import GppGoodIcon from '@mui/icons-material/GppGood';
 import TokenIcon from '@mui/icons-material/Token';
 import CellTowerIcon from '@mui/icons-material/CellTower';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
-import { Box, Divider, Stack } from '@mui/joy';
 
 const items = [
   {

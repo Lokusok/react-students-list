@@ -12,13 +12,6 @@ import useStores from '@src/hooks/use-stores';
 import convertToChartFormat from '@src/utils/convert-to-chart-format';
 import { TCountRoles } from '@src/shared/types';
 
-// const data = [
-//   { name: 'Отличник', value: 4 },
-//   { name: 'Хорошист', value: 7 },
-//   { name: 'Троечник', value: 3 },
-//   { name: 'Двоечник', value: 1 },
-// ];
-
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const RADIAN = Math.PI / 180;
@@ -30,7 +23,7 @@ type TRenderCustomizedLabelProps = {
   innerRadius: number;
   outerRadius: number;
   percent: number;
-  index: number;
+  index?: number;
 };
 
 const renderCustomizedLabel = ({
@@ -40,7 +33,6 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
-  index,
 }: TRenderCustomizedLabelProps) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);

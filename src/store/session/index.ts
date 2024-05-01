@@ -135,6 +135,7 @@ export class SessionStore {
       runInAction(() => {
         this.waiting = false;
       });
+      this.syncIsLogined(false);
     }
   }
 
@@ -165,6 +166,7 @@ export class SessionStore {
       runInAction(() => {
         this.waiting = false;
       });
+      this.syncIsLogined(false);
     }
   }
 

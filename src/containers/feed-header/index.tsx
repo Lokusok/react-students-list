@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import ViewTabsChoice from '../view-tabs-choice';
 import ActiveRoleSelect from '../active-role-select';
 import Title from '@src/components/title';

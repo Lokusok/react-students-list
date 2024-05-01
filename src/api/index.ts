@@ -3,8 +3,6 @@ import axios from 'axios';
 import {
   TCountRoles,
   TProfile,
-  TStudentData,
-  TUserInfo,
   TUserLogin,
   TUserMainLogin,
   TUserRegister,

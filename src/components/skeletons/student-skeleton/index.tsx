@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import { Box, Divider, Grid, Stack, Typography } from '@mui/material';
+import { Box, Divider, Grid, Stack } from '@mui/material';
 
 import { Skeleton } from '@mui/material';
 
