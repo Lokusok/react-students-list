@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/:match*",
-      "destination": "http://149.154.64.114/:match*"
+      "destination": "http://149.154.64.114/api/:match*"
     },
     {
       "source": "/uploads/:match*",
-      "destination": "http://149.154.64.114/:match*"
+      "destination": "http://149.154.64.114/uploads/:match*"
     }
   ]
 }
