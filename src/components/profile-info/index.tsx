@@ -12,7 +12,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 
 import adminImage from '@src/assets/admin.jpg';
-import { Button, IconButton, Stack, Tooltip, Typography } from '@mui/joy';
+import { Button, IconButton, Stack, Typography } from '@mui/joy';
+import { Tooltip } from '@mui/material';
 
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -78,6 +79,7 @@ function ProfileInfo(props: TProps) {
     onFormSubmit: (data: TUserInfo) => {
       onInfoFormSubmit(data);
       setIsEditing(false);
+      reset();
     },
     onDeleteBtnClick: () => {
       onDeleteBtnClick?.();
@@ -263,15 +265,14 @@ function ProfileInfo(props: TProps) {
 
               <Stack direction="row" spacing={0.5}>
                 {onRestorePasswordClick && (
-                  <Tooltip title="Восстановить пароль">
-                    <IconButton
-                      onClick={handlers.onRestorePasswordClick}
-                      color="neutral"
-                      variant="outlined"
-                    >
-                      <SettingsBackupRestoreIcon />
-                    </IconButton>
-                  </Tooltip>
+                  <Button
+                    onClick={handlers.onRestorePasswordClick}
+                    startDecorator={<SettingsBackupRestoreIcon />}
+                    color="neutral"
+                    variant="outlined"
+                  >
+                    Восстановить пароль
+                  </Button>
                 )}
 
                 {onDeleteBtnClick && (

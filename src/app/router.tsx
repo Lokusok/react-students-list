@@ -13,6 +13,8 @@ import NotFoundPage from './not-found';
 import Protected from '@src/containers/protected';
 import StudentSkeleton from '@src/components/skeletons/student-skeleton';
 import GridSkeleton from '@src/components/skeletons/feed-skeleton/grid-skeleton';
+import FormSkeleton from '@src/components/skeletons/form-skeleton';
+import AllowSkeleton from '@src/components/skeletons/allow-skeleton';
 
 const LazyMain = lazy(() => import('./main'));
 const LazyFeed = lazy(() => import('./feed'));
@@ -81,7 +83,7 @@ const routes = [
       {
         path: '/allow/:id',
         element: (
-          <Suspense fallback={<h3>Загрузка...</h3>}>
+          <Suspense fallback={<AllowSkeleton />}>
             <LazyAllow />
           </Suspense>
         ),
@@ -89,7 +91,7 @@ const routes = [
       {
         path: '/password_restore',
         element: (
-          <Suspense fallback={<h3>Загрузка...</h3>}>
+          <Suspense fallback={<FormSkeleton />}>
             <LazyRestore />
           </Suspense>
         ),
@@ -97,7 +99,7 @@ const routes = [
       {
         path: '/password_restore/:id',
         element: (
-          <Suspense fallback={<h3>Загрузка...</h3>}>
+          <Suspense fallback={<FormSkeleton />}>
             <LazyNewPassword />
           </Suspense>
         ),

@@ -24,7 +24,7 @@ function ProfileSkeleton(props: TProps) {
             height={330}
           />
         </Grid>
-        <Grid item xs={12} lg={6}>
+        <Grid item xs={12} lg={7}>
           <Skeleton sx={{ transform: 'none' }} height={330} />
         </Grid>
       </Grid>

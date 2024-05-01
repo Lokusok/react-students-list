@@ -106,6 +106,8 @@ export class SessionStore {
    * Синхронизация состояния стора и localStorage
    */
   syncIsLogined(isLogined: boolean) {
+    console.log({ isLogined });
+
     this.isLogined = isLogined;
     localStorage.setItem(
       LocalStorageEnum.IS_LOGINED,
@@ -131,11 +133,11 @@ export class SessionStore {
       if (err instanceof AxiosError)
         return this.setError(err.response?.data.error);
       this.setError('Ошибка при входе');
+      this.syncIsLogined(false);
     } finally {
       runInAction(() => {
         this.waiting = false;
       });
-      this.syncIsLogined(false);
     }
   }
 
@@ -158,15 +160,16 @@ export class SessionStore {
       });
       this.syncResetPasswordStatesWithLocalStorage();
       this.resetErrors();
+      this.syncIsLogined(true);
     } catch (err) {
       if (err instanceof AxiosError)
         return this.setError(err.response?.data.error);
       this.setError('Ошибка при аутентификации');
+      this.syncIsLogined(false);
     } finally {
       runInAction(() => {
         this.waiting = false;
       });
-      this.syncIsLogined(false);
     }
   }
 

@@ -33,7 +33,7 @@ function EmailFormRestorePassword() {
   const values = {
     helperText: options.isFormDisabled
       ? 'Проверьте почту на наличие письма'
-      : 'На неё придёт письмо',
+      : 'На почту  придёт письмо',
   };
 
   return (
