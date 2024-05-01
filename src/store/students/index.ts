@@ -199,8 +199,6 @@ export class StudentsStore {
     this.isWaitingUpdate = true;
     this.activeStudents = [...this.activeStudents, id];
 
-    await new Promise((res) => setTimeout(res, 5000));
-
     try {
       const student = await ApiService.updateStudent(id, newStudentData);
       if (fetchAllAgain) this.fetchStudents();
@@ -285,11 +283,11 @@ export class StudentsStore {
   }
 }
 
-spy((event) => {
-  if (event.type === 'action') {
-    console.log(`${event.name} with args:`, event.arguments);
-  }
-});
+// spy((event) => {
+//   if (event.type === 'action') {
+//     console.log(`${event.name} with args:`, event.arguments);
+//   }
+// });
 
 const studentsStore = new StudentsStore();
 

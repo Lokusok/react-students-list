@@ -297,8 +297,6 @@ export class SessionStore {
   async resetPassword(data: TUserMainLogin) {
     this.isWaitingRestore = true;
 
-    await new Promise((res) => setTimeout(res, 5000));
-
     try {
       await ApiService.resetPassword(data);
       this.resetErrors();

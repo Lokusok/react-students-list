@@ -38,7 +38,7 @@ function EmailFormRestorePassword() {
 
   return (
     <>
-      <Title sx={{ textAlign: 'center', mb: 1.5 }}>Восстановление пароля</Title>
+      <Title sx={{ textAlign: 'center', mb: 1.5 }}>Сброс пароля</Title>
 
       {sessionStore.error && (
         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2.5 }}>
