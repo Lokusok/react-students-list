@@ -199,6 +199,8 @@ export class StudentsStore {
     this.isWaitingUpdate = true;
     this.activeStudents = [...this.activeStudents, id];
 
+    await new Promise((res) => setTimeout(res, 5000));
+
     try {
       const student = await ApiService.updateStudent(id, newStudentData);
       if (fetchAllAgain) this.fetchStudents();
@@ -271,6 +273,15 @@ export class StudentsStore {
    */
   setActiveStudent(studentId: string) {
     this.activeStudents = [...this.activeStudents, studentId];
+  }
+
+  /**
+   * Удаление активного студента
+   */
+  removeActiveStudent(studentId: string) {
+    this.activeStudents = this.activeStudents.filter(
+      (existId) => existId !== studentId
+    );
   }
 }
 

@@ -21,6 +21,21 @@ function ChangeAgreeModal(props: TProps) {
   );
   const [data, setData] = useState<TStudent>(student!);
 
+  const callbacks = {
+    removeActiveStudent: ({ force = false }: { force: boolean }) => {
+      if (!student) return;
+      if (!force) {
+        if (
+          studentsStore.isWaitingUpdate &&
+          studentsStore.activeStudents.includes(student.id)
+        )
+          return;
+      }
+
+      studentsStore.removeActiveStudent(student.id);
+    },
+  };
+
   const handlers = {
     onChange: (e: React.ChangeEvent<TInputs>) => {
       setData((prevData) => ({
@@ -63,9 +78,15 @@ function ChangeAgreeModal(props: TProps) {
         buttonText: 'Понятно',
         bodyText: 'Студент успешно обновлён!',
       });
+      callbacks.removeActiveStudent({ force: true });
       onClose();
 
       form.reset();
+    },
+
+    onReject: () => {
+      callbacks.removeActiveStudent({ force: false });
+      onClose();
     },
   };
 
@@ -79,7 +100,7 @@ function ChangeAgreeModal(props: TProps) {
   return (
     <ChangeModal
       studentData={data}
-      onReject={onClose}
+      onReject={handlers.onReject}
       onChange={handlers.onChange}
       onSubmit={handlers.onSubmit}
       onExtraChange={handlers.onExtraChange}

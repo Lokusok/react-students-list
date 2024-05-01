@@ -15,7 +15,7 @@ type TProps = {
   onDeleteBtnClick: (studentId: string) => void;
   onChangeBtnClick: (studentId: string) => void;
   onFavouriteBtnClick?: (student: TStudent) => void;
-  isFavouriteBtnDisabled?: boolean;
+  isBtnsDisabled?: boolean;
 };
 
 function StudentInfo(props: TProps) {
@@ -24,7 +24,7 @@ function StudentInfo(props: TProps) {
     onDeleteBtnClick,
     onChangeBtnClick,
     onFavouriteBtnClick,
-    isFavouriteBtnDisabled,
+    isBtnsDisabled,
   } = props;
 
   const handlers = {
@@ -124,6 +124,7 @@ function StudentInfo(props: TProps) {
         <Button
           variant="solid"
           color="danger"
+          disabled={isBtnsDisabled}
           onClick={handlers.handleDeleteClick}
         >
           Удалить студента
@@ -131,6 +132,7 @@ function StudentInfo(props: TProps) {
         <Button
           variant="solid"
           color="primary"
+          disabled={isBtnsDisabled}
           onClick={handlers.handleChangeClick}
         >
           Изменить
@@ -144,7 +146,7 @@ function StudentInfo(props: TProps) {
             }
           >
             <IconButton
-              disabled={isFavouriteBtnDisabled}
+              disabled={isBtnsDisabled}
               onClick={handlers.handleToFavouriteClick}
               variant={student.isFavourite ? 'solid' : 'soft'}
             >

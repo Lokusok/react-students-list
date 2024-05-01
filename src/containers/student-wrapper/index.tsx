@@ -1,9 +1,8 @@
 import { observer } from 'mobx-react-lite';
 
-import StudentInfo from '@src/components/student-info';
-
 import { Typography } from '@mui/material';
 
+import StudentInfo from '@src/components/student-info';
 import useStores from '@src/hooks/use-stores';
 
 import makeStudentReadable from '@src/utils/make-student-readable';
@@ -22,6 +21,7 @@ function StudentWrapper(props: TProps) {
 
   const fetchingParams = {
     isWaitingUpdate: studentsStore.isWaitingUpdate,
+    isWaitingDelete: studentsStore.isWaitingDelete,
     activeStudents: studentsStore.activeStudents,
   };
 
@@ -43,12 +43,7 @@ function StudentWrapper(props: TProps) {
     addToFavourite: async (student: TStudent) => {
       if (!student) return;
 
-      const favouriteStudent: TStudent = {
-        ...student,
-        isFavourite: !student.isFavourite,
-      };
-
-      await studentsStore.updateStudent(student.id, favouriteStudent);
+      await studentsStore.toggleFavourite(student.id);
 
       if (!studentsStore.error) {
         return snackbarsStore.setSuccessSnack({
@@ -65,9 +60,10 @@ function StudentWrapper(props: TProps) {
   };
 
   const options = {
-    isFavouriteBtnDisabled:
-      fetchingParams.isWaitingUpdate &&
-      fetchingParams.activeStudents.includes(student!.id),
+    isBtnsDisabled:
+      (fetchingParams.isWaitingUpdate &&
+        fetchingParams.activeStudents.includes(student!.id)) ||
+      fetchingParams.isWaitingDelete,
   };
 
   return (
@@ -78,7 +74,7 @@ function StudentWrapper(props: TProps) {
           onDeleteBtnClick={callbacks.openModalDeleteAgree}
           onChangeBtnClick={callbacks.openModalChangeAgree}
           onFavouriteBtnClick={callbacks.addToFavourite}
-          isFavouriteBtnDisabled={options.isFavouriteBtnDisabled}
+          isBtnsDisabled={options.isBtnsDisabled}
         />
       )}
       {!student && <Typography>Информации о студенте не найдено...</Typography>}
