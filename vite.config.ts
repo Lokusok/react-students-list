@@ -61,12 +61,12 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://149.154.64.114',
+        target: 'http://localhost:13000',
         changeOrigin: true,
         secure: false,
       },
       '/uploads': {
-        target: 'http://149.154.64.114',
+        target: 'http://localhost:13000',
         changeOrigin: true,
         secure: false,
       },
