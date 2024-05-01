@@ -43,7 +43,7 @@ class ApiService {
       result: TStudent[];
       totalPages: number;
       countRoles: TCountRoles;
-    }>('/', {
+    }>('', {
       params: {
         role,
         offset: correctSystemPage * params.limit,
