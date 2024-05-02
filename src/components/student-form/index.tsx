@@ -84,7 +84,7 @@ function StudentForm(props: TProps) {
               />
             </Box>
 
-            <Box sx={{ width: 320, position: 'relative' }}>
+            <Box sx={{ maxWidth: 320, width: '100%', position: 'relative' }}>
               <InputLabel shrink htmlFor="role">
                 Роль студента:
               </InputLabel>
@@ -98,7 +98,7 @@ function StudentForm(props: TProps) {
               />
             </Box>
 
-            <Box sx={{ width: 320 }}>
+            <Box sx={{ maxWidth: 320, width: '100%' }}>
               <InputLabel shrink htmlFor="age">
                 Возраст студента:
               </InputLabel>
