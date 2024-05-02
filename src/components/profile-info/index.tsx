@@ -154,7 +154,7 @@ function ProfileInfo(props: TProps) {
             >
               <Box
                 component={'img'}
-                sx={{ objectFit: 'cover', width: { xs: 250, sm: 300 } }}
+                sx={{ objectFit: 'cover', width: { xs: 250, md: 300 } }}
                 height={320}
                 src={options.avatar}
                 alt="Аватар пользователя"
@@ -257,6 +257,8 @@ function ProfileInfo(props: TProps) {
             <Stack
               sx={{ mt: 2 }}
               direction="row"
+              flexWrap="wrap"
+              gap="15px"
               justifyContent="space-between"
             >
               <Button type="submit" disabled={options.isSubmitDisabled}>
