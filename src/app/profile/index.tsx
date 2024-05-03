@@ -1,6 +1,7 @@
-import ProfileWrapper from '@src/containers/profile-wrapper';
 import { memo } from 'react';
 import { Helmet } from 'react-helmet';
+
+import ProfileWrapper from '@src/containers/profile-wrapper';
 
 function ProfilePage() {
   return (

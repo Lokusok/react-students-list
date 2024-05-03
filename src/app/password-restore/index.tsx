@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet';
 import { observer } from 'mobx-react-lite';
 
 import useStores from '@src/hooks/use-stores';
@@ -12,7 +13,14 @@ function PasswordRestorePage() {
     sessionStore.resetErrors();
   });
 
-  return <EmailFormRestorePassword />;
+  return (
+    <>
+      <Helmet>
+        <title>Восстановить парль</title>
+      </Helmet>
+      <EmailFormRestorePassword />;
+    </>
+  );
 }
 
 export default observer(PasswordRestorePage);
