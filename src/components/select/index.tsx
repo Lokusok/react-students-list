@@ -147,8 +147,7 @@ const Listbox = styled('ul')(
   box-sizing: border-box;
   padding: 6px;
   margin: 12px 0;
-  max-width: 320px;
-  width: 100%;
+  width: 320px;
   border-radius: 12px;
   overflow: auto;
   outline: 0px;
@@ -158,6 +157,18 @@ const Listbox = styled('ul')(
   box-shadow: 0px 2px 6px ${
     theme.palette.mode === 'dark' ? 'rgba(0,0,0, 0.50)' : 'rgba(0,0,0, 0.05)'
   };
+
+  @media (width <= 360px) {
+    width: 280px;
+  }
+
+  @media (width <= 340px) {
+    width: 260px;
+  }
+
+  @media (width <= 325px) {
+    width: 215px;
+  }
   `
 );
 

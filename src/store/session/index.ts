@@ -148,6 +148,7 @@ export class SessionStore {
     if (
       !JSON.parse(localStorage.getItem(LocalStorageEnum.IS_LOGINED) || 'false')
     ) {
+      this.syncIsLogined(false);
       this.waiting = false;
       return;
     }
@@ -162,10 +163,11 @@ export class SessionStore {
       this.resetErrors();
       this.syncIsLogined(true);
     } catch (err) {
+      this.syncIsLogined(false);
+
       if (err instanceof AxiosError)
         return this.setError(err.response?.data.error);
       this.setError('Ошибка при аутентификации');
-      this.syncIsLogined(false);
     } finally {
       runInAction(() => {
         this.waiting = false;
@@ -182,13 +184,13 @@ export class SessionStore {
     // 100% должны разлогинить пользователя
     try {
       await ApiService.logout();
-      this.resetErrors();
-      this.syncIsLogined(false);
     } catch (err) {
       if (err instanceof Error) {
         console.error(err.message);
       }
     } finally {
+      this.resetErrors();
+      this.syncIsLogined(false);
       runInAction(() => {
         this.profile = null;
         this.waiting = false;

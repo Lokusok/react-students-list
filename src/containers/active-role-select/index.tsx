@@ -4,6 +4,7 @@ import Select from '@src/components/select';
 import { studentsRoles } from '@src/shared/data/students-roles';
 
 import useStores from '@src/hooks/use-stores';
+import { Box } from '@mui/material';
 
 const rolesOptions = [
   {
@@ -26,11 +27,13 @@ function ActiveRoleSelect() {
   };
 
   return (
-    <Select
-      value={studentsStore.activeRole}
-      options={rolesOptions}
-      onChange={handlers.onSelectChange}
-    />
+    <Box sx={{ width: '320px' }}>
+      <Select
+        value={studentsStore.activeRole}
+        options={rolesOptions}
+        onChange={handlers.onSelectChange}
+      />
+    </Box>
   );
 }
 
