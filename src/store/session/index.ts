@@ -106,8 +106,6 @@ export class SessionStore {
    * Синхронизация состояния стора и localStorage
    */
   syncIsLogined(isLogined: boolean) {
-    console.log({ isLogined });
-
     this.isLogined = isLogined;
     localStorage.setItem(
       LocalStorageEnum.IS_LOGINED,
